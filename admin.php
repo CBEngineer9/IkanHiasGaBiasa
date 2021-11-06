@@ -10,7 +10,7 @@
         // $stmt -> execute();
 
         // $sql = "Select * From ikan;";
-        $sql = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name 
+        $sql = "SELECT ikan.* , category.cat_name 
                 FROM `ikan` 
                 JOIN category ON ikan.cat_id = category.cat_id;";
         $qResult = $conn->query($sql)->fetchAll();
@@ -112,6 +112,8 @@
                 <th>stock</th>
                 <th>harga</th>
                 <th>gambar</th>
+                <th>isActive</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
@@ -123,6 +125,14 @@
                     <td><?= $row['stock']?></td>
                     <td><?= $row['price']?></td>
                     <td><img src="<?= $row['imageLink']?>" alt=""></td>
+                    <td><?= $row['isActive']?></td>
+                    <td>
+                        <form action="#" method="post">
+                            <input type="hidden" name="rowKey" value="$key">
+                            <input type="submit" value="Edit"><br>
+                            <input type="submit" value="Toggle Status">
+                        </form>
+                    </td>
                 </tr>
             <?php }?>
         </tbody>

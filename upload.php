@@ -53,8 +53,7 @@
                         $stmt -> bindParam(":price",$price);
                         $stmt -> bindParam(":imageLink",$target_file);
                         $stmt -> bindParam(":descript",$descIkan);
-                        $stmt -> execute();
-                        $qresult = $stmt -> fetch(PDO::FETCH_ASSOC);
+                        $qresult = $stmt -> execute();
                     
                         // echo "<pre>";
                         // var_dump($qresult['isAlive']);

@@ -14,6 +14,11 @@
 
         $qResult = $stmt->fetchAll();
 
+        $sql2 = "SELECT * FROM `category`;";
+        $stmt2 =  $conn -> prepare($sql2);
+        $stmt2 -> execute();
+        $qresult2 = $stmt2 -> fetchAll();
+
         // echo "<pre>";
         // foreach ($qResult as $baris) {
         //     print $baris["id"] . "\t";
