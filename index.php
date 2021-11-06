@@ -1,3 +1,39 @@
+<?php
+    require_once("proyekpw_lib.php");
+
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name 
+                FROM `ikan` 
+                JOIN category ON ikan.cat_id = category.cat_id;";
+        $stmt = $conn->prepare($sql);
+        $stmt -> execute();
+
+        $qResult = $stmt->fetchAll();
+
+        // echo "<pre>";
+        // foreach ($qResult as $baris) {
+        //     print $baris["id"] . "\t";
+        //     print $baris["name"] . "\t";
+        //     print $baris["cat_name"] . "\t";
+        //     print $baris["stock"] . "\t";
+        //     print $baris["price"] . "\t";
+        //     print $baris["imageLink"] . "\t";
+        //     print $baris["description"] . "\t";
+        // }
+        // echo "</pre>";
+
+        // echo "fetched successfully";
+    } catch(PDOException $e) {
+        // echo "Connection failed: " . $e->getMessage();
+        alert("Connection failed: " . $e->getMessage());
+    }
+    $conn=null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
