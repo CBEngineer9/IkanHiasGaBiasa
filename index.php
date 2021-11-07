@@ -44,6 +44,7 @@
             
         }
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +86,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Login</a></li>
+                    <li><a href="login.php">Login</a></li>
                     <li><a href="#">Signup</a></li>
 
                     <li class="dropdown">
@@ -130,30 +131,30 @@
                         <ul>
 
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/1.jpg" alt="img01"><h4>Boots</h4>
+                                <img src="assets/ItemSlider/images/ikan1.png" alt="img01"><h4>Boots</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/2.jpg" alt="img02"><h4>Oxfords</h4>
+                                <img src="assets/ItemSlider/images/ikan2.png" alt="img02"><h4>Oxfords</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/3.jpg" alt="img03"><h4>Loafers</h4>
+                                <img src="assets/ItemSlider/images/ikan3.png" alt="img03"><h4>Loafers</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/4.jpg" alt="img04"><h4>Sneakers</h4>
+                                <img src="assets/ItemSlider/images/ikan4.png" alt="img04"><h4>Sneakers</h4>
                             </a></li>
                         </ul>
                         <ul>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/5.jpg" alt="img05"><h4>Belts</h4>
+                                <img src="assets/ItemSlider/images/ikan5.png" alt="img05"><h4>Belts</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/6.jpg" alt="img06"><h4>Hats &amp; Caps</h4>
+                                <img src="assets/ItemSlider/images/ikan6.png" alt="img06"><h4>Hats &amp; Caps</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/7.jpg" alt="img07"><h4>Sunglasses</h4>
+                                <img src="assets/ItemSlider/images/ikan7.png" alt="img07"><h4>Sunglasses</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/8.jpg" alt="img08"><h4>Scarves</h4>
+                                <img src="assets/ItemSlider/images/ikan8.png" alt="img08"><h4>Scarves</h4>
                             </a></li>
                         </ul>
                         <ul>
