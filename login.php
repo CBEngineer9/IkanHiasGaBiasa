@@ -92,7 +92,7 @@
         <label for="password">Password:</label>
         <input type="text" name="password" id="password"><br>
         <input type="submit" name="login" value="Login">
-        <!-- <input type="submit" name="register" value="Menuju Halaman Register"> -->
+        <input type="submit" name="register" value="Menuju Halaman Register">
     </form>
 </body>
 </html>
