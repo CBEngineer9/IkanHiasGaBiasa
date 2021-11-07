@@ -159,27 +159,30 @@
                         </ul>
                         <ul>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/9.jpg" alt="img09"><h4>Casual</h4>
+                                <img src="assets/ItemSlider/images/ikan9.png" alt="img09"><h4>Casual</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/10.jpg" alt="img10"><h4>Luxury</h4>
+                                <img src="assets/ItemSlider/images/ikan10.png" alt="img10"><h4>Luxury</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/11.jpg" alt="img11"><h4>Sport</h4>
+                                <img src="assets/ItemSlider/images/ikan11.png" alt="img11"><h4>Sport</h4>
+                            </a></li>
+                            <li><a href="#">
+                                <img src="assets/ItemSlider/images/ikan16.png" alt="img11"><h4>Sport</h4>
                             </a></li>
                         </ul>
                         <ul>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/12.jpg" alt="img12"><h4>Carry-Ons</h4>
+                                <img src="assets/ItemSlider/images/ikan12.png" alt="img12"><h4>Carry-Ons</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/13.jpg" alt="img13"><h4>Duffel Bags</h4>
+                                <img src="assets/ItemSlider/images/ikan13.png" alt="img13"><h4>Duffel Bags</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/14.jpg" alt="img14"><h4>Laptop Bags</h4>
+                                <img src="assets/ItemSlider/images/ikan14.png" alt="img14"><h4>Laptop Bags</h4>
                             </a></li>
                             <li><a href="#">
-                                <img src="assets/ItemSlider/images/15.jpg" alt="img15"><h4>Briefcases</h4>
+                                <img src="assets/ItemSlider/images/ikan15.png" alt="img15"><h4>Briefcases</h4>
                             </a></li>
                         </ul>
                         <nav>
@@ -201,7 +204,7 @@
                         30% off here
                     </div>
                     <div class="thumbnail product-box">
-                        <img src="assets/img/dummyimg.png" alt="" />
+                        <img src="assets/img/ikan/ikan5.png" alt="" />
                         <div class="caption">
                             <h3><a href="#">Samsung Galaxy </a></h3>
                             <p><a href="#">Ptional dismiss button </a></p>
@@ -213,7 +216,7 @@
                         30% off here
                     </div>
                     <div class="thumbnail product-box">
-                        <img src="assets/img/dummyimg.png" alt="" />
+                        <img src="assets/img/ikan/ikan7.png" alt="" />
                         <div class="caption">
                             <h3><a href="#">Samsung Galaxy </a></h3>
                             <p><a href="#">Ptional dismiss button </a></p>
@@ -358,9 +361,9 @@
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img  style="height:15vh;" src="assets/img/ikan/ikan3.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -371,9 +374,9 @@
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img style="height:15vh;" src="assets/img/ikan/ikan2.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -384,7 +387,7 @@
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img src="assets/img/dummyimg.png" alt="" />
                             <div class="caption">
@@ -395,14 +398,14 @@
                                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- /.col -->
                 </div>                
                 <!-- Second Row -->
                 <div class="row">
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img style="height:15vh;" src="assets/img/ikan/ikan10.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -413,9 +416,9 @@
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img style="height:15vh;" src="assets/img/ikan/ikan13.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -426,7 +429,7 @@
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img src="assets/img/dummyimg.png" alt="" />
                             <div class="caption">
@@ -437,7 +440,48 @@
                                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
                             </div>
                         </div>
+                    </div> -->
+                    <!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                        <div class="thumbnail product-box">
+                            <img style="height:15vh;" src="assets/img/ikan/ikan16.png" alt="" />
+                            <div class="caption">
+                                <h3><a href="#">Samsung Galaxy </a></h3>
+                                <p>Price : <strong>$ 3,45,900</strong>  </p>
+                                <p><a href="#">Ptional dismiss button </a></p>
+                                <p>Ptional dismiss button in tional dismiss button in   </p>
+                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                            </div>
+                        </div>
                     </div>
+                    <!-- /.col -->
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                        <div class="thumbnail product-box">
+                            <img style="height:15vh;" src="assets/img/ikan/ikan4.png" alt="" />
+                            <div class="caption">
+                                <h3><a href="#">Samsung Galaxy </a></h3>
+                                <p>Price : <strong>$ 3,45,900</strong>  </p>
+                                <p><a href="#">Ptional dismiss button </a></p>
+                                <p>Ptional dismiss button in tional dismiss button in   </p>
+                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                        <div class="thumbnail product-box">
+                            <img src="assets/img/dummyimg.png" alt="" />
+                            <div class="caption">
+                                <h3><a href="#">Samsung Galaxy </a></h3>
+                                <p>Price : <strong>$ 3,45,900</strong>  </p>
+                                <p><a href="#">Ptional dismiss button </a></p>
+                                <p>Ptional dismiss button in tional dismiss button in   </p>
+                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                            </div>
+                        </div>
+                    </div> -->
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
