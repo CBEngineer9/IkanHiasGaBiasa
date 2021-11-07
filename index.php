@@ -37,6 +37,13 @@
         alert("Connection failed: " . $e->getMessage());
     }
     $conn=null;
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET"){
+        if (isset($_GET['searchKey'])) {
+            $searchKey = $_GET['searchKey'];
+            
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -96,9 +103,9 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-right" role="search">
+                <form class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
-                        <input type="text" placeholder="Enter Keyword Here ..." class="form-control">
+                        <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
                     &nbsp; 
                     <button type="submit" class="btn btn-primary">Search</button>
@@ -219,29 +226,37 @@
         <div class="row">
             <div class="col-md-3">
                 <div>
-                    <a href="#" class="list-group-item active">Electronics
+                    <a href="#" class="list-group-item active">Categories
                     </a>
                     <ul class="list-group">
 
-                        <li class="list-group-item">Mobile
-      <span class="label label-primary pull-right">234</span>
+                        <?php foreach ($qresult2 as $row) {?>
+                            <li class="list-group-item">
+                                <?= $row['cat_name']?>
+                                <span class="label label-primary pull-right">234</span>
+                            </li>
+                        <?php }?>
+                        
+                        <!-- <li class="list-group-item">Mobile
+                            <span class="label label-primary pull-right">234</span>
                         </li>
                         <li class="list-group-item">Computers
-                      <span class="label label-success pull-right">34</span>
+                            <span class="label label-success pull-right">34</span>
                         </li>
                         <li class="list-group-item">Tablets
-                         <span class="label label-danger pull-right">4</span>
+                            <span class="label label-danger pull-right">4</span>
                         </li>
                         <li class="list-group-item">Appliances
-                             <span class="label label-info pull-right">434</span>
+                            <span class="label label-info pull-right">434</span>
                         </li>
                         <li class="list-group-item">Games & Entertainment
-                             <span class="label label-success pull-right">34</span>
-                        </li>
+                            <span class="label label-success pull-right">34</span>
+                        </li> -->
+
                     </ul>
                 </div>
                 <!-- /.div -->
-                <div>
+                <!-- <div>
                     <a href="#" class="list-group-item active list-group-item-success">Clothing & Wears
                     </a>
                     <ul class="list-group">
@@ -257,9 +272,9 @@
                         </li>
 
                     </ul>
-                </div>
+                </div> -->
                 <!-- /.div -->
-                <div>
+                <!-- <div>
                     <a href="#" class="list-group-item active">Accessaries & Extras
                     </a>
                     <ul class="list-group">
@@ -282,7 +297,7 @@
                              <span class="label label-warning pull-right">567</span>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <!-- /.div -->
                 <div>
                     <ul class="list-group">
