@@ -107,7 +107,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" /> -->
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- library jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <!-- bootstrap js -->
@@ -120,8 +120,8 @@
 </head>
 <body>
     <h3>Users</h3>
-    <table border="1">
-        <thead>
+    <table class="table">
+        <thead class="table-dark">
             <tr>
                 <th>id</th>
                 <th>username</th>
@@ -141,37 +141,52 @@
 
     <h3>add Ikan</h3>
     <form action="upload.php" method="post" enctype="multipart/form-data">
-        <label for="namaIkan"> Nama Ikan : </label>
-        <input type="text" name="namaIkan" id="namaIkan"><br>
-        <label for="descIkan">desc : </label><br>
-        <textarea name="descIkan" id="descIkan" cols="30" rows="10"></textarea><br>
-        <label for="category">category : </label>
-        <select name="category" id="category">
-            <?php foreach ($qresult3 as $row) {?>
-                <option value="<?= $row['cat_id']?>"><?= $row['cat_name']?></option>
-            <?php }?>
-        </select><br>
-        <label for="stock">stock : </label>
-        <input type="text" name="stock" id="stock"><br>
-        <label for="price">price : </label>
-        <input type="text" name="price" id="price"><br>
-        <label for="gambarIkan">image : </label>
-        <input type="file" name="gambarIkan" id="gambarIkan"><br>
-        <input type="submit" name="addIkan" value="Add">
+        <div class="form-group">
+            <label for="namaIkan"> Nama Ikan : </label>
+            <input type="text" style="padding-right: 1vw" name="namaIkan" id="namaIkan"><br><br>
+            <label for="descIkan">desc : </label><br>
+            <textarea name="descIkan" id="descIkan" cols="36" rows="8"></textarea><br><br>
+            <table>
+                <tr>
+                    <td><label for="stock">stock : </label></td>
+                    <td><input style="padding-right: 1vw; margin-left:0.5vw;"  type="text" name="stock" id="stock"><br></td>
+                </tr>
+                <tr style="margin-top: 5vh;">
+                    <td><label style="margin-top:1vh;" for="price">price :</label></td>
+                    <td><input style="padding-right: 1vw; margin-top:1vh; margin-left:0.5vw;" type="text" name="price" id="price"></td>
+                </tr>
+                <tr>
+                    <td><label style="margin-top:1vh;" for="category">category : </label></td>
+                    <td><select style="padding-right: 5.5vw; margin-left:1vh; margin-top:1vh; height:30px;" name="category" id="category">
+                        <?php foreach ($qresult3 as $row) {?>
+                            <option value="<?= $row['cat_id']?>"><?= $row['cat_name']?></option>
+                        <?php }?></td>
+                        </select>
+                </tr>
+                <tr>
+                    <td><label style="margin-top:1vh;" for="gambarIkan">image : </label></td>
+                    <td><input style="padding-right: 1vw; margin-top:1vh; margin-left:0.5vw;" type="file" name="gambarIkan" id="gambarIkan"></td>
+                </tr>
+                <tr>
+                    <td><label for=""></label></td>
+                    <td><input style="margin-top:1vh; margin-left:0.5vw; padding-right:8.5vw;" type="submit" name="addIkan" value="Add"></td>
+                </tr>
+            </table>
+        </div>
     </form>
 
     <h3>Ikan</h3>
-    <table border="1">
-        <thead>
+    <table class="table">
+        <thead class="thead-dark">
             <tr>
-                <th>nama</th>
-                <th>desc</th>
-                <th>category</th>
-                <th>stock</th>
-                <th>harga</th>
-                <th>gambar</th>
-                <th>isActive</th>
-                <th>action</th>
+                <th scope="col">nama</th>
+                <th scope="col">desc</th>
+                <th scope="col">category</th>
+                <th scope="col">stock</th>
+                <th scope="col">harga</th>
+                <th scope="col">gambar</th>
+                <th scope="col">isActive</th>
+                <th scope="col">action</th>
             </tr>
         </thead>
         <tbody>
@@ -204,7 +219,7 @@
                                 <!-- <?= $row['price']?> -->
                             </td>
                             <td>
-                                <img src="<?= $row['imageLink']?>" alt="">
+                                <img src="<?= $row['imageLink']?>" width="100%" alt="">
                             </td>
                             <td>
                                 <?= $row['isActive']?>
@@ -240,7 +255,7 @@
             <?php }?>
         </tbody>
     </table>
-
+    
 
     <!-- Tombol untuk memicu modal -->
     <!-- <button data-toggle="modal" data-target="#modalForm" onclick="registerIkanId(param)">
