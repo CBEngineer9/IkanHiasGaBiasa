@@ -66,27 +66,27 @@
     <link href="assets/css/style.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray;" class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <div class="logo" style="width: 10vw;">
+                    <img style="margin-top:10px; margin-bottom:10px;" src="../IkanHiasGaBiasa/assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
+                </div>
+                <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><strong>DIGI</strong> Shop</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-
-                <ul class="nav navbar-nav navbar-right">
+            <div style="margin-top: 5px;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
                     <li><a href="#">Track Order</a></li>
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="#">Signup</a></li>
+                    <li><a href="register.php">Signup</a></li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">24x7 Support <b class="caret"></b></a>
@@ -102,13 +102,14 @@
                             </a></li>
                         </ul>
                     </li>
+                    <li><a href="cart.php"><img src="../IkanHiasGaBiasa/assets/img/icon/cart-2-24.png" alt=""></a></li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
                     &nbsp; 
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button style="margin-top: 5px;" type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
             <!-- /.navbar-collapse -->

@@ -39,12 +39,14 @@
     // }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['register'])) {
-            header("Location: register.php?usersTable=".json_encode($usersTable));
+        if (isset($_POST['halamanlogin'])) {
+            header("Location: login.php?usersTable=".json_encode($usersTable));
         }
-        if (isset($_POST['login'])) {
+        if (isset($_POST['btregis'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
+            $confirmpass = $_POST["confirmpass"];
+            $notelp = $_POST["notelpon"];
 
             // make conn here
 
@@ -67,7 +69,6 @@
                             // set session
                             $_SESSION["currUser"] = $username;
                             //echo "yay";
-                            header("Location: index.php?usersTable=".json_encode($usersTable));
                         } else {
                             echo '<script>alert("Password salah")</script>';
                         }
@@ -88,8 +89,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post" style="height: 80vh;">
-    <div class="container px-4 py-5 mx-auto" style="margin-top:8vh">
+    <form action="" method="post" style="height: 50vh;">
+    <div class="container px-4 py-4 mx-auto" style="margin-top: 1.5vh;">
     <div class="card card0">
         <div class="d-flex flex-lg-row flex-column-reverse">
             <div class="card card1">
@@ -97,19 +98,20 @@
                     <div class="col-md-8 col-10 my-5">
                         <div class="row justify-content-center px-3 mb-3"> <img id="logo" src="../IkanHiasGaBiasa/assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png"> </div>
                         <h3 class="mb-5 text-center heading">Sign In</h3>
-                        <h6 class="msg-info">Please login to your account</h6>
+                        <h6 class="msg-info">Please Fill Up All the Blanks</h6>
                         <div class="form-group"> <label for="username" class="form-control-label text-muted">Username</label> <input type="text" name="username" id="username" placeholder="Username" class="form-control"> </div>
                         <div class="form-group"> <label for="password" class="form-control-label text-muted">Password</label> <input type="password" name="password" id="password" placeholder="Password" class="form-control"> </div>
-                        <div class="row justify-content-center my-3 px-3"> <button type="submit" name="login"  class="btn-block btn-color">Sign In</button> </div>
+                        <div class="form-group"> <label for="password" class="form-control-label text-muted">Confirm Password</label> <input type="password" name="confirmpass" id="password" placeholder="Confirm Password" class="form-control"> </div>
+                        <div class="form-group"> <label for="username" class="form-control-label text-muted">Telephone</label> <input type="text" name="notelpon" id="username" placeholder="Telephone Number" class="form-control"> </div>
+                        <div class="row justify-content-center my-3 px-3"> <button type="submit" name="btregis"  class="btn-block btn-color">Sign Up</button> </div>
                     </div>
                 </div>
                 <div class="bottom text-center mb-5">
-                    <p href="#" class="sm-text mx-auto mb-3">Don't have an account?<button style="margin-left: 1vw; border-radius:20px;" type="submit" name="register" class="btn btn-white ml-2">Register</button></p>
+                    <p href="#" class="sm-text mx-auto mb-3">Already have an account?<button style="margin-left: 1vw; border-radius:20px;" type="submit" name="halamanlogin" class="btn btn-white ml-2">Sign In</button></p>
                 </div>
             </div>
             <div class="card card2">
                 <div class="my-auto mx-md-5 px-md-5 right">
-                    
                 </div>
             </div>
         </div>

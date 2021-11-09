@@ -3,7 +3,7 @@ html, body {
     overflow-x: hidden;
     height: 100vh;
     background-image: linear-gradient(to bottom,#88E0EF,#D7E9F7);
-    background-repeat: no-repeat
+    background-repeat: no-repeat;
 }
 
 input,
@@ -53,7 +53,6 @@ button:focus {
     background-image: url(../img/Logo/51bd76b9044a81bb25038a1c4277a2be.jpg);
     opacity: 0.8;
     background-repeat: no-repeat;
-    background-position: -15vh;
 }
 
 
@@ -157,7 +156,8 @@ a:hover {
     }
 
     .card2 {
-        padding: 50px
+        display: none;
+        background-image: none;
     }
 
     .right {
