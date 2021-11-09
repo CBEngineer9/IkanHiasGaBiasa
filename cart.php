@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    
     <div class="card">
         <div class="row">
             <div class="col-md-8 cart">
@@ -21,7 +22,7 @@
                         <div class="col">
                             <h4>Shopping Cart</h4>
                         </div>
-                        <div class="col align-self-center text-right text-muted">3 items</div>
+                        <div class="col align-self-center text-right text-muted" style="text-align:right;">3 items</div>
                     </div>
                 </div>
                 <div class="row border-top border-bottom">

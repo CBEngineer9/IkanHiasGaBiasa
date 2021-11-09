@@ -3781,6 +3781,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-toggle {
     display: none;
   }
+  .logo{
+    width: 100px;
+  }
 }
 .navbar-nav {
   margin: 7.5px -15px;
