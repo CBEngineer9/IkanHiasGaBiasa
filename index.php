@@ -70,7 +70,7 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <div class="logo">
+                <div class="logo" style="width: 10vw;">
                     <img style="margin-top:10px; margin-bottom:10px;" src="../IkanHiasGaBiasa/assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
                 </div>
                 <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
