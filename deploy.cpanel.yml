@@ -1,0 +1,11 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/ikanhia1/public_html/
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp index.php $DEPLOYPATH
+    - /bin/cp admin.php $DEPLOYPATH
+    - /bin/cp kirim_form.php $DEPLOYPATH
+    - /bin/cp login.php $DEPLOYPATH
+    - /bin/cp proyekpw_lib.php $DEPLOYPATH
+    - /bin/cp upload.php $DEPLOYPATH
