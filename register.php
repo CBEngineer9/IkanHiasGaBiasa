@@ -89,8 +89,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post" style="height: 80vh;">
-    <div class="container px-4 py-5 mx-auto" style="margin-top:1vh">
+    <form action="" method="post" style="height: 50vh;">
+    <div class="container px-4 py-4 mx-auto" style="margin-top: 1.5vh;">
     <div class="card card0">
         <div class="d-flex flex-lg-row flex-column-reverse">
             <div class="card card1">
@@ -112,7 +112,6 @@
             </div>
             <div class="card card2">
                 <div class="my-auto mx-md-5 px-md-5 right">
-                    <h3 class="text-black">We are more than just a company</h3> <big class="text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</small>
                 </div>
             </div>
         </div>

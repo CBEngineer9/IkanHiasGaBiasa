@@ -102,6 +102,7 @@
                             </a></li>
                         </ul>
                     </li>
+                    <li><a href="cart.php"><img src="../IkanHiasGaBiasa/assets/img/icon/cart-2-24.png" alt=""></a></li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
