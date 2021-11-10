@@ -1,18 +1,43 @@
 <?php
     require_once("proyekpw_lib.php");
 
+    $page = 1;
+    $pageCount = 0;
+
+    $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name "
+    ."FROM `ikan` " 
+    ."JOIN category ON ikan.cat_id = category.cat_id;";
+    
+    
+    $searchKey = "";
+    $categoryFilter = "category.cat_name";
+    if ($_SERVER["REQUEST_METHOD"] == "GET"){
+        if (isset($_GET['searchKey'])) {
+            $searchKey = $_GET['searchKey'];
+        }
+        if (isset($_GET['categoryFilter'])) {
+            $categoryFilter = "'".$_GET['categoryFilter']."'";
+        }
+    }
+
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name 
-                FROM `ikan` 
-                JOIN category ON ikan.cat_id = category.cat_id;";
-        $stmt = $conn->prepare($sql);
+        $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name FROM `ikan` JOIN category ON ikan.cat_id = category.cat_id WHERE category.cat_name = ".$categoryFilter." AND ikan.name LIKE :searchKey ;";
+
+        $stmt = $conn->prepare($sqlIkan);
+        $stmt -> bindValue(":searchKey",'%'.$searchKey.'%');
+        // $stmt -> bindParam(":catFilter",$categoryFilter); // TODO
+
+        echo $categoryFilter;
+        
         $stmt -> execute();
 
         $qResult = $stmt->fetchAll();
+        $pageCount = intdiv(count($qResult),6) + 1;
+        $qResultEncoded = json_encode($qResult);
 
         $sql2 = "SELECT * FROM `category`;";
         $stmt2 =  $conn -> prepare($sql2);
@@ -38,11 +63,6 @@
     }
     $conn=null;
 
-    if ($_SERVER["REQUEST_METHOD"] == "GET"){
-        if (isset($_GET['searchKey'])) {
-            $searchKey = $_GET['searchKey'];
-        }
-    }
 
 ?>
 
@@ -235,7 +255,7 @@
                     <ul class="list-group">
 
                         <?php foreach ($qresult2 as $row) {?>
-                            <li class="list-group-item">
+                            <li class="list-group-item" onclick="addCategoryFilter('<?= $row['cat_name']?>')">
                                 <?= $row['cat_name']?>
                                 <span class="label label-primary pull-right">234</span>
                             </li>
@@ -331,11 +351,11 @@
                 <!-- /.div -->
             </div>
             <!-- /.col -->
-            <div class="col-md-9">
+            <div class="col-md-9" id="ikanSearchDisplay">
                 <div>
                     <ol class="breadcrumb">
                         <li><a href="#">Home</a></li>
-                        <li class="active">Electronics</li>
+                        <!-- <li class="active">Electronics</li> -->
                     </ol>
                 </div>
                 <!-- /.div -->
@@ -345,7 +365,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                                 Sort Products &nbsp;
-      <span class="caret"></span>
+                                <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a href="#">By Price Low</a></li>
@@ -360,8 +380,8 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                <div class="row">
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                <div class="row" id="ikanRow0">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6" id="templateCard" style="display:none;">
                         <div class="thumbnail product-box">
                             <img  style="height:15vh;" src="assets/img/ikan/ikan3.png" alt="" />
                             <div class="caption">
@@ -374,7 +394,7 @@
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img style="height:15vh;" src="assets/img/ikan/ikan2.png" alt="" />
                             <div class="caption">
@@ -385,25 +405,12 @@
                                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.col -->
-                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
                     </div> -->
                     <!-- /.col -->
-                </div>                
+                </div>              
                 <!-- Second Row -->
-                <div class="row">
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                <div class="row" id="ikanRow1">
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img style="height:15vh;" src="assets/img/ikan/ikan10.png" alt="" />
                             <div class="caption">
@@ -414,24 +421,11 @@
                                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img style="height:15vh;" src="assets/img/ikan/ikan13.png" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
+                    </div> -->
                     <!-- /.col -->
                     <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img style="height:15vh;" src="assets/img/ikan/ikan13.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -443,8 +437,8 @@
                     </div> -->
                     <!-- /.col -->
                 </div>
-                <div class="row">
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                <div class="row" id="ikanRow2">
+                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img style="height:15vh;" src="assets/img/ikan/ikan16.png" alt="" />
                             <div class="caption">
@@ -455,24 +449,11 @@
                                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img style="height:15vh;" src="assets/img/ikan/ikan4.png" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
+                    </div> -->
                     <!-- /.col -->
                     <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
-                            <img src="assets/img/dummyimg.png" alt="" />
+                            <img style="height:15vh;" src="assets/img/ikan/ikan4.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
@@ -487,13 +468,17 @@
                 <!-- /.row -->
                 <div class="row">
                     <ul class="pagination alg-right-pad">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
+                        <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li>
+                        <?php for ($i=0; $i < $pageCount; $i++) { ?>
+                            <!-- <li><a href="#"><?= $i+1?></a></li> -->
+                            <li><a onclick="gotoPage(<?= $i+1?>)"><?= $i+1?></a></li>
+                            
+                        <?php }?>
+                        <!-- <li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
+                        <li><a href="#">5</a></li> -->
+                        <li><a onclick="gotoBoundaryPage('max')">&raquo;</a></li>
                     </ul>
                 </div> 
             </div>
@@ -610,6 +595,11 @@
     </div>
     <!-- /.col -->
     <!--Footer end -->
+    <!-- PHP passthrough form -->
+    <form action="#" method="get" id="searchForm">
+        <!-- <input id="searchKeyInput" type="hidden" name="searchKey" value=""> -->
+        <!-- <input id="categoryInput" type="hidden" name="categoryFilter" value=""> -->
+    </form>
     <!--Core JavaScript file  -->
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!--bootstrap JavaScript file  -->
@@ -623,6 +613,148 @@
             $('#mi-slider').catslider();
 
         });
-		</script>
+
+        var searchKey = `<?= $_GET['searchKey'] ?? "none" ?>`;
+        // var searchKeyExist = <?= ( isset($_GET['searchKey'] ) ? 'true' : "false" )?>;
+        // if (searchKeyExist == true) {
+        //     location.hash = "#ikanSearchDisplay";
+        //     var searchKey = ;
+        // }
+        var categoryFilter = `<?= $_GET['categoryFilter'] ?? "none" ?>`;
+        // var isCategoryFilter = <?= ( isset($_GET['categoryFilter'] ) ? 'true' : "false" )?>;
+        // if (isCategoryFilter == true) {
+        //     var categoryFilter = ;
+        // }
+
+        const qResultIkan = <?=$qResultEncoded?>;
+        var pageCount = Math.trunc(qResultIkan.length/6)+1;
+        var currPage = 1;
+        for (let i = 0; i < 6; i++) {
+            const ikan = qResultIkan[i%6];
+            if (typeof ikan === 'undefined' || ikan === null) {
+                // variable is undefined or null
+                console.log('takada');
+            } else {
+                console.log('ada');
+                const rownum = Math.trunc(i/2);
+                
+                //     `<div class="col-md-6 text-center col-sm-6 col-xs-6">
+                //         <div class="thumbnail product-box">
+                //             <img  style="height:15vh;" src="assets/img/ikan/ikan3.png" alt="" />
+                //             <div class="caption">
+                //                 <h3><a href="#">Samsung Galaxy </a></h3>
+                //                 <p>Price : <strong>$ 3,45,900</strong>  </p>
+                //                 <p><a href="#">Ptional dismiss button </a></p>
+                //                 <p>Ptional dismiss button in tional dismiss button in   </p>
+                //                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                //             </div>
+                //         </div>
+                //     </div>`
+
+                // let row = document.getElementById("ikanRow"+rownum);
+                // let divIkan = document.getElementById("templateCard").cloneNode(true);
+                // divIkan.id = "ikan"+ikan[0];
+                // divIkan.style.display = "block";
+                // let gambar = divIkan.chil
+                // row.append(divIkan);
+
+                let divIkan = $("<div>")
+                    .attr("id","ikan"+ikan[0])
+                    .addClass("col-md-6 text-center col-sm-6 col-xs-6")
+                    .append(
+                        $("<div>")
+                        .addClass("thumbnail product-box")
+                        .append(
+                            $("<img>")
+                            .css("height","15vh")
+                            .attr("src",ikan["imageLink"])
+                        )
+                        .append(
+                            $("<div>")
+                            .addClass("caption")
+                            .append(
+                                $('<h3><a href="#">'+ ikan['name'] +' </a></h3>')
+                            )
+                            .append(
+                                $("<p>")
+                                .html("Price : <strong>RP." + ikan['price'] + "</strong>")
+                            )
+                            .append(
+                                $("<p>")
+                                .html('<a href="#">Ptional dismiss button </a>')
+                            )
+                            .append(
+                                $("<p>")
+                                .append(
+                                    $("<a>")
+                                    .addClass("btn btn-success")
+                                    .attr("href","#")
+                                    .attr("role","button")
+                                    .text("Add To Cart")
+                                )
+                                .append(
+                                    $("<a>")
+                                    .addClass("btn btn-primary")
+                                    .attr("href","#")
+                                    .attr("role","button")
+                                    .text("See Details")
+                                )
+                            )
+                        )
+                    )
+                ;
+
+                $("#ikanRow"+rownum).append(divIkan);
+            }
+        }
+
+        function gotoPage(page){
+            console.log(page);
+        }
+        
+        function gotoBoundaryPage(page){
+            if (page == 'min') {
+                gotoPage(1);
+            } else if (page == 'max') {
+                gotoPage(pageCount);
+            }
+        }
+        
+        function addCategoryFilter(category) {
+            console.log("hai");
+            let searchForm = document.getElementById("searchForm");
+            if (searchKey != 'none') {
+                console.log(searchKey);
+                let searchKeyInput = document.createElement("input");
+                searchKeyInput.type = "hidden";
+                searchKeyInput.name = "searchKey";
+                searchKeyInput.value = searchKey;
+                searchForm.append(searchKeyInput);
+            }
+            let categoryFilter = document.createElement("input");
+            categoryFilter.type = "hidden";
+            categoryFilter.name = "categoryFilter";
+            categoryFilter.value = category;
+            searchForm.append(categoryFilter);
+
+            searchForm.submit();
+        }
+
+
+        function gay() {
+            console.log("gay");
+        }
+        
+        // history.pushState('data to be passed', 'Title', '/test');
+
+        // window.onpopstate = function(e){
+        //     if(e.state){
+        //         // document.getElementById("content").innerHTML = e.state.html;
+        //         console.log(e.state.html);
+        //         document.title = e.state.pageTitle;
+        //     }
+        // };
+        
+    </script>
 </body>
 </html>
