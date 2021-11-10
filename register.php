@@ -1,80 +1,85 @@
 <?php
     require_once("proyekpw_lib.php");
 
-    $usersTable;
+    $usersList = [];
 
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // $stmt = $conn->prepare("SELECT id, firstname, lastname FROM myGuest;");
         // $stmt -> execute();
 
-        $sql = "Select username,password From users;";
+        $sql = "Select username From users;";
         $result = $conn->query($sql);
-        //echo "<pre>";
-        // print_r($result);
         foreach ($result as $baris) {
-            // print_r($baris);
-            //print $baris["username"] . "\t";
-            //print $baris["password"] . "\t";
-
-            $usersTable[$baris["username"]] = [
-                "password" => $baris["password"],
-            ];
+            array_push($usersList,$baris['username']);
         }
-        //echo "</pre>";
 
-        //echo "Users fetched successfully";
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
     $conn=null;
 
-    // if(isset($_GET['usersTable'])){
-    //     $usersTable=json_decode($_GET['usersTable'], true);
-    // }else{
-    //     $usersTable=[];
-    // }
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['halamanlogin'])) {
-            header("Location: login.php?usersTable=".json_encode($usersTable));
+            header("Location: login.php?usersList=".json_encode($usersList));
         }
         if (isset($_POST['btregis'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $confirmpass = $_POST["confirmpass"];
-            $notelp = $_POST["notelpon"];
+            $email = $_POST['email'];
+            $fname = $_POST['fname'];
+            $lname = $_POST['lname'];
 
             // make conn here
 
-            if ($username === "admin" && $password==="admin") {
-                //hal admin
-                header("Location:admin.php");
+            
+            if (empty($username) || empty($password) || empty($confirmpass) || empty($email)) {
+                echo '<script>alert("Field tidak boleh kosong")</script>';
+            } else if ($password != $confirmpass) {
+                echo '<script>alert("Confirm password harus sama")</script>';
             } else {
-                if (empty($username) || empty($password)) {
-                    echo '<script>alert("Field tidak boleh kosong")</script>';
-                } else {
-                    //echo "<pre>";
-                    //var_dump($usersTable);
-                    //echo "</pre>";
-                    if (!isset($usersTable[$username])) {
-                        echo '<script>alert("Username tidak ditemukan")</script>';
-                    } else {
-                        if ($usersTable[$username]['password'] == $password) {
-                            // hal user
-                            // header("Location:user.php?usersTable=".json_encode($usersTable)."&curr=".$username);
-                            // set session
-                            $_SESSION["currUser"] = $username;
-                            //echo "yay";
-                        } else {
-                            echo '<script>alert("Password salah")</script>';
-                        }
+                $foundUser = false;
+                foreach ($usersList as $user) {
+                    if ($user == $username) {
+                        $foundUser = true;
+                        break;
                     }
                 }
+                if ($foundUser) {
+                    echo '<script>alert("Username telah terpakai ")</script>';
+                } else  {
+                    // insert new user
+                    try {
+                        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+                        // set the PDO error mode to exception
+                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                        $sql = "INSERT INTO `users` (`username`, `password`, `email`, `firstname`, `lastname`, `isAdmin`) VALUES (:user, :pass, :email, :fname, :lname, '0')";
+                        $stmt = $conn -> prepare($sql);
+                        $stmt -> bindParam(":user",$username);
+                        $stmt -> bindParam(":pass",$password);
+                        $stmt -> bindParam(":email",$email);
+                        $stmt -> bindParam(":fname",$fname);
+                        $stmt -> bindParam(":lname",$lname);
+
+                        $insertResult = $stmt -> execute();
+
+                        if ($insertResult) {
+                            echo '<script>alert("Register Berhasil ")</script>';
+                        } else {
+                            echo '<script>alert("Register Gagal")</script>';
+                        }
+                    } catch(PDOException $e) {
+                        echo "Connection failed: " . $e->getMessage();
+                    }
+                    $conn=null;
+                }
             }
+            
         }
     }
 ?>
@@ -100,9 +105,11 @@
                         <h3 class="mb-5 text-center heading">Sign In</h3>
                         <h6 class="msg-info">Please Fill Up All the Blanks</h6>
                         <div class="form-group"> <label for="username" class="form-control-label text-muted">Username</label> <input type="text" name="username" id="username" placeholder="Username" class="form-control"> </div>
+                        <div class="form-group"> <label for="fname" class="form-control-label text-muted">First Name</label> <input type="text" name="fname" placeholder="First Name" class="form-control"> </div>
+                        <div class="form-group"> <label for="lname" class="form-control-label text-muted">Last Name</label> <input type="text" name="lname" placeholder="Last Name" class="form-control"> </div>
+                        <div class="form-group"> <label for="email" class="form-control-label text-muted">Email</label> <input type="text" name="email" placeholder="Email" class="form-control"> </div>
                         <div class="form-group"> <label for="password" class="form-control-label text-muted">Password</label> <input type="password" name="password" id="password" placeholder="Password" class="form-control"> </div>
-                        <div class="form-group"> <label for="password" class="form-control-label text-muted">Confirm Password</label> <input type="password" name="confirmpass" id="password" placeholder="Confirm Password" class="form-control"> </div>
-                        <div class="form-group"> <label for="username" class="form-control-label text-muted">Telephone</label> <input type="text" name="notelpon" id="username" placeholder="Telephone Number" class="form-control"> </div>
+                        <div class="form-group"> <label for="confirmpass" class="form-control-label text-muted">Confirm Password</label> <input type="password" name="confirmpass" placeholder="Confirm Password" class="form-control"> </div>
                         <div class="row justify-content-center my-3 px-3"> <button type="submit" name="btregis"  class="btn-block btn-color">Sign Up</button> </div>
                     </div>
                 </div>

@@ -17,7 +17,7 @@
 
             //update 
             try {
-                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
                 // set the PDO error mode to exception
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -47,7 +47,7 @@
     }
 
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -189,7 +189,7 @@
                 <th scope="col">category</th>
                 <th scope="col">stock</th>
                 <th scope="col">harga</th>
-                <th style="width: 100px; scope="col">gambar</th>
+                <th style="width: 100px;" scope="col">gambar</th>
                 <th scope="col">isActive</th>
                 <th scope="col">action</th>
             </tr>
