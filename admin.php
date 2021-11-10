@@ -116,6 +116,10 @@
         body{
             padding: 10px;
         }
+        img{
+            width: 100px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -175,6 +179,7 @@
         </div>
     </form>
 
+
     <h3>Ikan</h3>
     <table class="table">
         <thead class="thead-dark">
@@ -184,7 +189,7 @@
                 <th scope="col">category</th>
                 <th scope="col">stock</th>
                 <th scope="col">harga</th>
-                <th scope="col">gambar</th>
+                <th style="width: 100px; scope="col">gambar</th>
                 <th scope="col">isActive</th>
                 <th scope="col">action</th>
             </tr>
@@ -219,7 +224,7 @@
                                 <!-- <?= $row['price']?> -->
                             </td>
                             <td>
-                                <img src="<?= $row['imageLink']?>" width="100%" alt="">
+                                <img style="width: 100px;" src="<?= $row['imageLink']?>" alt="">
                             </td>
                             <td>
                                 <?= $row['isActive']?>
