@@ -4,9 +4,9 @@
     $page = 1;
     $pageCount = 0;
 
-    $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name "
-    ."FROM `ikan` " 
-    ."JOIN category ON ikan.cat_id = category.cat_id;";
+    // $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name "
+    // ."FROM `ikan` " 
+    // ."JOIN category ON ikan.cat_id = category.cat_id;";
     
     
     $searchKey = "";
@@ -28,13 +28,14 @@
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name FROM `ikan` JOIN category ON ikan.cat_id = category.cat_id WHERE category.cat_name = ".$categoryFilter." AND ikan.name LIKE :searchKey ;";
+        $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, ikan.satuan , category.cat_name FROM `ikan` JOIN category ON ikan.cat_id = category.cat_id WHERE ikan.isActive = '1' AND category.cat_name = ".$categoryFilter." AND ikan.name LIKE :searchKey";
+        $sqlIkan .= ";";
 
         $stmt = $conn->prepare($sqlIkan);
         $stmt -> bindValue(":searchKey",'%'.$searchKey.'%');
         // $stmt -> bindParam(":catFilter",$categoryFilter); // TODO
 
-        echo $categoryFilter;
+        // echo $categoryFilter;
         
         $stmt -> execute();
 
@@ -42,7 +43,7 @@
         $pageCount = intdiv(count($qResult),6) + 1;
         $qResultEncoded = json_encode($qResult);
 
-        $sql2 = "SELECT * FROM `category`;";
+        $sql2 = "SELECT c.* , coalesce(cc.cat_count,0) AS cat_count  FROM category c LEFT JOIN (SELECT i.cat_id as category_id , COUNT(i.cat_id) AS 'cat_count' FROM ikan i GROUP BY i.cat_id) cc ON cc.category_id = c.cat_id;";
         $stmt2 =  $conn -> prepare($sql2);
         $stmt2 -> execute();
         $qresult2 = $stmt2 -> fetchAll();
@@ -82,7 +83,7 @@
     <!-- Fontawesome core CSS -->
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
     <!--GOOGLE FONT -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <!--Slide Show Css -->
     <link href="assets/ItemSlider/css/main-style.css" rel="stylesheet" />
     <!-- custom CSS here -->
@@ -94,7 +95,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="../IkanHiasGaBiasa/assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
+                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
                 </div>
                 <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -125,7 +126,7 @@
                             </a></li>
                         </ul>
                     </li>
-                    <li><a href="cart.php"><img src="../IkanHiasGaBiasa/assets/img/icon/cart-2-24.png" alt=""></a></li>
+                    <li><a href="cart.php"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
@@ -152,7 +153,6 @@
                 <div class="main box-border">
                     <div id="mi-slider" class="mi-slider">
                         <ul>
-
                             <li><a href="#">
                                 <img src="assets/ItemSlider/images/ikan1.png" alt="img01"><h4>Boots</h4>
                             </a></li>
@@ -260,7 +260,8 @@
                         <?php foreach ($qresult2 as $row) {?>
                             <li class="list-group-item" onclick="addCategoryFilter('<?= $row['cat_name']?>')">
                                 <?= $row['cat_name']?>
-                                <span class="label label-primary pull-right">234</span>
+                                <span class="label label-primary pull-right"><?= $row['cat_count']?></span>
+                                <!-- TODO coloring -->
                             </li>
                         <?php }?>
                         
@@ -357,8 +358,12 @@
             <div class="col-md-9" id="ikanSearchDisplay">
                 <div>
                     <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
-                        <!-- <li class="active">Electronics</li> -->
+                        <?php if ($categoryFilter != 'category.cat_name') {?>
+                            <li><a href="#">Home</a></li>
+                            <li class="active"><?= substr($categoryFilter,1,strlen($categoryFilter)-2)?></li>
+                            <?php } else {?>
+                            <li class="active">Home</li>
+                        <?php } ?>
                     </ol>
                 </div>
                 <!-- /.div -->
@@ -374,10 +379,10 @@
                                 <li><a href="#">By Price Low</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">By Price High</a></li>
-                                <li class="divider"></li>
+                                <!-- <li class="divider"></li>
                                 <li><a href="#">By Popularity</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">By Reviews</a></li>
+                                <li><a href="#">By Reviews</a></li> -->
                             </ul>
                         </div>
                     </div>
@@ -476,7 +481,7 @@
                         <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li>
                         <?php for ($i=0; $i < $pageCount; $i++) { ?>
                             <!-- <li><a href="#"><?= $i+1?></a></li> -->
-                            <li><a onclick="gotoPage(<?= $i+1?>)"><?= $i+1?></a></li>
+                            <li><a href="#ikanSearchDisplay" onclick="gotoPage(<?= $i+1?>)"><?= $i+1?></a></li>
                             
                         <?php }?>
                         <!-- <li><a href="#">2</a></li>
@@ -588,7 +593,7 @@
                 <a href="#"><i class="fa fa-linkedin-square fa-3x "></i></a>
                 <a href="#"><i class="fa fa-pinterest-square fa-3x "></i></a>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec nisl odio. Mauris vehicula at nunc id posuere. Curabitur nec nisl odio. Mauris vehicula at nunc id posuere. 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. La luce che tu dai Nel cuore resterà A ricordarci che L'eterna stella sei. Nella mia preghiera Quanta fede c'è
                 </p>
             </div>
         </div>
@@ -634,87 +639,95 @@
         const qResultIkan = <?=$qResultEncoded?>;
         var pageCount = Math.trunc(qResultIkan.length/6)+1;
         var currPage = 1;
-        for (let i = 0; i < 6; i++) {
-            const ikan = qResultIkan[i%6];
-            if (typeof ikan === 'undefined' || ikan === null) {
-                // variable is undefined or null
-                console.log('takada');
-            } else {
-                console.log('ada');
-                const rownum = Math.trunc(i/2);
-                
-                //     `<div class="col-md-6 text-center col-sm-6 col-xs-6">
-                //         <div class="thumbnail product-box">
-                //             <img  style="height:15vh;" src="assets/img/ikan/ikan3.png" alt="" />
-                //             <div class="caption">
-                //                 <h3><a href="#">Samsung Galaxy </a></h3>
-                //                 <p>Price : <strong>$ 3,45,900</strong>  </p>
-                //                 <p><a href="#">Ptional dismiss button </a></p>
-                //                 <p>Ptional dismiss button in tional dismiss button in   </p>
-                //                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                //             </div>
-                //         </div>
-                //     </div>`
 
-                // let row = document.getElementById("ikanRow"+rownum);
-                // let divIkan = document.getElementById("templateCard").cloneNode(true);
-                // divIkan.id = "ikan"+ikan[0];
-                // divIkan.style.display = "block";
-                // let gambar = divIkan.chil
-                // row.append(divIkan);
-
-                let divIkan = $("<div>")
-                    .attr("id","ikan"+ikan[0])
-                    .addClass("col-md-6 text-center col-sm-6 col-xs-6")
-                    .append(
-                        $("<div>")
-                        .addClass("thumbnail product-box")
-                        .append(
-                            $("<img>")
-                            .css("height","15vh")
-                            .attr("src",ikan["imageLink"])
-                        )
-                        .append(
-                            $("<div>")
-                            .addClass("caption")
-                            .append(
-                                $('<h3><a href="#">'+ ikan['name'] +' </a></h3>')
-                            )
-                            .append(
-                                $("<p>")
-                                .html("Price : <strong>RP." + ikan['price'] + "</strong>")
-                            )
-                            .append(
-                                $("<p>")
-                                .html('<a href="#">Ptional dismiss button </a>')
-                            )
-                            .append(
-                                $("<p>")
-                                .append(
-                                    $("<a>")
-                                    .addClass("btn btn-success")
-                                    .attr("href","#")
-                                    .attr("role","button")
-                                    .text("Add To Cart")
-                                )
-                                .append(
-                                    $("<a>")
-                                    .addClass("btn btn-primary")
-                                    .attr("href","#")
-                                    .attr("role","button")
-                                    .text("See Details")
-                                )
-                            )
-                        )
-                    )
-                ;
-
-                $("#ikanRow"+rownum).append(divIkan);
-            }
-        }
+        gotoPage(1);
 
         function gotoPage(page){
-            console.log(page);
+            // console.log(page);
+            page--; // for indexing
+
+            for (let i = 0; i < 3; i++) {
+                $("#ikanRow"+i).empty();
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const ikan = qResultIkan[i%6 + 6*page];
+                if (typeof ikan === 'undefined' || ikan === null) {
+                    // variable is undefined or null
+                    console.log('takada');
+                } else {
+                    console.log('ada');
+                    const rownum = Math.trunc(i/2);
+                    
+                    //     `<div class="col-md-6 text-center col-sm-6 col-xs-6">
+                    //         <div class="thumbnail product-box">
+                    //             <img  style="height:15vh;" src="assets/img/ikan/ikan3.png" alt="" />
+                    //             <div class="caption">
+                    //                 <h3><a href="#">Samsung Galaxy </a></h3>
+                    //                 <p>Price : <strong>$ 3,45,900</strong>  </p>
+                    //                 <p><a href="#">Ptional dismiss button </a></p>
+                    //                 <p>Ptional dismiss button in tional dismiss button in   </p>
+                    //                 <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                    //             </div>
+                    //         </div>
+                    //     </div>`
+
+                    // let row = document.getElementById("ikanRow"+rownum);
+                    // let divIkan = document.getElementById("templateCard").cloneNode(true);
+                    // divIkan.id = "ikan"+ikan[0];
+                    // divIkan.style.display = "block";
+                    // let gambar = divIkan.chil
+                    // row.append(divIkan);
+
+                    let divIkan = $("<div>")
+                        .attr("id","ikan"+ikan[0])
+                        .addClass("col-md-6 text-center col-sm-6 col-xs-6")
+                        .append(
+                            $("<div>")
+                            .addClass("thumbnail product-box")
+                            .append(
+                                $("<img>")
+                                .css("height","15vh")
+                                .attr("src",ikan["imageLink"])
+                            )
+                            .append(
+                                $("<div>")
+                                .addClass("caption")
+                                .append(
+                                    $('<h3><a href="#">'+ ikan['name'] +' </a></h3>')
+                                )
+                                .append(
+                                    $("<p>")
+                                    .html("Price : <strong>RP." + ikan['price'] + "</strong>/" + ikan['satuan'])
+                                )
+                                .append(
+                                    $("<p>")
+                                    .html('<a href="#">Ptional dismiss button </a>')
+                                )
+                                .append(
+                                    $("<p>")
+                                    // .append(
+                                    //     $("<a>")
+                                    //     .addClass("btn btn-success")
+                                    //     .attr("href","#")
+                                    //     .attr("role","button")
+                                    //     .text("Add To Cart")
+                                    // )
+                                    .append(
+                                        $("<a>")
+                                        .addClass("btn btn-primary")
+                                        .attr("href","#")
+                                        .attr("role","button")
+                                        .text("See Details")
+                                    )
+                                )
+                            )
+                        )
+                    ;
+
+                    $("#ikanRow"+rownum).append(divIkan);
+                }
+            }
         }
         
         function gotoBoundaryPage(page){
@@ -736,11 +749,11 @@
                 searchKeyInput.value = searchKey;
                 searchForm.append(searchKeyInput);
             }
-            let categoryFilter = document.createElement("input");
-            categoryFilter.type = "hidden";
-            categoryFilter.name = "categoryFilter";
-            categoryFilter.value = category;
-            searchForm.append(categoryFilter);
+            let categoryFilterInput = document.createElement("input");
+            categoryFilterInput.type = "hidden";
+            categoryFilterInput.name = "categoryFilter";
+            categoryFilterInput.value = category;
+            searchForm.append(categoryFilterInput);
 
             searchForm.submit();
         }

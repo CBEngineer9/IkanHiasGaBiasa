@@ -1,9 +1,17 @@
 <?php
     require_once("proyekpw_lib.php");
 
+    if (!isset($_SESSION['admin'])) {
+        header("Location:login.php");
+    }
+
     $editIkanId = -1;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        if (isset($_POST['toHome'])) {
+            unset($_SESSION['admin']);
+            header("Location:index.php");
+        }
         if (isset($_POST['edit'])) {
             $editIkanId = $_POST['rowKey'];
         }
@@ -44,6 +52,31 @@
             
             $editIkanId = -1;
         }
+        if (isset($_POST['toggleStat'])) {
+            $rowKey = $_POST['rowKey'];
+            $isActive = $_POST['isActive'];
+
+            $newStat = $isActive ^ 1;
+
+            //update status
+            try {
+                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+                // set the PDO error mode to exception
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $sql = "UPDATE `ikan` 
+                        SET 
+                            `isActive` = :newStat
+                        WHERE `ikan`.`id` = :idIkan;";
+                $stmt = $conn->prepare($sql);
+                $stmt -> bindParam(":idIkan",$rowKey);
+                $stmt -> bindParam(":newStat",$newStat);
+                $qresultStat = $stmt -> execute();
+            } catch(PDOException $e) {
+                echo "Connection failed: " . $e->getMessage();
+            }
+            $conn=null;
+        }
     }
 
     try {
@@ -54,7 +87,6 @@
         // $stmt = $conn->prepare("SELECT id, firstname, lastname FROM myGuest;");
         // $stmt -> execute();
 
-        // $sql = "Select * From ikan;";
         $sql = "SELECT ikan.* , category.cat_name 
                 FROM `ikan` 
                 JOIN category ON ikan.cat_id = category.cat_id;";
@@ -107,11 +139,11 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" /> -->
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- library jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <!-- bootstrap js -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <style>
         body{
             padding: 10px;
@@ -123,6 +155,9 @@
     </style>
 </head>
 <body>
+    <form action="#" method="post">
+        <input type="submit" name="toHome" value="Back to home">
+    </form>
     <h3>Users</h3>
     <table class="table">
         <thead class="table-dark">
@@ -241,10 +276,10 @@
 
 
                         <td>
-                        
                             <input type="hidden" name="rowKey" value=<?= $row['id']?>>
+                            <input type="hidden" name="isActive" value=<?= $row['isActive']?>>
                             <!-- <input type="submit" name="addStock" value="Add Stock"><br> -->
-                            <button type="button" data-toggle="modal" data-target="#modalForm" onclick="registerIkanId(<?= $row['id']?>)">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#modalForm" onclick="registerIkanId(<?= $row['id']?>)">
                                 Add Stock
                             </button>
                             <?php 
@@ -253,7 +288,7 @@
                             <?php } else { ?>
                                 <input type="submit" name="edit" value="Edit"><br>
                             <?php } ?>
-                            <input type="submit" value="Toggle Status">
+                            <input type="submit" name="toggleStat" value="Toggle Status">
                         </td>
                     </tr>
                 </form>
@@ -263,20 +298,20 @@
     
 
     <!-- Tombol untuk memicu modal -->
-    <!-- <button data-toggle="modal" data-target="#modalForm" onclick="registerIkanId(param)">
+    <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalForm" onclick="registerIkanId(param)">
         Buka Contact Form
     </button> -->
     <!-- Modal -->
-    <div class="modal fade" id="modalForm" role="dialog">
+    <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Tutup</span>
-                    </button>
                     <h4 class="modal-title" id="labelModalKu">Contact Form</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <!-- <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Tutup</span> -->
+                    </button>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -302,8 +337,8 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary submitBtn" onclick="sendAddStock()">KIRIM</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary submitBtn" data-bs-dismiss="modal" onclick="sendAddStock()">Update</button>
                 </div>
             </div>
         </div>
