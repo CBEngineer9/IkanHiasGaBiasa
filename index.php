@@ -19,6 +19,9 @@
             $categoryFilter = "'".$_GET['categoryFilter']."'";
         }
     }
+    if(isset($_REQUEST["btDetail"])){
+        header("Location: detail.php");
+    }
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
@@ -389,7 +392,7 @@
                                 <p>Price : <strong>$ 3,45,900</strong>  </p>
                                 <p><a href="#">Ptional dismiss button </a></p>
                                 <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                                <p><button type="submit" value="See Details" name="btDetail"></button></p>
                             </div>
                         </div>
                     </div>
@@ -438,18 +441,20 @@
                     <!-- /.col -->
                 </div>
                 <div class="row" id="ikanRow2">
-                    <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
+                    <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img style="height:15vh;" src="assets/img/ikan/ikan16.png" alt="" />
                             <div class="caption">
                                 <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
+                                <p>Price : <strong>$ 3,45,900</strong></p>
                                 <p><a href="#">Ptional dismiss button </a></p>
                                 <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
+                                <form action="" method="post">
+                                    <p><input type="submit" name="btDetail" value="See Details" class="btn btn-primary"  role="button"></p>
+                                </form>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- /.col -->
                     <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
@@ -497,7 +502,7 @@
     <div class="col-md-12 footer-box">
 
 
-        <div class="row small-box ">
+        <!-- <div class="row small-box ">
             <strong>Mobiles :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
             <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
               <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
@@ -531,7 +536,7 @@
             <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Computers</a> |<a href="#">samsung</a> |  
             <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
             
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-md-4">
                 <strong>Send a Quick Query </strong>
@@ -591,7 +596,7 @@
     </div>
     <!-- /.col -->
     <div class="col-md-12 end-box ">
-        &copy; 2014 | &nbsp; All Rights Reserved | &nbsp; www.yourdomain.com | &nbsp; 24x7 support | &nbsp; Email us: info@yourdomain.com
+        &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; www.yourdomain.com | &nbsp; 24x7 support | &nbsp; Email us: info@yourdomain.com
     </div>
     <!-- /.col -->
     <!--Footer end -->
