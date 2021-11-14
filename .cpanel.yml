@@ -11,3 +11,4 @@ deployment:
     - /bin/cp register.php $DEPLOYPATH
     - /bin/cp proyekpw_lib.php $DEPLOYPATH
     - /bin/cp upload.php $DEPLOYPATH
+    - /bin/cp cart_controller.php $DEPLOYPATHg

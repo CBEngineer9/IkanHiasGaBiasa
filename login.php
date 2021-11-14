@@ -1,6 +1,9 @@
 <?php
     require_once("proyekpw_lib.php");
 
+    unset($_SESSION['currUser']);
+    unset($_SESSION['currUsername']);
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['register'])) {
             header("Location: register.php");
@@ -15,13 +18,9 @@
                 // set the PDO error mode to exception
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-                // $stmt = $conn->prepare("SELECT id, firstname, lastname FROM myGuest;");
-                // $stmt -> execute();
-        
-                $sql = "SELECT username, `password` FROM users WHERE username = :user";
+                $sql = "SELECT id, username, `password` FROM users WHERE username = :user";
                 $stmt = $conn -> prepare($sql);
                 $stmt -> bindParam(":user",$username);
-                // $stmt -> bindParam(":pass",$password);
                 $foundUser = $stmt -> execute();
                 $result = $stmt -> fetch(PDO::FETCH_ASSOC);
                 
@@ -38,16 +37,14 @@
                 if (empty($username) || empty($password)) {
                     echo '<script>alert("Field tidak boleh kosong")</script>';
                 } else {
-                    echo "<pre>";
-                    var_dump($result);
-                    echo "</pre>";
                     if ($result == false) {
                         echo '<script>alert("Username tidak ditemukan")</script>';
                     } else {
                         if ($result['password'] == $password) {
                             // hal user
                             // set session
-                            $_SESSION["currUser"] = $username;
+                            $_SESSION["currUser"] = $result['id'];
+                            $_SESSION["currUsername"] = $result['username'];
                             header("Location: index.php");
                         } else {
                             echo '<script>alert("Password salah")</script>';

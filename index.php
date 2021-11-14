@@ -3,11 +3,6 @@
 
     $page = 1;
     $pageCount = 0;
-
-    // $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, category.cat_name "
-    // ."FROM `ikan` " 
-    // ."JOIN category ON ikan.cat_id = category.cat_id;";
-    
     
     $searchKey = "";
     $categoryFilter = "category.cat_name";
@@ -715,6 +710,9 @@
                                     // )
                                     .append(
                                         $("<a>")
+                                        .click(function() {
+                                            seeDetail(ikan["id"]); // TODO TEST
+                                        })
                                         .addClass("btn btn-primary")
                                         .attr("href","#")
                                         .attr("role","button")
@@ -759,8 +757,8 @@
         }
 
 
-        function gay() {
-            console.log("gay");
+        function seeDetail(ikan_id) {
+            window.location.href = "detail.php?ikan_id="+ikan_id;
         }
         
         // history.pushState('data to be passed', 'Title', '/test');
