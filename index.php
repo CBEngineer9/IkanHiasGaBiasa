@@ -57,8 +57,8 @@
 
         // echo "fetched successfully";
     } catch(PDOException $e) {
-        // echo "Connection failed: " . $e->getMessage();
-        alert("Connection failed: " . $e->getMessage());
+        echo "Connection failed: " . $e->getMessage();
+        // alert("Connection failed: " . $e->getMessage());
     }
     $conn=null;
 

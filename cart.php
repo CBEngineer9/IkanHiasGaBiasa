@@ -1,5 +1,6 @@
 <?php
     require_once("proyekpw_lib.php");
+    require_once dirname(__FILE__) . '/Midtrans.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
         if (!isset($_SESSION['currUser'])) {
@@ -111,11 +112,12 @@
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
                     <div id="grandTotal" class="col text-right">&euro; 137.00</div>
-                </div> <button class="btn">CHECKOUT</button>
+                </div> <button onclick="checkout()" class="btn">CHECKOUT</button>
             </div>
         </div>
     </div>
 </body>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo Midtrans\Config::$clientKey;?>"></script>
 <script>
     var numfmt = new Intl.NumberFormat('id-ID',{ minimumFractionDigits: 2 });
     var total = 0;
@@ -191,6 +193,70 @@
             grandTotal = parseInt(total) + 15000;
         }
         $('#grandTotal').text("Rp." + numfmt.format(grandTotal));
+    }
+
+    function checkout() {
+        let cart = '';
+        let user = '';
+        $.ajax({
+            type:"get",
+            url:"cart_controller.php",
+            data:{
+                'action':'getCart',
+            },
+            success:function(response){
+                console.log(response);
+                cart = response;
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
+        $.ajax({
+            type:"get",
+            url:"cart_controller.php",
+            data:{
+                'action':'getUserData',
+            },
+            success:function(response){
+                console.log(response);
+                user = response;
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
+        // TODO add shipping
+        $.ajax({
+            type:"post",
+            url:"snap_controller.php",
+            data:{
+                'cart':cart,
+                'user':user,
+                'total':grandTotal,
+            },
+            success:function(response){
+                console.log(response);
+                snap.pay(response, {
+                    // Optional
+                    onSuccess: function(result){
+                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                        console.log(result);
+                    },
+                    // Optional
+                    onPending: function(result){
+                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    // Optional
+                    onError: function(result){
+                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    }
+                });
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
     }
 </script>
 </html>

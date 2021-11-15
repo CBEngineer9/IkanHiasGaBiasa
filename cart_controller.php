@@ -105,6 +105,45 @@
             // alert("Connection failed: " . $e->getMessage());
         }
         $conn=null;
+    } else if ($action == "getCart") {
+        try {
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            
+            $sqlResponse = "SELECT i.id as id, i.name as `name`, i.price as price, c.qty as `quantity` FROM cart c JOIN ikan i ON c.ikan_id = i.id WHERE c.`user_id` = (SELECT id FROM users WHERE username = :username);";
+            $stmt = $conn->prepare($sqlResponse);
+            $stmt -> bindValue(":username",$_SESSION['currUsername']); 
+            $stmt -> execute();
+
+            $response = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($response);
+            
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            // alert("Connection failed: " . $e->getMessage());
+        }
+        $conn=null;
+    } else if ($action == "getUserData") {
+        try {
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sqlResponse = "SELECT firstname as first_name, lastname as last_name, email FROM users WHERE `id` = (SELECT id FROM users WHERE username = :username);";
+            $stmt = $conn->prepare($sqlResponse);
+            $stmt -> bindValue(":username",$_SESSION['currUsername']); 
+            $stmt -> execute();
+
+            $response = $stmt -> fetch(PDO::FETCH_ASSOC);
+            echo json_encode($response);
+            
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            // alert("Connection failed: " . $e->getMessage());
+        }
+        $conn=null;
     }
     die;
 ?>

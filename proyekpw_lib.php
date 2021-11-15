@@ -13,6 +13,6 @@
 
         function alert(String $message = null)
         {
-                echo "<script>alert($message)</script>";
+                echo `<script>alert($message)</script>`;
         }
 ?>
