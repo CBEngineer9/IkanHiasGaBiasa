@@ -31,6 +31,7 @@
             $password = $_POST['password'];
             $confirmpass = $_POST["confirmpass"];
             $email = $_POST['email'];
+            $phone = $_POST['phone'];
             $fname = $_POST['fname'];
             $lname = $_POST['lname'];
 
@@ -58,11 +59,12 @@
                         // set the PDO error mode to exception
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                        $sql = "INSERT INTO `users` (`username`, `password`, `email`, `firstname`, `lastname`, `isAdmin`) VALUES (:user, :pass, :email, :fname, :lname, '0')";
+                        $sql = "INSERT INTO `users` (`username`, `password`, `email`, `phone`, `firstname`, `lastname`, `isAdmin`) VALUES (:user, :pass, :email, :phone, :fname, :lname, '0')";
                         $stmt = $conn -> prepare($sql);
                         $stmt -> bindParam(":user",$username);
                         $stmt -> bindParam(":pass",$password);
                         $stmt -> bindParam(":email",$email);
+                        $stmt -> bindParam(":phone",$phone);
                         $stmt -> bindParam(":fname",$fname);
                         $stmt -> bindParam(":lname",$lname);
 
@@ -108,6 +110,7 @@
                         <div class="form-group"> <label for="fname" class="form-control-label text-muted">First Name</label> <input type="text" name="fname" placeholder="First Name" class="form-control"> </div>
                         <div class="form-group"> <label for="lname" class="form-control-label text-muted">Last Name</label> <input type="text" name="lname" placeholder="Last Name" class="form-control"> </div>
                         <div class="form-group"> <label for="email" class="form-control-label text-muted">Email</label> <input type="text" name="email" placeholder="Email" class="form-control"> </div>
+                        <div class="form-group"> <label for="phone" class="form-control-label text-muted">Phone</label> <input type="text" name="phone" placeholder="Phone" class="form-control"> </div>
                         <div class="form-group"> <label for="password" class="form-control-label text-muted">Password</label> <input type="password" name="password" id="password" placeholder="Password" class="form-control"> </div>
                         <div class="form-group"> <label for="confirmpass" class="form-control-label text-muted">Confirm Password</label> <input type="password" name="confirmpass" placeholder="Confirm Password" class="form-control"> </div>
                         <div class="row justify-content-center my-3 px-3"> <button type="submit" name="btregis"  class="btn-block btn-color">Sign Up</button> </div>

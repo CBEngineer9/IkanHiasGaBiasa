@@ -165,6 +165,8 @@
                 <th>id</th>
                 <th>username</th>
                 <th>password</th>
+                <th>email</th>
+                <th>phone</th>
             </tr>
         </thead>
         <tbody>
@@ -172,7 +174,9 @@
                 <tr>
                     <td><?= $row['id']?></td>
                     <td><?= $row['username']?></td>
-                    <td><?= $row['password']?></td>
+                    <td><?= "password here" //$row['password'] ?></td>
+                    <td><?= $row['email']?></td>
+                    <td><?= $row['phone']?></td>
                 </tr>
             <?php }?>
         </tbody>

@@ -123,6 +123,7 @@
     var total = 0;
     var shipOpt;
     var grandTotal = 0;
+    var shippingDetail = Array();
 
     getPriceCount();
 
@@ -157,7 +158,6 @@
             },
             success:function(response){
                 const newUpdate = JSON.parse(response);
-                // const newUpdate = response;
                 console.log(newUpdate);
                 $('#qty'+cart_id).text(newUpdate['qty']);
                 $("#price"+cart_id).text("Rp." + numfmt.format(newUpdate['price'] * newUpdate['qty']));
@@ -191,6 +191,12 @@
         shipOpt = $('#shipOpt').val();
         if (shipOpt == 'standart') {
             grandTotal = parseInt(total) + 15000;
+            shippingDetail = {
+                id : "s001",
+                name : 'Standart Shipping',
+                price : 15000,
+                quantity : 1,
+            };
         }
         $('#grandTotal').text("Rp." + numfmt.format(grandTotal));
     }
@@ -207,49 +213,55 @@
             success:function(response){
                 console.log(response);
                 cart = response;
-            },
-            error:function(response){
-                alert("AJAX ERROR " + response);
-            }
-        });
-        $.ajax({
-            type:"get",
-            url:"cart_controller.php",
-            data:{
-                'action':'getUserData',
-            },
-            success:function(response){
-                console.log(response);
-                user = response;
-            },
-            error:function(response){
-                alert("AJAX ERROR " + response);
-            }
-        });
-        // TODO add shipping
-        $.ajax({
-            type:"post",
-            url:"snap_controller.php",
-            data:{
-                'cart':cart,
-                'user':user,
-                'total':grandTotal,
-            },
-            success:function(response){
-                console.log(response);
-                snap.pay(response, {
-                    // Optional
-                    onSuccess: function(result){
-                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                        console.log(result);
+
+                $.ajax({
+                    type:"get",
+                    url:"cart_controller.php",
+                    data:{
+                        'action':'getUserData',
                     },
-                    // Optional
-                    onPending: function(result){
-                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    success:function(response){
+                        console.log(response);
+                        user = response;
+
+                        // TODO add shipping
+                        $.ajax({
+                            type:"post",
+                            url:"snap_controller.php",
+                            data:{
+                                'cart':cart,
+                                'user':user,
+                                'total':grandTotal,
+                                'shipping' : JSON.stringify(shippingDetail),
+                            },
+                            success:function(response){
+                                console.log(response);
+                                snap.pay(response, {
+                                    // Optional
+                                    onSuccess: function(result){
+                                        /* You may add your own js here, this is just example */ 
+                                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                        console.log(result);
+                                    },
+                                    // Optional
+                                    onPending: function(result){
+                                        /* You may add your own js here, this is just example */ 
+                                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                    },
+                                    // Optional
+                                    onError: function(result){
+                                        /* You may add your own js here, this is just example */ 
+                                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                    }
+                                });
+                            },
+                            error:function(response){
+                                alert("AJAX ERROR " + response);
+                            }
+                        });
                     },
-                    // Optional
-                    onError: function(result){
-                        /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    error:function(response){
+                        alert("AJAX ERROR " + response);
                     }
                 });
             },

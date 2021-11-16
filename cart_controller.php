@@ -131,7 +131,7 @@
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sqlResponse = "SELECT firstname as first_name, lastname as last_name, email FROM users WHERE `id` = (SELECT id FROM users WHERE username = :username);";
+            $sqlResponse = "SELECT firstname as first_name, lastname as last_name, email, phone FROM users WHERE `id` = (SELECT id FROM users WHERE username = :username);";
             $stmt = $conn->prepare($sqlResponse);
             $stmt -> bindValue(":username",$_SESSION['currUsername']); 
             $stmt -> execute();

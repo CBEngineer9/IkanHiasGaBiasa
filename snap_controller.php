@@ -6,23 +6,19 @@
 namespace Midtrans;
 
 require_once dirname(__FILE__) . '/Midtrans.php';
-Config::$serverKey = 'SB-Mid-server-xZplK3pXfb9G72CfNcJCzoXp';
-Config::$clientKey = 'SB-Mid-client-lWw1rHND0roMX3yv';
-
-// Enable sanitization
-Config::$isSanitized = true;
-
-// Enable 3D-Secure
-Config::$is3ds = true;
-
-// Uncomment for append and override notification URL
-// Config::$appendNotifUrl = "https://example.com";
-// Config::$overrideNotifUrl = "https://example.com";
 
 // get cart
 $cart = json_decode($_REQUEST['cart'],true);
 $user = json_decode($_REQUEST['user'],true);
 $total = $_REQUEST['total'];
+$shipping = json_decode($_REQUEST['shipping'],true);
+
+array_push($cart,[
+    "id" => $shipping['id'],
+    "name" => $shipping['name'],
+    "quantity" => $shipping['quantity'],
+    "price" => $shipping['price'],
+]);
 
 // Required
 $transaction_details = array(
@@ -72,14 +68,21 @@ $transaction_details = array(
 // );
 
 // Optional
-$customer_details = array(
-    'first_name'    => "Andri",
-    'last_name'     => "Litani",
-    'email'         => "andri@litani.com",
-    'phone'         => "081122334455",
-    // 'billing_address'  => $billing_address,
-    // 'shipping_address' => $shipping_address
-);
+// $customer_details = array(
+//     'first_name'    => "Andri",
+//     'last_name'     => "Litani",
+//     'email'         => "andri@litani.com",
+//     'phone'         => "081122334455",
+//     'billing_address'  => $billing_address,
+//     'shipping_address' => $shipping_address
+// );
+
+// $customer_details = array(
+//     'first_name'    => $user['first_name'],
+//     'last_name'     => $user['last_name'],
+//     'email'         => $user['email'],
+//     'phone'         => $user['phone']
+// );
 
 // Optional, remove this to display all available payment methods
 $enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
@@ -88,7 +91,7 @@ $enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echanne
 $transaction = array(
     'enabled_payments' => $enable_payments,
     'transaction_details' => $transaction_details,
-    'customer_details' => $customer_details,
+    'customer_details' => $user,
     'item_details' => $cart,
 );
 
@@ -101,6 +104,5 @@ catch (\Exception $e) {
 }
 
 echo $snap_token;
-
 
 ?>

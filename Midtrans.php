@@ -16,6 +16,8 @@ if (!function_exists('json_decode')) {
 
 // Configurations
 require_once 'Midtrans/Config.php';
+// my user config
+require_once("midtransInit.php");
 
 // Midtrans API Resources
 require_once 'Midtrans/Transaction.php';
