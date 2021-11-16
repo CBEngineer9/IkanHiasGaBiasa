@@ -132,7 +132,7 @@
     <div class="container" style="margin-top:10vh;">
         <div class="row justify-content-md-center" style="margin-left: 5vw;">
             <div class="col col-lg-5">
-                <img style="width: 200pxvw; height:45vh;" src=<?= $qResultIkan['imageLink']?> alt="">
+                <img style="width: 11vw; height:45vh;" src=<?= $qResultIkan['imageLink']?> alt="">
             </div>
             <div class="col col-lg-6" style="margin-left:3vw; margin-top: 7vh;">
                 <form action="#" method="post">
