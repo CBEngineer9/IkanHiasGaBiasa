@@ -14,6 +14,9 @@
             $categoryFilter = "'".$_GET['categoryFilter']."'";
         }
     }
+    if(isset($_REQUEST["btLogout"])){
+        $_SESSION['currUser'] = -1;
+    }
     if(isset($_REQUEST["btDetail"])){
         header("Location: detail.php");
     }
@@ -61,8 +64,6 @@
         // alert("Connection failed: " . $e->getMessage());
     }
     $conn=null;
-
-
 ?>
 
 <!DOCTYPE html>
@@ -90,9 +91,12 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
+                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> 
+                    
+                    
                 </div>
-                <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                
+                <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -103,25 +107,22 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div style="margin-top: 5px;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
-                    <li><a href="#">Track Order</a></li>
+                    <?php
+                        if($_SESSION['currUser']==-1){
+                    ?>
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Signup</a></li>
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">24x7 Support <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#"><strong>Call: </strong>+09-456-567-890</a></li>
-                            <li><a href="#"><strong>Mail: </strong>info@yourdomain.com</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"><strong>Address: </strong>
-                                <div>
-                                    234, New york Street,<br />
-                                    Just Location, USA
-                                </div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <li><a href="cart.php"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                    <?php
+                        }
+                        else{
+                    ?>
+                            <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
+                        <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
+                        <li><a href="logout.php">Logout</a></li>
+                        <li><a href="cart.php"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                    <?php
+                        }
+                    ?>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
