@@ -108,7 +108,7 @@
             <div style="margin-top: 5px;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
                     <?php
-                        if($_SESSION['currUser']==-1){
+                        if(!isset($_SESSION['currUser'])){
                     ?>
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Signup</a></li>
@@ -116,7 +116,7 @@
                         }
                         else{
                     ?>
-                            <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
+                        <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <li><a href="cart.php"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>

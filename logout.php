@@ -1,5 +1,6 @@
 <?php
     require_once("proyekpw_lib.php");
-    $_SESSION['currUser'] = -1;
+    unset($_SESSION['currUser']);
+    unset($_SESSION['currUsername']);
     header("Location: index.php");
 ?>
