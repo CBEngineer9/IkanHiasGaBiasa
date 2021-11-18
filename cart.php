@@ -192,7 +192,7 @@
         if (shipOpt == 'standart') {
             grandTotal = parseInt(total) + 15000;
             shippingDetail = {
-                id : "s001",
+                id : "1",
                 name : 'Standart Shipping',
                 price : 15000,
                 quantity : 1,

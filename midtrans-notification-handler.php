@@ -6,6 +6,7 @@
     namespace Midtrans;
 
     require_once dirname(__FILE__) . '/Midtrans.php';
+    require_once("proyekpw_lib.php");
 
 
     try {
