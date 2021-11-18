@@ -72,7 +72,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Bootstrap E-Commerce Template- DIGI Shop mini</title>
+    <title>SussyFishy</title>
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!-- Fontawesome core CSS -->

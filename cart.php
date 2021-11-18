@@ -38,7 +38,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/css/cart.css">
-    <title>Document</title>
+    <title>Cart</title>
 </head>
 
 <body>
@@ -237,20 +237,28 @@
                             success:function(response){
                                 console.log(response);
                                 snap.pay(response, {
-                                    // Optional
                                     onSuccess: function(result){
-                                        /* You may add your own js here, this is just example */ 
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                                         console.log(result);
+                                        $.ajax({
+                                            type:"post",
+                                            url:"cart_controller.php",
+                                            data:{
+                                                'action':'clearCart',
+                                            },
+                                            success:function(response){
+                                                console.log('cart cleared');
+                                            },
+                                            error:function(response){
+                                                alert("AJAX ERROR " + response);
+                                            }
+                                        });
+                                        // TODO : redirect to thankyou
                                     },
-                                    // Optional
                                     onPending: function(result){
-                                        /* You may add your own js here, this is just example */ 
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                                     },
-                                    // Optional
                                     onError: function(result){
-                                        /* You may add your own js here, this is just example */ 
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                                     }
                                 });

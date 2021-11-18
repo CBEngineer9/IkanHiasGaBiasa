@@ -6,23 +6,62 @@
 namespace Midtrans;
 
 require_once dirname(__FILE__) . '/Midtrans.php';
+require_once("proyekpw_lib.php");
 
 // get cart
 $cart = json_decode($_REQUEST['cart'],true);
 $user = json_decode($_REQUEST['user'],true);
 $total = $_REQUEST['total'];
 $shipping = json_decode($_REQUEST['shipping'],true);
+$orderId = '';
 
+
+
+//conn
+try {
+    $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+    // set the PDO error mode to exception
+    $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+    $sql = "INSERT INTO `htrans` (`id_user`, `id_shipping`, `status`) VALUES ((SELECT id FROM users WHERE username = :username), :shipid, 'pending');";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(":username",$_SESSION['currUsername']);
+    $stmt -> bindValue(":shipid", $shipping['id']);
+    $succInsert = $stmt->execute();
+
+    $sql = "SELECT mid_order_id FROM `htrans` WHERE `id_user` = (SELECT id FROM users WHERE username = :username) ORDER BY `trans_time` DESC LIMIT 1;";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(":username",$_SESSION['currUsername']);
+    $stmt->execute();
+    $htrans_id = $stmt -> fetch(\PDO::FETCH_ASSOC);
+    $orderId = $htrans_id['mid_order_id'];
+
+    // copy cart to dtrans
+    foreach ($cart as $cartRow) {
+        $sql = "INSERT INTO `dtrans` (`id_htrans`, `ikan_id`, `qty`) VALUES (:id_htrans, :ikanid, :qty);";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> bindValue(":id_htrans",$orderId);
+        $stmt -> bindValue(":ikanid", $cartRow['id']);
+        $stmt -> bindValue(":qty", $cartRow['quantity']);
+        $succInsertCart = $stmt->execute();
+    }
+
+} catch(\PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+$conn=null;
+
+//add shipping
 array_push($cart,[
     "id" => $shipping['id'],
     "name" => $shipping['name'],
     "quantity" => $shipping['quantity'],
     "price" => $shipping['price'],
 ]);
-
+// echo $orderId;
 // Required
 $transaction_details = array(
-    'order_id' => rand(),
+    'order_id' => $orderId,
     'gross_amount' => $total, 
 );
 

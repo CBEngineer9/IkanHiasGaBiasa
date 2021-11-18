@@ -63,7 +63,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/css/login.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <form action="#" method="post" style="height: 80vh;">
@@ -73,7 +73,7 @@
             <div class="card card1">
                 <div class="row justify-content-center my-auto">
                     <div class="col-md-8 col-10 my-5">
-                        <div class="row justify-content-center px-3 mb-3"> <img id="logo" src="../IkanHiasGaBiasa/assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png"> </div>
+                        <div class="row justify-content-center px-3 mb-3"> <img id="logo" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png"> </div>
                         <h3 class="mb-5 text-center heading">Sign In</h3>
                         <h6 class="msg-info">Please login to your account</h6>
                         <div class="form-group"> <label for="username" class="form-control-label text-muted">Username</label> <input type="text" name="username" id="username" placeholder="Username" class="form-control"> </div>
