@@ -90,9 +90,12 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> <strong>NAMA WEBSITE</strong> 
+                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> 
+                    
+                    
                 </div>
-                <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                
+                <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
