@@ -12,6 +12,8 @@ deployment:
     - /bin/cp kirim_form.php $DEPLOYPATH
     - /bin/cp login.php $DEPLOYPATH
     - /bin/cp Midtrans.php $DEPLOYPATH
+    - /bin/cp midtrans_init.php $DEPLOYPATH
+    - /bin/cp midtrans-notification-handler.php $DEPLOYPATH
     - /bin/cp proyekpw_lib.php $DEPLOYPATH
     - /bin/cp register.php $DEPLOYPATH
     - /bin/cp snap_controller.php $DEPLOYPATH
