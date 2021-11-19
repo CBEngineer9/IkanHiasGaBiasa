@@ -257,6 +257,19 @@
                                     },
                                     onPending: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                        $.ajax({
+                                            type:"post",
+                                            url:"cart_controller.php",
+                                            data:{
+                                                'action':'clearCart',
+                                            },
+                                            success:function(response){
+                                                console.log('cart cleared');
+                                            },
+                                            error:function(response){
+                                                alert("AJAX ERROR " + response);
+                                            }
+                                        });
                                     },
                                     onError: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);

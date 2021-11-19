@@ -1,8 +1,8 @@
 <?php
-    require_once("proyekpw_lib.php");
+    require_once("../proyekpw_lib.php");
 
     if (!isset($_SESSION['admin'])) {
-        header("Location:login.php");
+        header("Location:../login.php");
     }
 
     $editIkanId = -1;
@@ -10,7 +10,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (isset($_POST['toHome'])) {
             unset($_SESSION['admin']);
-            header("Location:index.php");
+            header("Location:../index.php");
         }
         if (isset($_POST['edit'])) {
             $editIkanId = $_POST['rowKey'];
@@ -115,6 +115,11 @@
         $stmt3 -> execute();
         $qresult3 = $stmt3 -> fetchAll();
 
+        $sql = "SELECT * FROM htrans;";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> execute();
+        $history = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
         // echo "fetched successfully";
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
@@ -167,6 +172,7 @@
                 <th>password</th>
                 <th>email</th>
                 <th>phone</th>
+                <th>history</th>
             </tr>
         </thead>
         <tbody>
@@ -177,6 +183,12 @@
                     <td><?= "password here" //$row['password'] ?></td>
                     <td><?= $row['email']?></td>
                     <td><?= $row['phone']?></td>
+                    <td>
+                        <form action="history.php" method="get">
+                            <input type="hidden" name="userid" value="<?= $row['id']?>">
+                            <input type="submit" value="History">
+                        </form>
+                    </td>
                 </tr>
             <?php }?>
         </tbody>
@@ -240,11 +252,9 @@
                         <?php if ($editIkanId == $row['id']) {?>
                             <td>
                                 <input type="text" name="editNameRow<?= $row['id']?>" id="editNameRow<?= $row['id']?>" value="<?= $row['name']?>">
-                                <!-- <?= $row['name']?> -->
                             </td>
                             <td>
                                 <textarea name="editDescRow<?= $row['id']?>" id="editDescRow<?= $row['id']?>" cols="30" rows="10"><?= $row['description']?></textarea>
-                                <!-- <?= $row['description']?> -->
                             </td>
                             <td>
                                 <select name="editCatRow<?= $row['id']?>" id="editCatRow<?= $row['id']?>">
@@ -252,18 +262,15 @@
                                         <option value="<?= $rowResult3['cat_id']?>"><?= $rowResult3['cat_name']?></option>
                                     <?php }?>
                                 </select>
-                                <!-- <?= $row['cat_name']?> -->
                             </td>
                             <td>
                                 <input type="text" name="editStockRow<?= $row['id']?>" id="editStockRow<?= $row['id']?>" value="<?= $row['stock']?>">
-                                <!-- <?= $row['stock']?> -->
                             </td>
                             <td>
                                 <input type="text" name="editPriceRow<?= $row['id']?>" id="editPriceRow<?= $row['id']?>" value="<?= $row['price']?>">
-                                <!-- <?= $row['price']?> -->
                             </td>
                             <td>
-                                <img style="width: 100px;" src="<?= $row['imageLink']?>" alt="">
+                                <img style="width: 100px;" src="../<?= $row['imageLink']?>" alt="">
                             </td>
                             <td>
                                 <?= $row['isActive']?>
@@ -274,7 +281,7 @@
                             <td><?= $row['cat_name']?></td>
                             <td id="stock<?= $row['id']?>"><?= $row['stock']?></td>
                             <td><?= $row['price']?></td>
-                            <td><img src="<?= $row['imageLink']?>" alt=""></td>
+                            <td><img src="../<?= $row['imageLink']?>" alt=""></td>
                             <td><?= $row['isActive']?></td>
                         <?php }?>
 
@@ -299,7 +306,6 @@
             <?php }?>
         </tbody>
     </table>
-    
 
     <!-- Tombol untuk memicu modal -->
     <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalForm" onclick="registerIkanId(param)">

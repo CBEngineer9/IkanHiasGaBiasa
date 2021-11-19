@@ -32,7 +32,7 @@
             if ($username === "admin" && $password==="admin") {
                 //hal admin
                 $_SESSION['admin'] = true;
-                header("Location:admin.php");
+                header("Location:./admin");
             } else {
                 if (empty($username) || empty($password)) {
                     echo '<script>alert("Field tidak boleh kosong")</script>';

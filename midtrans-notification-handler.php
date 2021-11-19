@@ -22,40 +22,59 @@
     $order_id = $notif->order_id;
     $fraud = $notif->fraud_status;
 
+    $newStatus = '';
+
     if ($transaction == 'capture') {
         // For credit card transaction, we need to check whether transaction is challenge by FDS or not
         if ($type == 'credit_card') {
             if ($fraud == 'challenge') {
-                // TODO set payment status in merchant's database to 'Challenge by FDS'
                 // TODO merchant should decide whether this transaction is authorized or not in MAP
                 // echo "Transaction order_id: " . $order_id ." is challenged by FDS"
+                $newStatus = 'Challenge by FDS';
                 echo "200";
             } else {
-                // TODO set payment status in merchant's database to 'Success'
                 // echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
+                $newStatus = 'Success';
                 echo "200";
             }
         }
     } else if ($transaction == 'settlement') {
-        // TODO set payment status in merchant's database to 'Settlement'
         // echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
+        $newStatus = 'Settlement';
         echo "200";
     } else if ($transaction == 'pending') {
-        // TODO set payment status in merchant's database to 'Pending'
         // echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
+        $newStatus = 'Pending';
         echo "200";
     } else if ($transaction == 'deny') {
-        // TODO set payment status in merchant's database to 'Denied'
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
+        $newStatus = 'Denied';
         echo "200";
     } else if ($transaction == 'expire') {
-        // TODO set payment status in merchant's database to 'expire'
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
+        $newStatus = 'Expire';
         echo "200";
     } else if ($transaction == 'cancel') {
-        // TODO set payment status in merchant's database to 'Denied'
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
+        $newStatus = 'Denied';
         echo "200";
     }
+
+    //conn
+    try {
+        $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $sql = "UPDATE `htrans` SET `status` = :newStatus WHERE `mid_order_id` = :mid_order_id;";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> bindValue(":mid_order_id",$order_id);
+        $stmt -> bindValue(":newStatus", $newStatus);
+        $succInsert = $stmt->execute();
+
+    } catch(\PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+    $conn=null;
 
 ?>
