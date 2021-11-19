@@ -2,18 +2,19 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ikanhia1/public_html/
+    - /bin/cp -R admin $DEPLOYPATH
     - /bin/cp -R assets $DEPLOYPATH
     - /bin/cp -R Midtrans $DEPLOYPATH
     - /bin/cp index.php $DEPLOYPATH
-    - /bin/cp admin.php $DEPLOYPATH
-    - /bin/cp cart_controller.php $DEPLOYPATH
     - /bin/cp cart.php $DEPLOYPATH
+    - /bin/cp cart_controller.php $DEPLOYPATH
     - /bin/cp detail.php $DEPLOYPATH
     - /bin/cp kirim_form.php $DEPLOYPATH
     - /bin/cp login.php $DEPLOYPATH
-    - /bin/cp Midtrans.php $DEPLOYPATH
+    - /bin/cp logout.php $DEPLOYPATH
     - /bin/cp midtrans_init.php $DEPLOYPATH
     - /bin/cp midtrans-notification-handler.php $DEPLOYPATH
+    - /bin/cp Midtrans.php $DEPLOYPATH
     - /bin/cp proyekpw_lib.php $DEPLOYPATH
     - /bin/cp register.php $DEPLOYPATH
     - /bin/cp snap_controller.php $DEPLOYPATH
