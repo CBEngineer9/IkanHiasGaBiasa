@@ -86,9 +86,9 @@
             }
             
             // update stock
-            $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - :qty FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
+            $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - 1 FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
             $stmt = $conn->prepare($sql);
-            $stmt -> bindValue(":qty",$qty); 
+            // $stmt -> bindValue(":qty",$qty); 
             $stmt -> bindValue(":ikan_id",$ikan_id); 
             $succUpdate = $stmt -> execute();
 
@@ -198,10 +198,10 @@
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             //set to waiting conf
-            $sql = "UPDATE `htrans` SET `status` = 'Waiting Confirm' WHERE `htrans`.`mid_order_id` = :order_id;";
-            $stmt = $conn -> prepare($sql);
-            $stmt -> bindValue(":order_id",$order_id);
-            $stmt->execute();
+            // $sql = "UPDATE `htrans` SET `status` = 'Waiting Confirm' WHERE `htrans`.`mid_order_id` = :order_id;";
+            // $stmt = $conn -> prepare($sql);
+            // $stmt -> bindValue(":order_id",$order_id);
+            // $stmt->execute();
 
             //clear cart
             $sql = "DELETE FROM `cart` WHERE `user_id` = (SELECT id FROM users WHERE username = :username);";
