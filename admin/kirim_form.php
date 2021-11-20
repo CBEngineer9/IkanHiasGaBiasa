@@ -1,5 +1,5 @@
 <?php
-    require_once("proyekpw_lib.php");
+    require_once("../proyekpw_lib.php");
 
 // if(isset($_POST['contactFrmSubmit']) && !empty($_POST['nama']) && !empty($_POST['email']) && (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) && !empty($_POST['pesan'])){
 //     // data form yang dikirimkan

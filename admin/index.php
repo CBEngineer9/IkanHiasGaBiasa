@@ -119,8 +119,12 @@
         $stmt = $conn -> prepare($sql);
         $stmt -> execute();
         $history = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-        // echo "fetched successfully";
+        
+        $sql = "SELECT MONTHNAME(ht.trans_time) AS `month`, YEAR(ht.trans_time) AS `year`,  SUM((i.price * dt.qty) + s.ship_price) AS income FROM htrans ht JOIN shipping s ON ht.id_shipping = s.shipping_id RIGHT JOIN dtrans dt ON ht.mid_order_id = dt.id_htrans JOIN ikan i on dt.ikan_id = i.id WHERE `status` = 'Capture' OR `status` = 'Settlement' OR `status` = 'Success' GROUP BY MONTH(ht.trans_time), YEAR(ht.trans_time);";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> execute();
+        $monthlyIncome = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
@@ -193,6 +197,33 @@
             <?php }?>
         </tbody>
     </table>
+
+    <h3>Monthly Report</h3>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Month</th>
+                <th>year</th>
+                <th>Income</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($monthlyIncome as $incomeRow ) {?>
+                <tr>
+                    <td><?= $incomeRow['month']?></td>
+                    <td><?= $incomeRow['year']?></td>
+                    <td><?= "Rp. ".number_format($incomeRow['income']) ?></td>
+                </tr>
+            <?php }?>
+        </tbody>
+    </table>
+
+    <h3>Search Transaction</h3>
+    <form action="transdetail.php" method="get">
+        <input type="text" name="keyword" id="transkeyword" placeholder="Trans id/customer id">
+        <input type="submit" value="Search">
+    </form>
+    <br>
 
     <h3>add Ikan</h3>
     <form action="upload.php" method="post" enctype="multipart/form-data">

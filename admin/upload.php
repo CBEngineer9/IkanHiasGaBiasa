@@ -1,8 +1,8 @@
 <?php
-    require_once("proyekpw_lib.php");
+    require_once("../proyekpw_lib.php");
 
     //for file Uploads
-    $target_dir = "assets/img/ikan/";
+    $target_dir = "../assets/img/ikan/";
     $target_file = $target_dir . basename($_FILES["gambarIkan"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
