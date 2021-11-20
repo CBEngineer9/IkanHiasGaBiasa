@@ -36,9 +36,9 @@
         // echo $categoryFilter;
         
         $stmt -> execute();
-
-        $qResult = $stmt->fetchAll();
-        $pageCount = intdiv(count($qResult),6) + 1;
+        $qResult = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $itemCount = count($qResult);
+        $pageCount = intdiv($itemCount,6) + 1;
         $qResultEncoded = json_encode($qResult);
 
         $sql2 = "SELECT c.* , coalesce(cc.cat_count,0) AS cat_count  FROM category c LEFT JOIN (SELECT i.cat_id as category_id , COUNT(i.cat_id) AS 'cat_count' FROM ikan i GROUP BY i.cat_id) cc ON cc.category_id = c.cat_id;";
@@ -119,7 +119,7 @@
                         <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
                         <li><a href="logout.php">Logout</a></li>
-                        <li><a href="cart.php"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
                     <?php
                         }
                     ?>
@@ -365,7 +365,7 @@
                 <!-- /.div -->
                 <div class="row">
                     <div class="btn-group alg-right-pad">
-                        <button type="button" class="btn btn-default"><strong>1235  </strong>items</button>
+                        <button type="button" class="btn btn-default"><strong><?= $itemCount?>  </strong>items</button>
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                                 Sort Products &nbsp;
@@ -375,10 +375,6 @@
                                 <li><a href="#">By Price Low</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">By Price High</a></li>
-                                <!-- <li class="divider"></li>
-                                <li><a href="#">By Popularity</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">By Reviews</a></li> -->
                             </ul>
                         </div>
                     </div>
@@ -411,7 +407,7 @@
                         </div>
                     </div> -->
                     <!-- /.col -->
-                </div>              
+                </div>
                 <!-- Second Row -->
                 <div class="row" id="ikanRow1">
                     <!-- <div class="col-md-6 text-center col-sm-6 col-xs-6">
@@ -495,7 +491,7 @@
     <!-- /.container -->
     <div class="col-md-12 download-app-box text-center">
 
-        <span class="glyphicon glyphicon-download-alt"></span>Download Our Android App and Get 10% additional Off on all Products . <a href="#" class="btn btn-danger btn-lg">DOWNLOAD  NOW</a>
+        <span class="glyphicon glyphicon-download-alt"></span>Download Our Android App and Get 10% additional Off on all Products . <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-danger btn-lg">DOWNLOAD  NOW</a>
 
     </div>
 
@@ -767,7 +763,7 @@
         function addToCart(ikan_id) {
             $.ajax({
                 type:"get",
-                url:"cart_controller.php",
+                url:"./cart/cart_controller.php",
                 data:{
                     'action':'addItem',
                     'ikan_id':ikan_id,
@@ -775,6 +771,8 @@
                 success:function(response){
                     if (response == "not_logged_in"){
                         alert('Please Login first');
+                    } else if (response == 'empty') {
+                        alert('Stock is Empty');
                     } else if (response == 'success') {
                         alert('Item successfuly added to cart');
                     } else {

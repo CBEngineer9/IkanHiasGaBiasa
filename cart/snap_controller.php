@@ -5,8 +5,8 @@
 
 namespace Midtrans;
 
-require_once dirname(__FILE__) . '/Midtrans.php';
-require_once("proyekpw_lib.php");
+require_once dirname(__FILE__) . '/../Midtrans.php';
+require_once("../proyekpw_lib.php");
 
 // get cart
 $cart = json_decode($_REQUEST['cart'],true);
@@ -23,7 +23,7 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-    $sql = "INSERT INTO `htrans` (`id_user`, `id_shipping`, `status`) VALUES ((SELECT id FROM users WHERE username = :username), :shipid, 'pending');";
+    $sql = "INSERT INTO `htrans` (`id_user`, `id_shipping`, `status`) VALUES ((SELECT id FROM users WHERE username = :username), :shipid, 'attempted');";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(":username",$_SESSION['currUsername']);
     $stmt -> bindValue(":shipid", $shipping['id']);

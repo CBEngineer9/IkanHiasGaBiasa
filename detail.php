@@ -35,23 +35,32 @@
                 // set the PDO error mode to exception
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-                // TODO update if exists
-                $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername) , :ikan_id, :qty);";
-                $stmt = $conn->prepare($sqlCart);
-                $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
-                $stmt -> bindValue(":ikan_id",$ikan_id); 
+                // update stock
+                $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - :qty FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
+                $stmt = $conn->prepare($sql);
                 $stmt -> bindValue(":qty",$qty); 
+                $stmt -> bindValue(":ikan_id",$ikan_id); 
+                $succUpdate = $stmt -> execute();
 
-                $succInsert = $stmt -> execute();
-
-                if ($succInsert == 1) {
-                    alert("berhasil add to cart");
-                    header("Location:index.php");
+                if ($succUpdate == 1) {
+                    // TODO update if exists
+                    $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername) , :ikan_id, :qty);";
+                    $stmt = $conn->prepare($sqlCart);
+                    $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+                    $stmt -> bindValue(":ikan_id",$ikan_id); 
+                    $stmt -> bindValue(":qty",$qty); 
+    
+                    $succInsert = $stmt -> execute();
+    
+                    if ($succInsert == 1) {
+                        alert("berhasil add to cart");
+                        header("Location:index.php");
+                    }
                 }
 
             } catch(PDOException $e) {
-                // echo "Connection failed: " . $e->getMessage();
-                alert("Connection failed: " . $e->getMessage());
+                echo "Connection failed: " . $e->getMessage();
+                // alert("Connection failed: " . $e->getMessage());
             }
             $conn=null;
         }
@@ -141,7 +150,9 @@
                     <br>
                     <p style="font-size: 1.5em; margin-left:3vw;" class="fs-3"><?= $qResultIkan['description']?></p>
                     <br>
-                    <p style="font-size: 1.5em; margin-left:3vw;" class="fs-3"><input type="number" name="qty" value="1"></p>
+                    <p style="font-size: 1.5em; margin-left:3vw;" class="fs-3"><?= "Stock : ".$qResultIkan['stock'] . " " . $qResultIkan['satuan']?></p>
+                    <br>
+                    <p style="font-size: 1.5em; margin-left:3vw;" class="fs-3"><input type="number" name="qty" value="1" min=1 max=<?= $qResultIkan['stock']?>></p>
                     <br>
                     <input type="hidden" name="ikan_id" value=<?= $ikan_id?>>
                     <button type="submit" name="addCart" style="margin-left:3vw;" class="btn btn-success">Add to Cart</button>

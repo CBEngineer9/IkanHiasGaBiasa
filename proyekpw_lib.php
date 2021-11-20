@@ -11,7 +11,7 @@
         $dbpass = "ikanhia1_proyekpw";
         $dbname = "ikanhia1_proyekpw";
 
-        function alert(String $message = null)
+        function alert(String $message = "")
         {
                 echo `<script>alert($message)</script>`;
         }

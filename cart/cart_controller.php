@@ -1,5 +1,5 @@
 <?php
-    require_once("proyekpw_lib.php");
+    require_once("../proyekpw_lib.php");
 
     $action = $_REQUEST['action'];
     if ($action == "getPriceCount") {
@@ -74,8 +74,25 @@
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
+            // check stock
+            $sql = "SELECT stock FROM ikan WHERE id = :ikan_id";
+            $stmt = $conn->prepare($sql);
+            $stmt -> bindValue(":ikan_id",$ikan_id); 
+            $stmt -> execute();
+            $resultStock = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if ($resultStock['stock'] <= 0) {
+                die("empty");
+            }
+            
+            // update stock
+            $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - :qty FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
+            $stmt = $conn->prepare($sql);
+            $stmt -> bindValue(":qty",$qty); 
+            $stmt -> bindValue(":ikan_id",$ikan_id); 
+            $succUpdate = $stmt -> execute();
+
             // TODO update if exists
-            // TODO check stock
             $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername), :ikan_id, :qty);";
             $stmt = $conn->prepare($sqlCart);
             $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
@@ -174,10 +191,17 @@
         }
         $conn=null;
     } else if ($action == "clearCart") {
+        $order_id = $_REQUEST['order_id'];
         try {
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //set to waiting conf
+            $sql = "UPDATE `htrans` SET `status` = 'Waiting Confirm' WHERE `htrans`.`mid_order_id` = :order_id;";
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindValue(":order_id",$order_id);
+            $stmt->execute();
 
             //clear cart
             $sql = "DELETE FROM `cart` WHERE `user_id` = (SELECT id FROM users WHERE username = :username);";
