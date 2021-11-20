@@ -19,3 +19,4 @@ deployment:
     - /bin/cp register.php $DEPLOYPATH
     - /bin/cp snap_controller.php $DEPLOYPATH
     - /bin/cp upload.php $DEPLOYPATH
+    - /bin/cp user_history.php $DEPLOYPATH
