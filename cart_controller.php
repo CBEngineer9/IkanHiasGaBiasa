@@ -62,6 +62,40 @@
             echo "Connection failed: " . $e->getMessage();
         }
         $conn=null;
+    } else if ($action == 'addItem') {
+        $ikan_id = $_REQUEST['ikan_id'];
+
+        if (!isset($_SESSION['currUsername'])) {
+            die('not_logged_in');
+        }
+
+        try {
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            // TODO update if exists
+            // TODO check stock
+            $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername), :ikan_id, :qty);";
+            $stmt = $conn->prepare($sqlCart);
+            $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+            $stmt -> bindValue(":ikan_id",$ikan_id); 
+            $stmt -> bindValue(":qty",1); 
+
+            $succInsert = $stmt -> execute();
+
+            if ($succInsert == 1) {
+                echo "success" ;
+            } else {
+                echo "fail";
+            }
+
+        } catch(PDOException $e) {
+            // echo "Connection failed: " . $e->getMessage();
+            alert("Connection failed: " . $e->getMessage());
+        }
+        $conn=null;
+
     } else if ($action == 'removeItem') {
         $cart_id = $_REQUEST['cart_id'];
         try {

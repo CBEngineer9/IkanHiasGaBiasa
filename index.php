@@ -702,20 +702,21 @@
                                 )
                                 .append(
                                     $("<p>")
-                                    // .append(
-                                    //     $("<a>")
-                                    //     .addClass("btn btn-success")
-                                    //     .attr("href","#")
-                                    //     .attr("role","button")
-                                    //     .text("Add To Cart")
-                                    // )
+                                    .append(
+                                        $("<a>")
+                                        .addClass("btn btn-success")
+                                        .attr("role","button")
+                                        .text("Add To Cart")
+                                        .click(function() {
+                                            addToCart(ikan["id"]);
+                                        })
+                                    )
                                     .append(
                                         $("<a>")
                                         .click(function() {
-                                            seeDetail(ikan["id"]); // TODO TEST
+                                            seeDetail(ikan["id"]);
                                         })
                                         .addClass("btn btn-primary")
-                                        .attr("href","#")
                                         .attr("role","button")
                                         .text("See Details")
                                     )
@@ -759,7 +760,31 @@
 
 
         function seeDetail(ikan_id) {
+            // TODO chekc login
             window.location.href = "detail.php?ikan_id="+ikan_id;
+        }
+
+        function addToCart(ikan_id) {
+            $.ajax({
+                type:"get",
+                url:"cart_controller.php",
+                data:{
+                    'action':'addItem',
+                    'ikan_id':ikan_id,
+                },
+                success:function(response){
+                    if (response == "not_logged_in"){
+                        alert('Please Login first');
+                    } else if (response == 'success') {
+                        alert('Item successfuly added to cart');
+                    } else {
+                        alert("Failed to add to cart");
+                    }
+                },
+                error:function(response){
+                    alert("AJAX ERROR " + response);
+                }
+            });
         }
         
         // history.pushState('data to be passed', 'Title', '/test');
