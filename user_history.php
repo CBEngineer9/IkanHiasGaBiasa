@@ -46,13 +46,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <title>History User</title>
 </head>
 <body>
 
     <h3>History</h3>
-    <table border="1">
-        <thead>
+    <table class="table">
+        <thead class="table-dark">
             <tr>
                 <th>No.</th>
                 <th>Order Id</th>
@@ -115,4 +116,5 @@
         Total = <?= $total?>
     <?php }?>
 </body>
+<script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 </html>

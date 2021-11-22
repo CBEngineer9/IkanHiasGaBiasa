@@ -91,7 +91,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="assets/img/Logo/tumblr_myvpf71CVu1spjmmdo1_1280.png" width="50px" height="50px" alt=""> 
+                    <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
                     
                     
                 </div>
@@ -105,7 +105,7 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div style="margin-top: 5px;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div style="margin-top: 2vh;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
                     <?php
                         if(!isset($_SESSION['currUser'])){
