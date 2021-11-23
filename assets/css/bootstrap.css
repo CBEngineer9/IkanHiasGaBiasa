@@ -2083,6 +2083,7 @@ fieldset[disabled] .btn-default.active {
   background-color: #333;
 }
 .btn-primary {
+  margin-left: 1vw;
   color: #fff;
   background-color: #428bca;
   border-color: #357ebd;
