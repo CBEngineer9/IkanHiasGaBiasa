@@ -124,7 +124,7 @@ $transaction_details = array(
 // );
 
 // Optional, remove this to display all available payment methods
-$enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
+$enable_payments = array('credit_card','mandiri_clickpay','bca_klikbca',"bca_va","bni_va", "bri_va");
 
 // Fill transaction details
 $transaction = array(

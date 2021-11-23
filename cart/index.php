@@ -224,7 +224,6 @@
                         console.log(response);
                         user = response;
 
-                        // TODO add shipping
                         $.ajax({
                             type:"post",
                             url:"snap_controller.php",
@@ -275,6 +274,7 @@
                                     },
                                     onError: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                        console.log("error");
                                     }
                                 });
                             },

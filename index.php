@@ -5,13 +5,17 @@
     $pageCount = 0;
     
     $searchKey = "";
+    $sort = "";
     $categoryFilter = "category.cat_name";
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
-        if (isset($_GET['searchKey'])) {
+        if (isset($_GET['searchKey']) && $_GET['searchKey'] != 'none') {
             $searchKey = $_GET['searchKey'];
         }
-        if (isset($_GET['categoryFilter'])) {
+        if (isset($_GET['categoryFilter']) && $_GET['categoryFilter'] != 'none') {
             $categoryFilter = "'".$_GET['categoryFilter']."'";
+        }
+        if (isset($_GET['sort']) && $_GET['sort'] != 'none') {
+            $sort = $_GET['sort'];
         }
     }
     if(isset($_REQUEST["btLogout"])){
@@ -27,6 +31,9 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sqlIkan = "SELECT ikan.id, ikan.name, ikan.stock, ikan.price, ikan.imageLink, ikan.description, ikan.satuan , category.cat_name FROM `ikan` JOIN category ON ikan.cat_id = category.cat_id WHERE ikan.isActive = '1' AND category.cat_name = ".$categoryFilter." AND ikan.name LIKE :searchKey";
+        if ($sort != "") {
+            $sqlIkan .= " ORDER BY " . $sort;
+        }
         $sqlIkan .= ";";
 
         $stmt = $conn->prepare($sqlIkan);
@@ -113,8 +120,7 @@
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Signup</a></li>
                     <?php
-                        }
-                        else{
+                        } else {
                     ?>
                         <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
@@ -125,6 +131,10 @@
                     ?>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
+                    <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
+                    <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
+                    <?= ( isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['categoryFilter'] .'">' : "") ?>
+                    <?= ( isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['sort'] .'">' : "") ?>
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
@@ -254,7 +264,7 @@
                     <ul class="list-group">
 
                         <?php foreach ($qresult2 as $row) {?>
-                            <li class="list-group-item" onclick="addCategoryFilter('<?= $row['cat_name']?>')">
+                            <li class="list-group-item clickable" onclick="addCategoryFilter('<?= $row['cat_name']?>')">
                                 <?= $row['cat_name']?>
                                 <span class="label label-primary pull-right"><?= $row['cat_count']?></span>
                                 <!-- TODO coloring -->
@@ -355,7 +365,7 @@
                 <div>
                     <ol class="breadcrumb">
                         <?php if ($categoryFilter != 'category.cat_name') {?>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="./index.php">Home</a></li>
                             <li class="active"><?= substr($categoryFilter,1,strlen($categoryFilter)-2)?></li>
                             <?php } else {?>
                             <li class="active">Home</li>
@@ -372,9 +382,9 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">By Price Low</a></li>
+                                <li><a onclick="addSort('price asc')">By Price Low</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">By Price High</a></li>
+                                <li><a onclick="addSort('price desc')">By Price High</a></li>
                             </ul>
                         </div>
                     </div>
@@ -599,8 +609,8 @@
     <!--Footer end -->
     <!-- PHP passthrough form -->
     <form action="#" method="get" id="searchForm">
-        <!-- <input id="searchKeyInput" type="hidden" name="searchKey" value=""> -->
-        <!-- <input id="categoryInput" type="hidden" name="categoryFilter" value=""> -->
+        <?= ( isset($_GET['categoryFilter']) ? '<input type="hidden" id="categoryFilterInput" name="categoryFilter" value="'. $_GET['categoryFilter'] .'">' : "") ?>
+        <?= ( isset($_GET['sort']) ? '<input type="hidden" name="sort" id="sortInput" value="'. $_GET['sort'] .'">' : "") ?>
     </form>
     <!--Core JavaScript file  -->
     <script src="assets/js/jquery-1.10.2.js"></script>
@@ -617,16 +627,9 @@
         });
 
         var searchKey = `<?= $_GET['searchKey'] ?? "none" ?>`;
-        // var searchKeyExist = <?= ( isset($_GET['searchKey'] ) ? 'true' : "false" )?>;
-        // if (searchKeyExist == true) {
-        //     location.hash = "#ikanSearchDisplay";
-        //     var searchKey = ;
-        // }
         var categoryFilter = `<?= $_GET['categoryFilter'] ?? "none" ?>`;
-        // var isCategoryFilter = <?= ( isset($_GET['categoryFilter'] ) ? 'true' : "false" )?>;
-        // if (isCategoryFilter == true) {
-        //     var categoryFilter = ;
-        // }
+        var sort = `<?= $_GET['sort'] ?? "none" ?>`;
+        var isLoggedIn = <?= isset($_SESSION['currUsername']) ? 'true' : 'false'?>
 
         const qResultIkan = <?=$qResultEncoded?>;
         var pageCount = Math.trunc(qResultIkan.length/6)+1;
@@ -735,21 +738,36 @@
         }
         
         function addCategoryFilter(category) {
-            console.log("hai");
-            let searchForm = document.getElementById("searchForm");
-            if (searchKey != 'none') {
-                console.log(searchKey);
-                let searchKeyInput = document.createElement("input");
-                searchKeyInput.type = "hidden";
-                searchKeyInput.name = "searchKey";
-                searchKeyInput.value = searchKey;
-                searchForm.append(searchKeyInput);
+            // let searchForm = document.getElementById("searchForm");
+            // if (searchKey != 'none') {
+            //     console.log(searchKey);
+            //     let searchKeyInput = document.createElement("input");
+            //     searchKeyInput.type = "hidden";
+            //     searchKeyInput.name = "searchKey";
+            //     searchKeyInput.value = searchKey;
+            //     searchForm.append(searchKeyInput);
+            // }
+            let categoryFilterInput = document.getElementById("categoryFilterInput");
+            if (typeof categoryFilterInput === 'undefined' || categoryFilterInput === null) {
+                categoryFilterInput = document.createElement("input");
+                categoryFilterInput.type = "hidden";
+                categoryFilterInput.name = "categoryFilter";
             }
-            let categoryFilterInput = document.createElement("input");
-            categoryFilterInput.type = "hidden";
-            categoryFilterInput.name = "categoryFilter";
             categoryFilterInput.value = category;
             searchForm.append(categoryFilterInput);
+
+            searchForm.submit();
+        }
+
+        function addSort(sortBy) {
+            let sortInput = document.getElementById("sortInput");
+            if (typeof sortInput === 'undefined' || sortInput === null) {
+                sortInput = document.createElement("input");
+                sortInput.type = "hidden";
+                sortInput.name = "sort";
+            }
+            sortInput.value = sortBy;
+            searchForm.append(sortInput);
 
             searchForm.submit();
         }
@@ -757,7 +775,11 @@
 
         function seeDetail(ikan_id) {
             // TODO chekc login
-            window.location.href = "detail.php?ikan_id="+ikan_id;
+            if (!isLoggedIn) {
+                alert("Please login first");
+            } else {
+                window.location.href = "detail.php?ikan_id="+ikan_id;
+            }
         }
 
         function addToCart(ikan_id) {

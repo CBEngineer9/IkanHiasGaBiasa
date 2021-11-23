@@ -8,7 +8,7 @@
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (isset($_POST['toAdmin'])) {
-            header("Location:index.php");
+            header("Location:control.php");
         }
         if (isset($_POST['order_id'])) {
             $order_id = $_POST['order_id'];
