@@ -394,18 +394,18 @@
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <ul class="pagination alg-right-pad">
-                        <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li>
+                    <ul class="pagination alg-right-pad" id="pagination">
+                        <!-- <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li> -->
                         <?php for ($i=0; $i < $pageCount; $i++) { ?>
                             <!-- <li><a href="#"><?= $i+1?></a></li> -->
-                            <li><a href="#ikanSearchDisplay" onclick="gotoPage(<?= $i+1?>)"><?= $i+1?></a></li>
+                            <!-- <li><a href="#ikanSearchDisplay" onclick="gotoPage(<?= $i+1?>)"><?= $i+1?></a></li> -->
                             
                         <?php }?>
                         <!-- <li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li> -->
-                        <li><a onclick="gotoBoundaryPage('max')">&raquo;</a></li>
+                        <!-- <li><a onclick="gotoBoundaryPage('max')">&raquo;</a></li> -->
                     </ul>
                 </div> 
             </div>
@@ -544,11 +544,14 @@
         const qResultIkan = <?=$qResultEncoded?>;
         var pageCount = Math.trunc(qResultIkan.length/6)+1;
         var currPage = 1;
+        const MAX_PAGE = 5;
 
         gotoPage(1);
+        refreshPagination();
 
         function gotoPage(page){
             // console.log(page);
+            currPage = page;
             page--; // for indexing
 
             for (let i = 0; i < 3; i++) {
@@ -559,9 +562,9 @@
                 const ikan = qResultIkan[i%6 + 6*page];
                 if (typeof ikan === 'undefined' || ikan === null) {
                     // variable is undefined or null
-                    console.log('takada');
+                    // console.log('takada');
                 } else {
-                    console.log('ada');
+                    // console.log('ada');
                     const rownum = Math.trunc(i/2);
                     
                     //     `<div class="col-md-6 text-center col-sm-6 col-xs-6">
@@ -576,13 +579,6 @@
                     //             </div>
                     //         </div>
                     //     </div>`
-
-                    // let row = document.getElementById("ikanRow"+rownum);
-                    // let divIkan = document.getElementById("templateCard").cloneNode(true);
-                    // divIkan.id = "ikan"+ikan[0];
-                    // divIkan.style.display = "block";
-                    // let gambar = divIkan.chil
-                    // row.append(divIkan);
 
                     let divIkan = $("<div>")
                         .attr("id","ikan"+ikan[0])
@@ -637,6 +633,76 @@
                     $("#ikanRow"+rownum).append(divIkan);
                 }
             }
+
+            refreshPagination();
+        }
+
+        function refreshPagination() {
+            let pagination = document.getElementById('pagination');
+            let minOnPagination = currPage - Math.floor(MAX_PAGE / 2);
+            let maxOnPagination = currPage + Math.floor(MAX_PAGE / 2);
+
+            $('#pagination').empty();
+
+            $('#pagination').append(
+                $('<li>').append(
+                    $('<a>').click(
+                    function() {
+                        gotoBoundaryPage('min');
+                    }
+                    ).html('&laquo')
+                )
+            );
+
+            if (minOnPagination > 1) {
+                $('#pagination').append(
+                    $('<li>').append(
+                        $('<a>').click(
+                        function() {
+                            console.log('not implemented yet');
+                        }
+                        ).html('...')
+                    )
+                );
+            }
+
+            for (let i = minOnPagination; i <= maxOnPagination; i++) {
+                if (i>0 && i<=pageCount) {
+                    $('#pagination').append(
+                        $('<li>').append(
+                            $('<a>').click(
+                            function() {
+                                gotoPage(i);
+                            }
+                            ).html(i)
+                        )
+                    );
+                }
+            }
+
+            if (maxOnPagination < pageCount) {
+                $('#pagination').append(
+                    $('<li>').append(
+                        $('<a>').click(
+                        function() {
+                            console.log('not implemented yet');
+                        }
+                        ).html('...')
+                    )
+                );
+            }
+
+            $('#pagination').append(
+                $('<li>').append(
+                    $('<a>').click(
+                    function() {
+                        gotoBoundaryPage('max');
+                    }
+                    ).html('&raquo')
+                )
+            );
+
+            // <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li>
         }
         
         function gotoBoundaryPage(page){

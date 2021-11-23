@@ -12,6 +12,7 @@
         }
         if (isset($_POST['order_id'])) {
             $order_id = $_POST['order_id'];
+            $histRowNum = $_POST['histRowNum'];
             try {
                 $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
                 // set the PDO error mode to exception
@@ -75,7 +76,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($history as $histRow) {?>
+            <?php foreach ($history as $histRowKey => $histRow) {?>
                 <tr>
                     <td><?= $histRow['id_htrans']?></td>
                     <td><?= $histRow['mid_order_id']?></td>
@@ -87,6 +88,7 @@
                         <!-- <button class="showItems" transid='<?= $histRow['id_htrans']?>'>Show Items</button> -->
                         <form action="#" method="post">
                             <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
+                            <input type="hidden" name="histRowNum" value="<?= $histRowKey?>">
                             <input type="submit" value="Show Items">
                         </form>
                     </td>
@@ -121,7 +123,8 @@
                 <?php }?>
             </tbody>
         </table>
-        Total = <?= $total?>
+        Total = <?= $total?><br>
+        Status = <?= $history[$histRowNum]['status']?><br>
     <?php }?>
 </body>
 </html>
