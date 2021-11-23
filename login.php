@@ -29,26 +29,20 @@
             }
             $conn=null;
 
-            if ($username === "admin" && $password==="admin") {
-                //hal admin
-                $_SESSION['admin'] = true;
-                header("Location:./admin");
+            if (empty($username) || empty($password)) {
+                echo '<script>alert("Field tidak boleh kosong")</script>';
             } else {
-                if (empty($username) || empty($password)) {
-                    echo '<script>alert("Field tidak boleh kosong")</script>';
+                if ($result == false) {
+                    echo '<script>alert("Username tidak ditemukan")</script>';
                 } else {
-                    if ($result == false) {
-                        echo '<script>alert("Username tidak ditemukan")</script>';
+                    if ($result['password'] == $password) {
+                        // hal user
+                        // set session
+                        $_SESSION["currUser"] = $result['id'];
+                        $_SESSION["currUsername"] = $result['username'];
+                        header("Location: index.php");
                     } else {
-                        if ($result['password'] == $password) {
-                            // hal user
-                            // set session
-                            $_SESSION["currUser"] = $result['id'];
-                            $_SESSION["currUsername"] = $result['username'];
-                            header("Location: index.php");
-                        } else {
-                            echo '<script>alert("Password salah")</script>';
-                        }
+                        echo '<script>alert("Password salah")</script>';
                     }
                 }
             }

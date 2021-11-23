@@ -9,6 +9,7 @@
 
         if ($user == 'admin' && $pass == 'admin') {
             # admin
+            $_SESSION['admin'] = true;
             header("Location:control.php");
         } else {
             echo "Wrong";
