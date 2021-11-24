@@ -81,6 +81,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>SussyFishy</title>
+    <link rel="icon" href="assets/img/Logo/favicon.ico">
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!-- Fontawesome core CSS -->

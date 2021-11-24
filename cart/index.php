@@ -39,6 +39,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/css/cart.css">
     <title>Cart</title>
+    <link rel="icon" href="assets/img/Logo/favicon.ico">
 </head>
 
 <body>
