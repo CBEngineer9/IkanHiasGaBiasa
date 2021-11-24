@@ -125,6 +125,7 @@
                     ?>
                         <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
+                        <li><a href="user_history.php">History</a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
                     <?php
@@ -241,11 +242,13 @@
                     <ul class="list-group">
 
                         <?php foreach ($qresult2 as $row) {?>
+                            <?php if ($row['cat_name'] != 'dummycat'){?>
                             <li class="list-group-item clickable" onclick="addCategoryFilter('<?= $row['cat_name']?>')">
                                 <?= $row['cat_name']?>
                                 <span class="label label-primary pull-right"><?= $row['cat_count']?></span>
                                 <!-- TODO coloring -->
                             </li>
+                            <?php }?>
                         <?php }?>
                     </ul>
                 </div>
