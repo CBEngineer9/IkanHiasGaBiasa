@@ -169,7 +169,7 @@
 </head>
 <body>
     <form action="#" method="post">
-        <input type="submit" name="toHome" value="Back to home">
+        <input class="btn btn-dark" type="submit" name="toHome" value="Back to home">
     </form>
     <h3>Users</h3>
     <table class="table">
@@ -194,7 +194,7 @@
                     <td>
                         <form action="history.php" method="get">
                             <input type="hidden" name="userid" value="<?= $row['id']?>">
-                            <input type="submit" value="History">
+                            <input class="btn btn-dark" type="submit" value="History">
                         </form>
                     </td>
                 </tr>
@@ -225,11 +225,11 @@
     <h3>Search Transaction</h3>
     <form action="transdetail.php" method="get">
         <input type="text" name="keyword" id="transkeyword" placeholder="Trans id/customer id">
-        <input type="submit" value="Search">
+        <input class="btn btn-dark" type="submit" value="Search">
     </form>
     <br>
 
-    <h3>add Ikan</h3>
+    <h3>Add Ikan</h3>
     <form action="upload.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="namaIkan"> Nama Ikan : </label>
@@ -268,8 +268,10 @@
     <h3>Add Ikan Bulk</h3>
     <form action="bulkInsert.php" method="post" enctype="multipart/form-data">
         <label for="fishCSV">File CSV : </label><input type="file" name="fishCSV" id="fishCSV"><br>
+        <br>
         <label for="imageZip">Image ZIP : </label><input type="file" name="imageZip" id="imageZip"><br>
-        <input type="submit" value="Add Ikan" name="addIkanBulk">
+        <br>
+        <input class="btn btn-dark" type="submit" value="Add Ikan" name="addIkanBulk">
     </form>
 
     <h3>Ikan</h3>
@@ -336,16 +338,17 @@
                             <input type="hidden" name="rowKey" value=<?= $row['id']?>>
                             <input type="hidden" name="isActive" value=<?= $row['isActive']?>>
                             <!-- <input type="submit" name="addStock" value="Add Stock"><br> -->
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#modalForm" onclick="registerIkanId(<?= $row['id']?>)">
+                            <button class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#modalForm" onclick="registerIkanId(<?= $row['id']?>)">
                                 Add Stock
                             </button>
                             <?php 
                             if ($editIkanId == $row['id']) {?>
-                                <input type="submit" name="confEdit" value="Confirm Edit"><br>
+                                <input class="btn btn-dark" type="submit" name="confEdit" value="Confirm Edit"><br>
                             <?php } else { ?>
-                                <input type="submit" name="edit" value="Edit"><br>
+                                <input class="btn btn-dark" type="submit" name="edit" value="Edit"><br>
                             <?php } ?>
-                            <input type="submit" name="toggleStat" value="Toggle Status">
+                            <br>
+                            <input class="btn btn-dark" type="submit" name="toggleStat" value="Toggle Status">
                         </td>
                     </tr>
                 </form>

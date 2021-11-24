@@ -494,10 +494,13 @@
             <div class="col-md-4">
                 <strong>About Us</strong>
                 <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos, et! Sint dolorem itaque inventore provident sed assumenda dolorum impedit atque iure harum quae nisi omnis blanditiis est porro voluptatibus placeat explicabo sit, excepturi, mollitia animi. Itaque veniam expedita ratione dolorum in nihil praesentium magnam voluptates eaque, molestias consectetur accusamus tenetur. Minima molestias asperiores fugiat nam voluptate vero culpa pariatur numquam veniam praesentium, maxime odit ducimus! Omnis repellat qui, repellendus odit maiores impedit ab similique neque, ullam doloribus iure nulla sunt?
+                    <br>
+                    Sussy fishy is an e-commerce website that is dedicated on <br> selling many kinds of fishes. <br>
+                    Developer : Alexander Kevin - 220116902 - Andrew Anderson - 220116904
+
                 </p>
 
-                2014 www.yourdomain.com | All Right Reserved
+                2021 https://ikanhiasgabiasa.masuk.web.id/ | All Right Reserved
             </div>
             <div class="col-md-4 social-box">
                 <strong>We are Social </strong>
@@ -509,7 +512,7 @@
                 <a href="#"><i class="fa fa-linkedin-square fa-3x "></i></a>
                 <a href="#"><i class="fa fa-pinterest-square fa-3x "></i></a>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. La luce che tu dai Nel cuore resterà A ricordarci che L'eterna stella sei. Nella mia preghiera Quanta fede c'è
+                    Follow us on Social Media!
                 </p>
             </div>
         </div>
@@ -517,7 +520,7 @@
     </div>
     <!-- /.col -->
     <div class="col-md-12 end-box ">
-        &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; www.yourdomain.com | &nbsp; 24x7 support | &nbsp; Email us: info@yourdomain.com
+        &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support 
     </div>
     <!-- /.col -->
     <!--Footer end -->

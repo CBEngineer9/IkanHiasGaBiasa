@@ -57,23 +57,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History User</title>
     <link rel="icon" href="assets/img/Logo/favicon.ico">
+    <link rel="stylesheet" href="../assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
 </head>
+<style>
+    body{
+        padding: 10px;
+    }
+</style>
 <body>
+    <br>
+    <div class="ms-2 ">
     <form action="#" method="post">
-        <input type="submit" name="toAdmin" value="Back to admin">
+        <input class="btn btn-dark" type="submit" name="toAdmin" value="Back to admin">
     </form>
-
-    <h3>History</h3>
-    <table border="1">
-        <thead>
+    </div>
+    <br>
+    <h3 class="ms-2">History</h3>
+    <table class="mx-auto table">
+        <thead class="table-dark">
             <tr>
-                <th>id_trans</th>
-                <th>midtrans order id</th>
-                <th>username</th >
-                <th>shipping name</th>
-                <th>transaction timestamp</th>
-                <th>status</th>
-                <th>items</th>
+                <th>Transaction ID</th>
+                <th>Midtrans Order ID</th>
+                <th>Username</th >
+                <th>Shipping Name</th>
+                <th>Transaction Timestamp</th>
+                <th>Status</th>
+                <th>Items</th>
             </tr>
         </thead>
         <tbody>
@@ -81,16 +90,16 @@
                 <tr>
                     <td><?= $histRow['id_htrans']?></td>
                     <td><?= $histRow['mid_order_id']?></td>
-                    <td><?= $histRow['username']?></td>
+                    <td style="text-transform:capitalize"><?= $histRow['username']?></td>
                     <td><?= $histRow['ship_name']?></td>
                     <td><?= $histRow['trans_time']?></td>
-                    <td><?= $histRow['status']?></td>
+                    <td style="text-transform:capitalize"><?= $histRow['status']?></td>
                     <td>
                         <!-- <button class="showItems" transid='<?= $histRow['id_htrans']?>'>Show Items</button> -->
                         <form action="#" method="post">
                             <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
                             <input type="hidden" name="histRowNum" value="<?= $histRowKey?>">
-                            <input type="submit" value="Show Items">
+                            <input class="btn btn-dark" type="submit" value="Show Items">
                         </form>
                     </td>
                 </tr>
@@ -101,7 +110,7 @@
     <br><br><br><br>
 
     <?php if (isset($order_id)) {?>
-        Order ID = <?= $histItems[0]['id_htrans']?>
+        Order ID = <?=$histItems[0]['id_htrans']?>
         <table border="1">
             <thead>
                 <tr>
