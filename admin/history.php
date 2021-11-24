@@ -110,14 +110,14 @@
     <br><br><br><br>
 
     <?php if (isset($order_id)) {?>
-        Order ID = <?=$histItems[0]['id_htrans']?>
-        <table border="1">
-            <thead>
+        <h3>Order ID = <?=$histItems[0]['id_htrans']?></h3>
+        <table class="table">
+            <thead class="table-dark">
                 <tr>
-                    <th>nama ikan</th>
-                    <th>price</th>
-                    <th>qty</th>
-                    <th>subtotal</th>
+                    <th>Nama Ikan</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -127,14 +127,14 @@
                         <td><?= $histRow['name']?></td>
                         <td><?= $histRow['price']?></td>
                         <td><?= $histRow['qty']?></td>
-                        <td><?= $histRow['price'] * $histRow['qty']?></td>
+                        <td>Rp. <?= $histRow['price'] * $histRow['qty']?></td>
                     </tr>
                     <?php $total += $histRow['price'] * $histRow['qty']?>
                 <?php }?>
             </tbody>
         </table>
-        Total = <?= $total?><br>
-        Status = <?= $history[$histRowNum]['status']?><br>
+        <h4>Total : Rp. <?= $total?></h4><br>
+        <h4>Status : <?= $history[$histRowNum]['status']?></h4><br>
     <?php }?>
 </body>
 </html>
