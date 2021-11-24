@@ -22,6 +22,7 @@
             $editCatRow = $_POST['editCatRow'.$rowKey];
             $editStockRow = $_POST['editStockRow'.$rowKey];
             $editPriceRow = $_POST['editPriceRow'.$rowKey];
+            $editSatuanRow = $_POST['editSatuanRow'.$rowKey];
 
             //update 
             try {
@@ -35,6 +36,7 @@
                             `cat_id` = :cat_id ,
                             `stock` = :stock ,
                             `price` = :price ,
+                            `satuan` = :satuan ,
                             `description` = :descript 
                         WHERE `ikan`.`id` = :idIkan;";
                 $stmt = $conn->prepare($sql);
@@ -43,6 +45,7 @@
                 $stmt -> bindParam(":cat_id",$editCatRow);
                 $stmt -> bindParam(":stock",$editStockRow);
                 $stmt -> bindParam(":price",$editPriceRow);
+                $stmt -> bindParam(":satuan",$editSatuanRow);
                 $stmt -> bindParam(":descript",$editDescRow);
                 $qresultEdit = $stmt -> execute();
             } catch(PDOException $e) {
@@ -261,6 +264,12 @@
         </div>
     </form>
 
+    <h3>Add Ikan Bulk</h3>
+    <form action="bulkInsert.php" method="post" enctype="multipart/form-data">
+        <label for="fishCSV">File CSV : </label><input type="file" name="fishCSV" id="fishCSV"><br>
+        <label for="imageZip">Image ZIP : </label><input type="file" name="imageZip" id="imageZip"><br>
+        <input type="submit" value="Add Ikan" name="addIkanBulk">
+    </form>
 
     <h3>Ikan</h3>
     <table class="table">
@@ -271,6 +280,7 @@
                 <th scope="col">category</th>
                 <th scope="col">stock</th>
                 <th scope="col">harga</th>
+                <th scope="col">satuan</th>
                 <th style="width: 100px;" scope="col">gambar</th>
                 <th scope="col">isActive</th>
                 <th scope="col">action</th>
@@ -301,6 +311,9 @@
                                 <input type="text" name="editPriceRow<?= $row['id']?>" id="editPriceRow<?= $row['id']?>" value="<?= $row['price']?>">
                             </td>
                             <td>
+                                <input type="text" name="editSatuanRow<?= $row['id']?>" id="editSatuanRow<?= $row['id']?>" value="<?= $row['satuan']?>">
+                            </td>
+                            <td>
                                 <img style="width: 100px;" src="../<?= $row['imageLink']?>" alt="">
                             </td>
                             <td>
@@ -312,6 +325,7 @@
                             <td><?= $row['cat_name']?></td>
                             <td id="stock<?= $row['id']?>"><?= $row['stock']?></td>
                             <td><?= $row['price']?></td>
+                            <td><?= $row['satuan']?></td>
                             <td><img src="../<?= $row['imageLink']?>" alt=""></td>
                             <td><?= $row['isActive']?></td>
                         <?php }?>
