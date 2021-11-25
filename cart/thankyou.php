@@ -1,5 +1,12 @@
 <?php
     require_once("../proyekpw_lib.php");
+
+    // $response = json_decode($_GET['response'],true);
+    $amount = $_GET['amount'];
+    $payment_type = $_GET['payment_type'];
+    $transaction_time = $_GET['transaction_time'];
+    $order_id = $_GET['order_id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -60,23 +67,23 @@
     <h1 style="text-align: center;">Payment Successful! <img style="width: 80px; height:50px;"  src="../assets/img/icon/check-correct.gif" alt=""></h1>
         <div  style="margin-left:200px;">
         <br>
-            <span style="font-weight:bold">Amount</span> <span style="margin-left:10vw;">Rp. 100000</span>
+            <span style="font-weight:bold">Amount</span> <span style="margin-left:10vw;">Rp. <?= $amount?></span>
             <br>
             <br>
-            <span style="font-weight:bold">Payment Method</span> <span style="margin-left:6.5vw;">Virtual Account</span>
+            <span style="font-weight:bold">Payment Method</span> <span style="margin-left:6.5vw;"><?= $payment_type?></span>
             <br>
             <br>
-            <span style="font-weight:bold">Date</span> <span style="margin-left:11.5vw;">25/11/2021</span>
+            <span style="font-weight:bold">Date</span> <span style="margin-left:11.5vw;"><?= $transaction_time?></span>
             <br>
             <br>
-            <span style="font-weight:bold">Transaction ID </span> <span style="margin-left:7.8vw;">ID001</span>
+            <span style="font-weight:bold">Transaction ID </span> <span style="margin-left:7.8vw;"><?= $order_id?></span>
             <br>
             <br>
             <br>
             <br>
         </div>
         <h1 class="start-50" style="text-align: center;">Thank You!</h1>
-        <a href="index.php"><div style="margin-left:330px;" class="btn btn-success">Back to Home</div></a>
+        <a href="../index.php"><div style="margin-left:330px;" class="btn btn-success">Back to Home</div></a>
         </div>
 </button>
         <br>

@@ -240,6 +240,7 @@
                                     onSuccess: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                                         console.log(result);
+                                        let midResult = result;
                                         $.ajax({
                                             type:"post",
                                             url:"cart_controller.php",
@@ -249,13 +250,13 @@
                                             },
                                             success:function(response){
                                                 console.log('cart cleared');
-                                                window.location.href = "thankyou.php";
+                                                // window.location.href = "thankyou.php?response=" + JSON.stringify(midResult);
+                                                window.location.href = "thankyou.php?amount=" + midResult['gross_amount'] + "&payment_type=" + midResult['payment_type'] + "&transaction_time=" + midResult['transaction_time'] + "&order_id=" +  midResult['order_id'] ;
                                             },
                                             error:function(response){
                                                 alert("AJAX ERROR " + response);
                                             }
                                         });
-                                        // TODO : redirect to thankyou
                                     },
                                     onPending: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
