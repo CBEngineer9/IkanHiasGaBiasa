@@ -20,12 +20,6 @@
                <a href="../index.php"><img style="margin-top:10px; margin-bottom:10px;" src="../assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> </a> 
                 </div>
 
-                <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
