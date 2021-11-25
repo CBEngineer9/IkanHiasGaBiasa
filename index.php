@@ -125,7 +125,7 @@
                     ?>
                         <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
-                        <li><a href="user_history.php">History</a></li>
+                        <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
                     <?php
@@ -522,6 +522,9 @@
     <div class="col-md-12 end-box ">
         &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support 
     </div>
+    <div class="notif" id="notif" style="display: none;">
+        New Notification !
+    </div>
     <!-- /.col -->
     <!--Footer end -->
     <!-- PHP passthrough form -->
@@ -552,6 +555,13 @@
         var pageCount = Math.trunc(qResultIkan.length/6)+1;
         var currPage = 1;
         const MAX_PAGE = 5;
+        var lastNotifCount = 0;
+        var notifChecker;
+
+        checkNotif();
+        notifChecker = setInterval(() => {
+            checkNotif();
+        }, 5000);
 
         gotoPage(1);
         refreshPagination();
@@ -757,7 +767,7 @@
 
 
         function seeDetail(ikan_id) {
-            // TODO chekc login
+            // chekc login
             if (!isLoggedIn) {
                 alert("Please login first");
             } else {
@@ -782,6 +792,32 @@
                         alert('Item successfuly added to cart');
                     } else {
                         alert("Failed to add to cart");
+                    }
+                },
+                error:function(response){
+                    alert("AJAX ERROR " + response);
+                }
+            });
+        }
+
+        function checkNotif() {
+            $.ajax({
+                type:"get",
+                url:"index_controller.php",
+                data:{
+                    'action':'checkNotif',
+                },
+                success:function(response){
+                    if (response > 0) {
+                        $('#histNotifBadge').text(response);
+                        if (response > lastNotifCount) {
+                            $('#notif').show(1,'linear',function() {
+                                setTimeout(() => {
+                                    $('#notif').fadeOut(3000);
+                                }, 5000);
+                            });
+                            lastNotifCount = response;
+                        }
                     }
                 },
                 error:function(response){

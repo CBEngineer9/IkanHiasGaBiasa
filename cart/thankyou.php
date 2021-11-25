@@ -1,10 +1,14 @@
+<?php
+    require_once("../proyekpw_lib.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <title>Document</title>
 </head>
 <body>
@@ -13,26 +17,33 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                <div class="logo" style="width: 10vw;">
-               <a href="index.php"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> </a> 
+               <a href="../index.php"><img style="margin-top:10px; margin-bottom:10px;" src="../assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> </a> 
                 </div>
+
+                <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div style="margin-top: 2vh;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
                     <?php
-                        if(!isset($_SESSION['currUser'])){
+                        if(!isset($_SESSION['currUsername'])){
                     ?>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Signup</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../register.php">Signup</a></li>
                     <?php
                         } else {
                     ?>
                         <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
                         <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
-                        <li><a href="user_history.php">History</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                        <li><a href="../user_history.php">History</a></li>
+                        <li><a href="../logout.php">Logout</a></li>
+                        <li><a href="./"><img src="../assets/img/icon/cart-2-24.png" alt=""></a></li>
                     <?php
                         }
                     ?>
@@ -57,7 +68,7 @@
     <br>
     <br>
         <h1 style="text-align: center;">Payment Successful!</h1>
-        <img style="width: 80px; height:50px; margin-left:31vw;" src="./assets/img/icon/check-correct.gif" alt="">
+        <img style="width: 80px; height:50px; margin-left:31vw;" src="../assets/img/icon/check-correct.gif" alt="">
         <div class="sm" style="margin-left:25vw;">
         <br>
             <span style="font-weight:bold">Amount</span> <span style="margin-left:10vw;">Rp. 100000</span>

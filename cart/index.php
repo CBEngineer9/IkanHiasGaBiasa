@@ -249,6 +249,7 @@
                                             },
                                             success:function(response){
                                                 console.log('cart cleared');
+                                                window.location.href = "thankyou.php";
                                             },
                                             error:function(response){
                                                 alert("AJAX ERROR " + response);

@@ -27,7 +27,7 @@
         // set the PDO error mode to exception
         $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        $sql = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE `id_user` = (SELECT id FROM users WHERE username = :currUsername);";
+        $sql = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status, ht.notif_seen FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE `id_user` = (SELECT id FROM users WHERE username = :currUsername);";
         $stmt = $conn -> prepare($sql);
         $stmt -> bindValue(":currUsername", $_SESSION['currUsername']);
         $stmt -> execute();
@@ -49,6 +49,11 @@
     <link rel="stylesheet" href="./assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <title>History User</title>
     <link rel="icon" href="assets/img/Logo/favicon.ico">
+    <style>
+        .notifNew{
+            background-color: lightgreen;
+        }
+    </style>
 </head>
 <style>
     body,html{
@@ -120,7 +125,7 @@
         <tbody>
             <?php $histCtr = 0;?>
             <?php foreach ($history as $histRow) {?>
-                <tr>
+                <tr <?= ($histRow['notif_seen'] == 0) ? 'class="notifNew"' : "" ?>>
                     <td style="text-align: center;"><?= ++$histCtr?></td>
                     <td style="text-align: center;"><?= $histRow['mid_order_id']?></td>
                     <td style="text-align: center;"><?= $histRow['ship_name']?></td>
@@ -129,7 +134,7 @@
                             <td class="table-warning" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
                         <?php
                             }
-                            else if($histRow['status']== "sucess" || $histRow['status']== "settlement"){
+                            else if($histRow['status']== "Success" || $histRow['status']== "Settlement"){
                         ?>
                             <td class="table-success" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
                         <?php
@@ -186,3 +191,20 @@
 </body>
 <script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 </html>
+
+<?php
+    // update seen notif
+    try {
+        $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $sql = "UPDATE `htrans` SET `notif_seen` = 1 WHERE `notif_seen` = 0;";
+        $stmt = $conn -> prepare($sql);
+        $succInsert = $stmt->execute();
+
+    } catch(\PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+    $conn=null;
+?>

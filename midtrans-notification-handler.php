@@ -66,7 +66,7 @@
         // set the PDO error mode to exception
         $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        $sql = "UPDATE `htrans` SET `status` = :newStatus WHERE `mid_order_id` = :mid_order_id;";
+        $sql = "UPDATE `htrans` SET `status` = :newStatus, `notif_seen` = 0 WHERE `mid_order_id` = :mid_order_id;";
         $stmt = $conn -> prepare($sql);
         $stmt -> bindValue(":mid_order_id",$order_id);
         $stmt -> bindValue(":newStatus", $newStatus);
@@ -74,7 +74,8 @@
 
         echo "200";
     } catch(\PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
+        // echo "Connection failed: " . $e->getMessage();
+        echo "500";
     }
     $conn=null;
 
