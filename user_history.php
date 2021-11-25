@@ -46,9 +46,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <title>History User</title>
     <link rel="icon" href="assets/img/Logo/favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Fontawesome core CSS -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!--GOOGLE FONT -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <!--Slide Show Css -->
+    <link href="assets/ItemSlider/css/main-style.css" rel="stylesheet" />
+    <!-- custom CSS here -->
+    <link href="assets/css/style.css" rel="stylesheet" />
     <style>
         .notifNew{
             background-color: lightgreen;
@@ -60,46 +70,57 @@
         margin:0;
         padding:0;
     }
+    li, a{
+        color: white;
+    }
 </style>
 <body>
-    <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray; width:100vw;" class="navbar navbar-default" role="navigation">
+<nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray;" class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-               <div class="logo" style="width: 10vw;">
-               <a href="index.php"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> </a> 
+                <div class="logo" style="width: 10vw;">
+                    <a href="index.php"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""></a>
                 </div>
+
+                <button type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div style="margin-top: 2vh;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div style="margin-top: 2vh;" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
                     <?php
-                        if(!isset($_SESSION['currUser'])){
+                    if (!isset($_SESSION['currUser'])) {
                     ?>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Signup</a></li>
+                        <li><a href="about.php">About Us</a></li>
+                        <li><a href="login.php">Login</a></li>
+                        <li><a href="register.php">Signup</a></li>
                     <?php
-                        } else {
+                    } else {
                     ?>
-                        <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
-                        <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
-                        <li><a href="user_history.php">History</a></li>
+                        
+                        <li><a href="profile.php">Hai, <?=$_SESSION['currUsername']?></a></li>
+                        <li><a href="about.php">About Us</a></li>
                         <li><a href="logout.php">Logout</a></li>
-                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
-                    <?php
-                        }
-                    ?>
+                        <?php
+                    }
+                        ?>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
-                    <?= ( isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['categoryFilter'] .'">' : "") ?>
-                    <?= ( isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['sort'] .'">' : "") ?>
+                    <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
+                    <?= (isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['sort'] . '">' : "") ?>
+                    
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
-                    &nbsp; 
+                    &nbsp;
                     <button style="margin-top: 5px;" type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
@@ -112,7 +133,7 @@
     <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
     <br>
     <table class="table" style="margin-left: 10vw; width:80vw;">
-        <thead class="table-dark">
+        <thead style="background-color: gray; color:white;">
             <tr>
                 <th style="text-align: center;">No.</th>
                 <th style="text-align: center;">Order Id</th>
@@ -131,17 +152,17 @@
                     <td style="text-align: center;"><?= $histRow['ship_name']?></td>
                     <td style="text-align: center;"><?= $histRow['trans_time']?></td>
                     <?php if($histRow['status']== "pending" || $histRow['status']== "attempted" || $histRow['status']== "challenge"){?>
-                            <td class="table-warning" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                            <td style="text-transform: capitalize; text-align:center; background-color: #fff3cd;"><?=$histRow['status']?></td>
                         <?php
                             }
                             else if($histRow['status']== "Success" || $histRow['status']== "Settlement"){
                         ?>
-                            <td class="table-success" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                            <td style="background-color: #d1e7dd; text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
                         <?php
                             }
                             else if($histRow['status']== "cancel" || $histRow['status']== "deny" || $histRow['status']== "expire"){
                         ?>
-                            <td class="table-danger" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                            <td style="background-color: #f8d7da; text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
                         <?php
                             }
                         ?>
@@ -149,7 +170,7 @@
                         <!-- <button class="showItems" transid='<?= $histRow['id_htrans']?>'>Show Items</button> -->
                         <form action="#" method="post">
                             <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
-                            <input class="btn-dark" style="width:99%;" type="submit" value="Show Items">
+                            <input  style="width:99%; background-color:gray; color:white;" type="submit" value="Show Items">
                         </form>
                     </td>
                 </tr>
@@ -162,7 +183,7 @@
     <?php if (isset($order_id)) {?>
         <div style="margin-left: 10vw;"><h3>Order ID = <?= $histItems[0]['id_htrans']?></h3></div>
         <table class="table" style="margin-left: 10vw; width:80vw;">
-            <thead class="table-dark ">
+            <thead style="background-color: gray; color:white;">
                 <tr>
                     <th style="text-align: center;">No.</th>
                     <th style="text-align: center;">Nama Ikan</th>
