@@ -50,34 +50,101 @@
     <title>History User</title>
     <link rel="icon" href="assets/img/Logo/favicon.ico">
 </head>
+<style>
+    body,html{
+        margin:0;
+        padding:0;
+    }
+</style>
 <body>
+    <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray; width:100vw;" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               <div class="logo" style="width: 10vw;">
+               <a href="index.php"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> </a> 
+                </div>
+            </div>
 
-    <h3>History</h3>
-    <table class="table">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div style="margin-top: 2vh;"  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul style="margin-top: 5px;" class="nav navbar-nav navbar-right">
+                    <?php
+                        if(!isset($_SESSION['currUser'])){
+                    ?>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="register.php">Signup</a></li>
+                    <?php
+                        } else {
+                    ?>
+                        <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
+                        <li><a href=""> Hai, <?=$_SESSION['currUsername']?>!</a></li>
+                        <li><a href="user_history.php">History</a></li>
+                        <li><a href="logout.php">Logout</a></li>
+                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                    <?php
+                        }
+                    ?>
+                </ul>
+                <form class="navbar-form navbar-right" role="search" method="get">
+                    <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
+                    <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
+                    <?= ( isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['categoryFilter'] .'">' : "") ?>
+                    <?= ( isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['sort'] .'">' : "") ?>
+                    <div class="form-group">
+                        <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
+                    </div>
+                    &nbsp; 
+                    <button style="margin-top: 5px;" type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <br>
+    <a href="index.php"><div style="margin-left: 10vw;" class="btn btn-dark">Back to Home</div></a>
+    <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
+    <br>
+    <table class="table" style="margin-left: 10vw; width:80vw;">
         <thead class="table-dark">
             <tr>
-                <th>No.</th>
-                <th>Order Id</th>
-                <th>Shipping Name</th>
-                <th>Transaction Timestamp</th>
-                <th>Status</th>
-                <th>Items</th>
+                <th style="text-align: center;">No.</th>
+                <th style="text-align: center;">Order Id</th>
+                <th style="text-align: center;">Shipping Name</th>
+                <th style="text-align: center;">Transaction Timestamp</th>
+                <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Items</th>
             </tr>
         </thead>
         <tbody>
             <?php $histCtr = 0;?>
             <?php foreach ($history as $histRow) {?>
                 <tr>
-                    <td><?= ++$histCtr?></td>
-                    <td><?= $histRow['mid_order_id']?></td>
-                    <td><?= $histRow['ship_name']?></td>
-                    <td><?= $histRow['trans_time']?></td>
-                    <td><?= $histRow['status']?></td>
+                    <td style="text-align: center;"><?= ++$histCtr?></td>
+                    <td style="text-align: center;"><?= $histRow['mid_order_id']?></td>
+                    <td style="text-align: center;"><?= $histRow['ship_name']?></td>
+                    <td style="text-align: center;"><?= $histRow['trans_time']?></td>
+                    <?php if($histRow['status']== "pending" || $histRow['status']== "attempted" || $histRow['status']== "challenge"){?>
+                            <td class="table-warning" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                        <?php
+                            }
+                            else if($histRow['status']== "sucess" || $histRow['status']== "settlement"){
+                        ?>
+                            <td class="table-success" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                        <?php
+                            }
+                            else if($histRow['status']== "cancel" || $histRow['status']== "deny" || $histRow['status']== "expire"){
+                        ?>
+                            <td class="table-danger" style="text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
+                        <?php
+                            }
+                        ?>
                     <td>
                         <!-- <button class="showItems" transid='<?= $histRow['id_htrans']?>'>Show Items</button> -->
                         <form action="#" method="post">
                             <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
-                            <input type="submit" value="Show Items">
+                            <input class="btn-dark" style="width:99%;" type="submit" value="Show Items">
                         </form>
                     </td>
                 </tr>
@@ -88,15 +155,15 @@
     <br><br><br><br>
 
     <?php if (isset($order_id)) {?>
-        Order ID = <?= $histItems[0]['id_htrans']?>
-        <table border="1">
-            <thead>
+        <div style="margin-left: 10vw;"><h3>Order ID = <?= $histItems[0]['id_htrans']?></h3></div>
+        <table class="table" style="margin-left: 10vw; width:80vw;">
+            <thead class="table-dark ">
                 <tr>
-                    <th>No.</th>
-                    <th>nama ikan</th>
-                    <th>price</th>
-                    <th>qty</th>
-                    <th>subtotal</th>
+                    <th style="text-align: center;">No.</th>
+                    <th style="text-align: center;">Nama Ikan</th>
+                    <th style="text-align: center;">Price</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: center;">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,17 +171,17 @@
                 <?php $histCtr = 0;?>
                 <?php foreach ($histItems as $histRow) {?>
                     <tr>
-                        <td><?= ++$histCtr?></td>
-                        <td><?= $histRow['name']?></td>
-                        <td><?= $histRow['price']?></td>
-                        <td><?= $histRow['qty']?></td>
-                        <td><?= $histRow['price'] * $histRow['qty']?></td>
+                        <td style="text-align: center;"><?= ++$histCtr?></td>
+                        <td style="text-align: center;"><?= $histRow['name']?></td>
+                        <td style="text-align: center;">Rp. <?= $histRow['price']?></td>
+                        <td style="text-align: center;"><?= $histRow['qty']?></td>
+                        <td style="text-align: center;">Rp. <?= $histRow['price'] * $histRow['qty']?></td>
                     </tr>
                     <?php $total += $histRow['price'] * $histRow['qty']?>
                 <?php }?>
             </tbody>
         </table>
-        Total = <?= $total?>
+        <div style="margin-left: 10vw;"> <h3>Total = Rp. <?= $total?></h3></div>
     <?php }?>
 </body>
 <script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
