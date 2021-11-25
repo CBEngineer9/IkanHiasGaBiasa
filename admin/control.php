@@ -171,36 +171,8 @@
     <form action="#" method="post">
         <input class="btn btn-dark" type="submit" name="toHome" value="Back to home">
     </form>
-    <h3>Users</h3>
-    <table class="table">
-        <thead class="table-dark">
-            <tr>
-                <th>id</th>
-                <th>username</th>
-                <th>password</th>
-                <th>email</th>
-                <th>phone</th>
-                <th>history</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($qresult2 as $row ) {?>
-                <tr>
-                    <td><?= $row['id']?></td>
-                    <td><?= $row['username']?></td>
-                    <td><?= "password here" //$row['password'] ?></td>
-                    <td><?= $row['email']?></td>
-                    <td><?= $row['phone']?></td>
-                    <td>
-                        <form action="history.php" method="get">
-                            <input type="hidden" name="userid" value="<?= $row['id']?>">
-                            <input class="btn btn-dark" type="submit" value="History">
-                        </form>
-                    </td>
-                </tr>
-            <?php }?>
-        </tbody>
-    </table>
+
+    <h3><a href="users.php">Users</a> <a href="transaction.php">Transactions</a> </h3>
 
     <h3>Monthly Report</h3>
     <table class="table">
@@ -221,13 +193,6 @@
             <?php }?>
         </tbody>
     </table>
-
-    <h3>Search Transaction</h3>
-    <form action="transdetail.php" method="get">
-        <input type="text" name="keyword" id="transkeyword" placeholder="Trans id/customer id">
-        <input class="btn btn-dark" type="submit" value="Search">
-    </form>
-    <br>
 
     <h3>Add Ikan</h3>
     <form action="upload.php" method="post" enctype="multipart/form-data">
@@ -348,6 +313,7 @@
                                 <input class="btn btn-dark" type="submit" name="edit" value="Edit"><br>
                             <?php } ?>
                             <br>
+                            <input class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edPicModal" data-bs-ikanid="<?= $row['id']?>" type="button" name="editPic" value="Edit Picture">
                             <input class="btn btn-dark" type="submit" name="toggleStat" value="Toggle Status">
                         </td>
                     </tr>
@@ -402,6 +368,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Picture Modal -->
+    <div class="modal" id="edPicModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" name="newPic" id="newPic">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confEditPic">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     var addStockIkanId;
@@ -445,6 +430,46 @@
             });
         }
     }
+
+    var edPicModal = document.getElementById('edPicModal')
+    edPicModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var ikan_id = button.getAttribute('data-bs-ikanid')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = edPicModal.querySelector('.modal-title')
+        modalTitle.textContent = 'Edit picture ' + ikan_id
+        $('#confEditPic').on('click', function() {
+            editPicture(ikan_id);
+        });
+    })
+
+    function editPicture(id) {
+        var file_data = $('#newPic').prop('files')[0];   
+        var form_data = new FormData();                  
+        form_data.append('newPic', file_data);
+        form_data.append('ikan_id', id);
+        form_data.append('action', 'editPicture');
+        $.ajax({
+            url: 'admin_ajax.php', // <-- point to server-side PHP script 
+            dataType: 'text',  // <-- what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function(php_script_response){
+                alert(php_script_response); // <-- display response from the PHP script, if any
+                location.reload();
+                //TODO bug not realod if esc
+            }
+        });
+    }
+
 </script>
 </html>
 

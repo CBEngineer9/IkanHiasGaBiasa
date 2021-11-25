@@ -2,7 +2,16 @@
 Proyek PW Jual Ikan Hias
 TODO : 
 folder cleanup
-history formatting
+history pagination
 more detail on order report?
+edit account
 acc/deny trans
-admin edit ikan picture
+admin trans list
+admin sort
+admin pagination
+admin delivery
+about us
+ajax register?
+test admin del user
+change admin user pass
+Kenzie proofing
