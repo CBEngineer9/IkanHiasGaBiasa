@@ -80,5 +80,6 @@
         <br>
         <br>
     </div>
+    <a href="index.php"><div style="margin-top: 4vh; margin-left:15.5vw;" class="btn btn-success">Back to Home</div></a>
 </body>
 </html>
