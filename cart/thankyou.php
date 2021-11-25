@@ -58,12 +58,11 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <div class="container" style="margin-top: 15vh; border:1px solid lightgray; width:90vw;">
+    <div class="container" style="margin-top: 15vh; border:1px solid lightgray; width:95vw;">
     <br>
     <br>
-        <h1 style="text-align: center;">Payment Successful!</h1>
-        <img style="width: 80px; height:50px; margin-left:31vw;" src="../assets/img/icon/check-correct.gif" alt="">
-        <div class="sm" style="margin-left:25vw;">
+    <h1 style="text-align: center;">Payment Successful! <img style="width: 80px; height:50px;" src="../assets/img/icon/check-correct.gif" alt=""></h1>
+        <div class="sm" style="margin-left:23vw;">
         <br>
             <span style="font-weight:bold">Amount</span> <span style="margin-left:10vw;">Rp. 100000</span>
             <br>
@@ -81,10 +80,10 @@
             <br>
         </div>
         <h1 style="text-align: center;">Thank You!</h1>
+        <a href="index.php"><div style="margin-top: 4vh; margin-left:30vw;" class="btn btn-success">Back to Home</div></a>
         <br>
         <br>
         <br>
     </div>
-    <a href="index.php"><div style="margin-top: 4vh; margin-left:15.5vw;" class="btn btn-success">Back to Home</div></a>
 </body>
 </html>
