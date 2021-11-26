@@ -32,6 +32,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../assets/bootstrap5/bootstrap-5.1.3-dist/css/bootstrap.min.css">
 </head>
 <body>
     <h3>Search Transaction</h3>
@@ -57,7 +58,7 @@
     <button onclick="getTrans(1)">Filter</button>
     <br>
 
-    <table border="1">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Order Id</th>
@@ -79,7 +80,8 @@
 
     <div id="details" style="display: none;">
         Order ID = <span id="order_id"></span>
-        <table border="1">
+        <button id="refund" data-bs-toggle="modal" data-bs-target="#refundPopup">Refund Order</button>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>nama ikan</th>
@@ -94,7 +96,27 @@
         </table>
         Total = Rp. <span id="total"></span>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="refundPopup">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Refund</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="refundReason">Reason : </label>
+                    <input type="text" name="refundReason" id="refundReason">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="refund()">Refund</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="../assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
 <script>
 
     getTrans(1);
@@ -118,7 +140,7 @@
                 'payStatusFilter':payStatusFilter,
             },
             success:function(response){
-                respDecoded = JSON.parse(response);
+                let respDecoded = JSON.parse(response);
                 console.log(respDecoded);
                 let page = respDecoded['page'];
                 let list = respDecoded['list'];
@@ -143,7 +165,7 @@
                             $('<td>').text(trans['trans_time'])
                         )
                         .append(
-                            $('<td>').text(trans['status'])
+                            $('<td>').attr("id","status_"+trans['mid_order_id']).text(trans['status'])
                         )
                         .append(
                             $('<td>').text(trans['delivery_status'])
@@ -191,8 +213,7 @@
                 'order_id':id,
             },
             success:function(response){
-                respDecoded = JSON.parse(response);
-                console.log(respDecoded);
+                let respDecoded = JSON.parse(response);
                 let detail = respDecoded['detail'];
                 let items = respDecoded['items'];
                 let total = 0;
@@ -223,6 +244,49 @@
                 $('#total').text(total);
 
                 $("#details").show();
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
+    }
+
+    var refundPopup = document.getElementById('refundPopup');
+    refundPopup.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-whatever')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = refundPopup.querySelector('.modal-title')
+
+        let order_id = $("#order_id").text();
+        modalTitle.textContent = 'Refund ' + order_id;
+    })
+
+    function refund() {
+        let order_id = $("#order_id").text();
+        let reason = $('#refundReason').val();
+
+        $.ajax({
+            type:"post",
+            url:"admin_ajax.php",
+            data:{
+                'action':'refund',
+                'order_id':order_id,
+                'reason':reason,
+            },
+            success:function(response){
+                let respDecoded = JSON.parse(response);
+                if (respDecoded["status_code"] == 200) {
+                    $("#status_"+order_id).text("Refund");
+                    alert("Refund Success");
+                } else {
+                    alert(respDecoded["status_code"] + ": Refund Failed");
+                }
             },
             error:function(response){
                 alert("AJAX ERROR " + response);

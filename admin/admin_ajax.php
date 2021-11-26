@@ -200,6 +200,19 @@
                 echo "Sorry, there was an error uploading your file.";
             }
         }
+    } else if ($action == 'refund') {
+        $order_id = $_REQUEST['order_id'];
+        $reason = $_REQUEST['reason'];
+        require_once dirname(__FILE__) . '/../Midtrans.php';
+
+        $params = array(
+            'refund_key' => $order_id,
+            'reason' => $reason
+        );
+
+        $direct_refund = Midtrans\Transaction::refundDirect($order_id,$params);
+
+        echo json_encode($direct_refund);
     }
 
     die;
