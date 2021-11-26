@@ -39,13 +39,21 @@
         <input type="text" name="keyword" id="transkeyword" placeholder="Trans id/customer id">
         <input class="btn btn-dark" type="submit" value="Search">
     </form> -->
-    <form action="#" method="post">
-    </form>
     <label for="filterStart">Start : </label>
     <input type="date" name="filterStart" id="filterStart">
     <label for="filterEnd">End : </label>
     <input type="date" name="filterEnd" id="filterEnd">
     <input type="text" name="keyword" id="transkeyword" placeholder="Trans id/customer id">
+    <select name="sort" id="sort">
+        <option value="oldest">Oldest</option>
+        <option value="newest">Newest</option>
+    </select>
+    <select name="payStatusFilter" id="payStatusFilter">
+        <option value="">All</option>
+        <option value="success">Success</option>
+        <option value="pending">Pending</option>
+        <option value="fail">Failed</option>
+    </select>
     <button onclick="getTrans(1)">Filter</button>
     <br>
 
@@ -94,6 +102,8 @@
         let filterStart = $("#filterStart").val();
         let filterEnd = $("#filterEnd").val();
         let keyword = $("#transkeyword").val();
+        let sort = $("#sort").val();
+        let payStatusFilter = $("#payStatusFilter").val();
         $.ajax({
             type:"get",
             url:"admin_ajax.php",
@@ -103,6 +113,8 @@
                 'filterStart':filterStart,
                 'filterEnd':filterEnd,
                 'keyword':keyword,
+                'sort':sort,
+                'payStatusFilter':payStatusFilter,
             },
             success:function(response){
                 respDecoded = JSON.parse(response);
@@ -142,13 +154,13 @@
                     );
                 }
 
-                `<td>
-                        <!-- <button class="showItems" transid='<= $histRow['id_htrans']?>'>Show Items</button> -->
-                        <form action="#" method="post">
-                            <input type="hidden" name="order_id" value="<= $histRow['mid_order_id']?>">
-                            <input type="submit" value="Show Items">
-                        </form>
-                    </td>`
+                // `<td>
+                //         <!-- <button class="showItems" transid='<= $histRow['id_htrans']?>'>Show Items</button> -->
+                //         <form action="#" method="post">
+                //             <input type="hidden" name="order_id" value="<= $histRow['mid_order_id']?>">
+                //             <input type="submit" value="Show Items">
+                //         </form>
+                //     </td>`
 
                 for (let i = 0; i < page; i++) {
                     $('#pagination').append(
@@ -180,6 +192,8 @@
                 let detail = respDecoded['detail'];
                 let items = respDecoded['items'];
                 let total = 0;
+
+                $('#itemList').empty();
 
                 $("#order_id").text(detail['mid_order_id'])
                 //build items

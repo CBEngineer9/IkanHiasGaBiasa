@@ -42,9 +42,6 @@
             } else {
                 $row++;
                 // handle csv
-                // for ($c=0; $c < $num; $c++) {
-                //     echo $data[$c] . "<br />\n";
-                // }
                 echo "Name      : " . $data[0] . "<br />\n";
                 echo "cat id    : " . $data[1] . "<br />\n";
                 echo "stock     : " . $data[2] . "<br />\n";

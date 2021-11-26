@@ -7,10 +7,9 @@ more detail on order report?
 edit account
 acc/deny trans
 admin trans list
-admin sort
+admin sort statusfilter
 admin pagination
 admin delivery
-about us
 ajax register?
 test admin del user
 change admin user pass

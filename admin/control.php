@@ -449,8 +449,8 @@
     })
 
     function editPicture(id) {
-        var file_data = $('#newPic').prop('files')[0];   
-        var form_data = new FormData();                  
+        var file_data = $('#newPic').prop('files')[0];
+        var form_data = new FormData();
         form_data.append('newPic', file_data);
         form_data.append('ikan_id', id);
         form_data.append('action', 'editPicture');

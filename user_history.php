@@ -73,6 +73,17 @@
     li, a{
         color: white;
     }
+    td{
+        text-align: center;
+    }
+    .status{
+        text-transform: capitalize;
+    }
+    .showItems{
+        width:99%; 
+        background-color:gray; 
+        color:white;
+    }
 </style>
 <body>
 <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray;" class="navbar navbar-default" role="navigation">
@@ -129,8 +140,26 @@
         <!-- /.container-fluid -->
     </nav>
     <br>
+    <!-- TODO : bac to home invisible -->
     <a href="index.php"><div style="margin-left: 10vw;" class="btn btn-dark">Back to Home</div></a>
     <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
+    <br>
+    <label for="filterStart">Start : </label>
+    <input type="date" name="filterStart" id="filterStart">
+    <label for="filterEnd">End : </label>
+    <input type="date" name="filterEnd" id="filterEnd">
+    <input type="text" name="keyword" id="transkeyword" placeholder="Trans id">
+    <select name="sort" id="sort">
+        <option value="oldest">Oldest</option>
+        <option value="newest">Newest</option>
+    </select>
+    <select name="payStatusFilter" id="payStatusFilter">
+        <option value="">All</option>
+        <option value="success">Success</option>
+        <option value="pending">Pending</option>
+        <option value="fail">Failed</option>
+    </select>
+    <button onclick="getTrans(1)">Filter</button>
     <br>
     <table class="table" style="margin-left: 10vw; width:80vw;">
         <thead style="background-color: gray; color:white;">
@@ -143,10 +172,10 @@
                 <th style="text-align: center;">Items</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="transList">
             <?php $histCtr = 0;?>
             <?php foreach ($history as $histRow) {?>
-                <tr <?= ($histRow['notif_seen'] == 0) ? 'class="notifNew"' : "" ?>>
+                <!-- <tr <?= ($histRow['notif_seen'] == 0) ? 'class="notifNew"' : "" ?>>
                     <td style="text-align: center;"><?= ++$histCtr?></td>
                     <td style="text-align: center;"><?= $histRow['mid_order_id']?></td>
                     <td style="text-align: center;"><?= $histRow['ship_name']?></td>
@@ -167,21 +196,30 @@
                             }
                         ?>
                     <td>
-                        <!-- <button class="showItems" transid='<?= $histRow['id_htrans']?>'>Show Items</button> -->
                         <form action="#" method="post">
                             <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
                             <input  style="width:99%; background-color:gray; color:white;" type="submit" value="Show Items">
                         </form>
                     </td>
-                </tr>
+                </tr> -->
             <?php }?>
         </tbody>
     </table>
 
+    <nav aria-label="Page navigation">
+        <ul class="pagination" id="pagination">
+            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+        </ul>
+    </nav>
+
     <br><br><br><br>
 
-    <?php if (isset($order_id)) {?>
-        <div style="margin-left: 10vw;"><h3>Order ID = <?= $histItems[0]['id_htrans']?></h3></div>
+    <div id="details" style="display: none;">
+        <div style="margin-left: 10vw;"><h3>Order ID = <span id="order_id"></span></h3></div>
         <table class="table" style="margin-left: 10vw; width:80vw;">
             <thead style="background-color: gray; color:white;">
                 <tr>
@@ -192,40 +230,213 @@
                     <th style="text-align: center;">Subtotal</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php $total = 0;?>
-                <?php $histCtr = 0;?>
-                <?php foreach ($histItems as $histRow) {?>
-                    <tr>
-                        <td style="text-align: center;"><?= ++$histCtr?></td>
-                        <td style="text-align: center;"><?= $histRow['name']?></td>
-                        <td style="text-align: center;">Rp. <?= $histRow['price']?></td>
-                        <td style="text-align: center;"><?= $histRow['qty']?></td>
-                        <td style="text-align: center;">Rp. <?= $histRow['price'] * $histRow['qty']?></td>
-                    </tr>
-                    <?php $total += $histRow['price'] * $histRow['qty']?>
-                <?php }?>
+            <tbody id="details_body">
+
             </tbody>
         </table>
-        <div style="margin-left: 10vw;"> <h3>Total = Rp. <?= $total?></h3></div>
-    <?php }?>
+        <div style="margin-left: 10vw;"> <h3>Total = <span id="total"></span></h3></div>
+    </div>
 </body>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-</html>
+<script>
+    var numfmt = new Intl.NumberFormat('id-ID',{ minimumFractionDigits: 2 });
+    var pageCount = 0;
 
-<?php
-    // update seen notif
-    try {
-        $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
-        // set the PDO error mode to exception
-        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    getTrans(1);
 
-        $sql = "UPDATE `htrans` SET `notif_seen` = 1 WHERE `notif_seen` = 0;";
-        $stmt = $conn -> prepare($sql);
-        $succInsert = $stmt->execute();
+    function getTrans(page) {
+        let filterStart = $("#filterStart").val();
+        let filterEnd = $("#filterEnd").val();
+        let keyword = $("#transkeyword").val();
+        let sort = $("#sort").val();
+        let payStatusFilter = $("#payStatusFilter").val();
+        $.ajax({
+            type:"get",
+            url:"index_controller.php",
+            data:{
+                'action':'getTrans',
+                'page':page,
+                'filterStart':filterStart,
+                'filterEnd':filterEnd,
+                'keyword':keyword,
+                'sort':sort,
+                'payStatusFilter':payStatusFilter,
+            },
+            success:function(response){
+                respDecoded = JSON.parse(response);
+                console.log(respDecoded);
+                pageCount = respDecoded['page'];
+                let list = respDecoded['list'];
 
-    } catch(\PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
+                $('#transList').empty();
+                //build list
+                for (let i = 0; i < list.length; i++) {
+                    const trans = list[i];
+                    $('#transList').append(
+                        $('<tr>')
+                        .append(
+                            $('<td>').text(i+1)
+                        )
+                        .append(
+                            $('<td>').text(trans['mid_order_id'])
+                        )
+                        .append(
+                            $('<td>').text(trans['ship_name'])
+                        )
+                        .append(
+                            $('<td>').text(trans['trans_time'])
+                        )
+                        .append(
+                            $('<td>').append(
+                                $('<span>').text(trans['status']).addClass("status label " + ((trans['status']== "pending" || trans['status']== "attempted" || trans['status']== "challenge") ? "label-warning" : ((trans['status']== "Success" || trans['status']== "Settlement") ? "label-success" : "label-danger")))
+                            )
+                        )
+                        .append(
+                            $('<td>').append(
+                                $("<button>").text("Show Items").addClass("showItems").click(function() {
+                                    getOrderDetails(trans['mid_order_id']);
+                                })
+                            )
+                        ).addClass((trans['notif_seen'] == 0)? "notifNew" : "")
+                    );
+                }
+
+                // refresh pagination
+                refreshPagination(page);
+
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
     }
-    $conn=null;
-?>
+
+    function refreshPagination(currPage) {
+        let minOnPagination = currPage - Math.floor(pageCount / 2);
+        let maxOnPagination = currPage + Math.floor(pageCount / 2);
+
+        $('#pagination').empty();
+
+        $('#pagination').append(
+            $('<li>').append(
+                $('<a>').click(
+                    function() {
+                        gotoBoundaryPage('min');
+                    }
+                ).html('&laquo')
+            )
+        );
+
+        if (minOnPagination > 1) {
+            $('#pagination').append(
+                $('<li>').append(
+                    $('<a>').click(
+                        function() {
+                            console.log('TODO : not implemented yet');
+                        }
+                    ).html('...')
+                )
+            );
+        }
+
+        for (let i = minOnPagination; i <= maxOnPagination; i++) {
+            if (i > 0 && i <= pageCount) {
+                $('#pagination').append(
+                    $('<li>').append(
+                        $('<a>').click(
+                            function() {
+                                getTrans(i);
+                            }
+                        ).html(i)
+                    )
+                );
+            }
+        }
+
+        if (maxOnPagination < pageCount) {
+            $('#pagination').append(
+                $('<li>').append(
+                    $('<a>').click(
+                        function() {
+                            console.log('not implemented yet');
+                        }
+                    ).html('...')
+                )
+            );
+        }
+
+        $('#pagination').append(
+            $('<li>').append(
+                $('<a>').click(
+                    function() {
+                        gotoBoundaryPage('max');
+                    }
+                ).html('&raquo')
+            )
+        );
+
+        // <li><a onclick="gotoBoundaryPage('min')">&laquo;</a></li>
+    }
+
+    function gotoBoundaryPage(page) {
+        if (page == 'min') {
+            getTrans(1);
+        } else if (page == 'max') {
+            getTrans(pageCount);
+        }
+    }
+
+    function getOrderDetails(id) {
+        console.log(id);
+        $.ajax({
+            type:"get",
+            url:"index_controller.php",
+            data:{
+                'action':'getDTrans',
+                'order_id':id,
+            },
+            success:function(response){
+                respDecoded = JSON.parse(response);
+                console.log(respDecoded);
+                let detail = respDecoded['detail'];
+                let items = respDecoded['items'];
+                let total = 0;
+
+                $('#details_body').empty();
+                
+                $("#order_id").text(detail['mid_order_id'])
+                //build items
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    $('#details_body').append(
+                        $('<tr>')
+                        .append(
+                            $('<td>').text(i+1)
+                        )
+                        .append(
+                            $('<td>').text(item['name'])
+                        )
+                        .append(
+                            $('<td>').text("Rp. " + numfmt.format(item['price']))
+                        )
+                        .append(
+                            $('<td>').text(item['qty'])
+                        )
+                        .append(
+                            $('<td>').text("Rp. "+numfmt.format(item['price'] * item['qty']))
+                        )
+                    );
+                    total += item['price'] * item['qty'];
+                }
+                $('#total').text(numfmt.format(total));
+
+                $("#details").show();
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
+    }
+</script>
+</html>

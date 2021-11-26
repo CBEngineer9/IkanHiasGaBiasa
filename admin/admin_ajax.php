@@ -24,6 +24,8 @@
         $filterStart = $_REQUEST['filterStart'];
         $filterEnd = $_REQUEST['filterEnd'];
         $keyword = $_REQUEST['keyword'];
+        $sort = $_REQUEST['sort'];
+        $payStatusFilter = $_REQUEST['payStatusFilter'];
         $offset = ($_REQUEST['page']-1) * 50;
 
 
@@ -36,6 +38,7 @@
             $sqlHeaderCount = "SELECT COUNT(*) AS trans_count ";
             $sqlBody = "FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE 1=1 ";
             $sqlFilters = "";
+            $sqlSort = "ORDER BY ht.trans_time ";
             
             if ( !empty($filterStart) && !empty($filterEnd) && ( strtotime($filterEnd) - strtotime($filterStart) > 0)) {
                 $dbFilterStart = date('Y-m-d',strtotime($filterStart));
@@ -49,11 +52,25 @@
                 } else {
                     // by cust name
                     $keyword = '%'.$keyword.'%';
-                    $sqlFilters .= "AND firstname LIKE :keyword OR lastname LIKE :keyword ";
+                    $sqlFilters .= "AND (firstname LIKE :keyword OR lastname LIKE :keyword) ";
                 }
             }
+            if (!empty($payStatusFilter)) {
+                // by trans id
+                if ($payStatusFilter == "success") {
+                    $sqlFilters .= "AND (`status` = 'Success' OR `status` = 'Settlement') ";
+                } else if ($payStatusFilter == "pending") {
+                    $sqlFilters .= "AND (`status` = 'pending' OR `status` = 'attempted' OR `status` = 'challenge') ";
+                } else if ($payStatusFilter == "fail") {
+                    $sqlFilters .= "AND (`status` = 'Denied' OR `status` = 'Expire' OR `status` = 'Cancel') ";
+                }
+            }
+            if ($sort == "newest") {
+                $sqlSort .= "desc ";
+            }
 
-            $sql = $sqlHeaderCount . $sqlBody . $sqlFilters;
+            $sql = $sqlHeaderCount . $sqlBody . $sqlFilters . $sqlSort;
+            // echo $sql;
             $stmt = $conn->prepare($sql);
             if ( !empty($filterStart) && !empty($filterEnd) && ( strtotime($filterEnd) - strtotime($filterStart) > 0)) {
                 $stmt -> bindValue(":filter_start",$dbFilterStart);
@@ -67,7 +84,7 @@
             $transPage = ceil($transCount['trans_count']/50);
 
 
-            $sql = $sqlHeaderData . $sqlBody . $sqlFilters . "LIMIT 50 OFFSET :offset ;";
+            $sql = $sqlHeaderData . $sqlBody . $sqlFilters . $sqlSort . "LIMIT 50 OFFSET :offset ;";
             $stmt = $conn->prepare($sql);
             $stmt -> bindValue(":offset",$offset,PDO::PARAM_INT);
             if ( !empty($filterStart) && !empty($filterEnd) && ( strtotime($filterEnd) - strtotime($filterStart) > 0)) {
