@@ -39,7 +39,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/css/cart.css">
     <title>Cart</title>
-    <link rel="icon" href="assets/img/Logo/favicon.ico">
+    <link rel="icon" href="../assets/img/Logo/favicon.ico">
 </head>
 
 <body>
@@ -149,25 +149,35 @@
     }
 
     function addQty(cart_id,amount) {
-        $.ajax({
-            type:"get",
-            url:"cart_controller.php",
-            data:{
-                'action':'addQty',
-                'cart_id':cart_id,
-                'amount':amount,
-            },
-            success:function(response){
-                const newUpdate = JSON.parse(response);
-                console.log(newUpdate);
-                $('#qty'+cart_id).text(newUpdate['qty']);
-                $("#price"+cart_id).text("Rp." + numfmt.format(newUpdate['price'] * newUpdate['qty']));
-                getPriceCount();
-            },
-            error:function(response){
-                alert("AJAX ERROR " + response);
-            }
-        });
+        //remove when 0 qty
+        let qty = $("#qty"+cart_id).text();
+        if (qty+amount <= 0) {
+            removeItem(cart_id);
+        } else {
+            $.ajax({
+                type:"get",
+                url:"cart_controller.php",
+                data:{
+                    'action':'addQty',
+                    'cart_id':cart_id,
+                    'amount':amount,
+                },
+                success:function(response){
+                    if (response == "not enough stock") {
+                        alert("not enough stock")
+                    } else {
+                        const newUpdate = JSON.parse(response);
+                        console.log(newUpdate);
+                        $('#qty'+cart_id).text(newUpdate['qty']);
+                        $("#price"+cart_id).text("Rp." + numfmt.format(newUpdate['price'] * newUpdate['qty']));
+                        getPriceCount();
+                    }
+                },
+                error:function(response){
+                    alert("AJAX ERROR " + response);
+                }
+            });
+        }
     }
     function removeItem(cart_id) {
         $.ajax({

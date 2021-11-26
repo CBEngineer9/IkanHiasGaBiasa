@@ -34,7 +34,7 @@
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sqlHeaderData = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status ";
+            $sqlHeaderData = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status, ht.delivery_status ";
             $sqlHeaderCount = "SELECT COUNT(*) AS trans_count ";
             $sqlBody = "FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE 1=1 ";
             $sqlFilters = "";

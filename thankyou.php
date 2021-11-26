@@ -13,9 +13,9 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
-                    
-                    
+                    <a href="./">
+                        <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
+                    </a>
                 </div>
                 
                 <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">

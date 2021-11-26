@@ -166,6 +166,48 @@
             height: 100px;
         }
     </style>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Period');
+            data.addColumn('number', 'income');
+            data.addRows([
+
+            <?php foreach ($monthlyIncome as $incomeRow ) {
+                echo "['" . $incomeRow['month'].",".$incomeRow['year']."',".$incomeRow['income'] . "]," ;
+            }?>
+
+            // ['Mushrooms', 3],
+            // ['Onions', 1],
+            // ['Olives', 1],
+            // ['Zucchini', 1],
+            // ['Pepperoni', 2]
+            ]);
+
+            // Set chart options
+            var options = {'title':'Profit Charts',
+                        'width':400,
+                        'height':300};
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
 </head>
 <body>
     <form action="#" method="post">
@@ -175,6 +217,9 @@
     <h3><a href="users.php">Users</a> <a href="transaction.php">Transactions</a> </h3>
 
     <h3>Monthly Report</h3>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+
     <table class="table">
         <thead class="table-dark">
             <tr>

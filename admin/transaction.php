@@ -65,6 +65,7 @@
                 <th>Shipping</th>
                 <th>Timestamp</th>
                 <th>Payment Status</th>
+                <th>Delivery Status</th>
                 <th>Items</th>
             </tr>
         </thead>
@@ -143,6 +144,9 @@
                         )
                         .append(
                             $('<td>').text(trans['status'])
+                        )
+                        .append(
+                            $('<td>').text(trans['delivery_status'])
                         )
                         .append(
                             $('<td>').append(

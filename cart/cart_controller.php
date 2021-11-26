@@ -41,15 +41,39 @@
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
+            //check cart qty
+            $sql = "SELECT qty FROM cart c WHERE c.cart_id = :cartid";
+            $stmt = $conn->prepare($sql);
+            $stmt -> bindValue(":cartid",$cart_id);
+            $stmt -> execute();
+            $resultQty = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if ($resultQty['qty'] <= 1 && $amount < 0) {
+                die("negative qty");
+            }
+
+            // check stock
+            $sql = "SELECT stock FROM ikan i JOIN cart c ON i.id = c.ikan_id WHERE c.cart_id = :cartid";
+            $stmt = $conn->prepare($sql);
+            $stmt -> bindValue(":cartid",$cart_id);
+            $stmt -> execute();
+            $resultStock = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if ($resultQty['qty'] + $amount >= $resultStock['stock'] ) {
+                die("not enough stock");
+            }
+
+            //update qty
             $sqlCart = "UPDATE `cart` c SET c.`qty` = (SELECT cb.qty + :amount FROM (SELECT * FROM cart) cb WHERE cb.`cart_id` = :cartid) WHERE c.`cart_id` = :cartid;";
             $stmt = $conn->prepare($sqlCart);
-            $stmt -> bindValue(":cartid",$cart_id); 
+            $stmt -> bindValue(":cartid",$cart_id);
             $stmt -> bindValue(":amount",$amount); 
 
             $qResultCart = $stmt -> execute();
 
             if ($qResultCart == 1) {
+                //build response
                 $sqlResponse = "SELECT c.qty, i.price FROM cart c JOIN ikan i ON c.ikan_id = i.id WHERE c.`cart_id` = :cartid;";
                 $stmt = $conn->prepare($sqlResponse);
                 $stmt -> bindValue(":cartid",$cart_id); 
@@ -86,30 +110,38 @@
             }
             
             // update stock
-            $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - 1 FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
+            $sql = "UPDATE `ikan` i SET i.`stock` = i.stock - 1 WHERE i.`id` = :ikan_id";
             $stmt = $conn->prepare($sql);
             // $stmt -> bindValue(":qty",$qty); 
             $stmt -> bindValue(":ikan_id",$ikan_id); 
             $succUpdate = $stmt -> execute();
 
-            // TODO update if exists
-            $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername), :ikan_id, :qty);";
-            $stmt = $conn->prepare($sqlCart);
-            $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+            // update if exists
+            $sqlUpdate = "UPDATE cart SET qty = qty + 1 WHERE ikan_id = :ikan_id";
+            $stmt = $conn->prepare($sqlUpdate);
             $stmt -> bindValue(":ikan_id",$ikan_id); 
-            $stmt -> bindValue(":qty",1); 
+            $succUpdate = $stmt -> execute();
+            $updateCount = $stmt -> rowCount();
 
-            $succInsert = $stmt -> execute();
+            if ($updateCount <= 0) {
+                $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername), :ikan_id, :qty);";
+                $stmt = $conn->prepare($sqlCart);
+                $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+                $stmt -> bindValue(":ikan_id",$ikan_id); 
+                $stmt -> bindValue(":qty",1); 
 
-            if ($succInsert == 1) {
+                $succInsert = $stmt -> execute();
+            }
+
+            if ($updateCount > 0 || $succInsert == true) {
                 echo "success" ;
             } else {
                 echo "fail";
             }
 
         } catch(PDOException $e) {
-            // echo "Connection failed: " . $e->getMessage();
-            alert("Connection failed: " . $e->getMessage());
+            echo "Connection failed: " . $e->getMessage();
+            // alert("Connection failed: " . $e->getMessage());
         }
         $conn=null;
 
@@ -137,7 +169,7 @@
                 foreach ($qResultCart as $cartRow) {
                     echo '<div class="row border-top border-bottom">'.
                                 '<div class="row main align-items-center">'.
-                                    '<div class="col-2"><img class="img-fluid" src="'.$cartRow["imageLink"].'"></div>'.
+                                    '<div class="col-2"><img class="img-fluid" src="../'.$cartRow["imageLink"].'"></div>'.
                                     '<div class="col">'.
                                         '<div class="row text-muted">'.$cartRow['cat_name'].'</div>'.
                                         '<div class="row">'.$cartRow['name'].'</div>'.

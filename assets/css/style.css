@@ -162,6 +162,10 @@ color:#fff;
     border: 1px solid gray;
     text-align: center;
 }
+
+.badge-red{
+    background-color : red;
+}
 /*=======================================
   SLIDER main-style.css Changes
 ==================================================*/

@@ -36,25 +36,36 @@
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
                 // update stock
-                $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - :qty FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE `i`.`id` = :ikan_id";
+                $sql = "UPDATE `ikan` i SET i.`stock` = (SELECT i2.stock - :qty FROM (SELECT id,stock FROM ikan) i2 WHERE i2.id = :ikan_id) WHERE i.id = :ikan_id";
                 $stmt = $conn->prepare($sql);
                 $stmt -> bindValue(":qty",$qty); 
                 $stmt -> bindValue(":ikan_id",$ikan_id); 
                 $succUpdate = $stmt -> execute();
 
                 if ($succUpdate == 1) {
-                    // TODO update if exists
-                    $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername) , :ikan_id, :qty);";
-                    $stmt = $conn->prepare($sqlCart);
-                    $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+                    // update if exists
+                    $sqlUpdate = "UPDATE cart SET qty = qty + :qty WHERE ikan_id = :ikan_id";
+                    $stmt = $conn->prepare($sqlUpdate);
+                    $stmt -> bindValue(":qty",$qty,PDO::PARAM_INT); 
                     $stmt -> bindValue(":ikan_id",$ikan_id); 
-                    $stmt -> bindValue(":qty",$qty); 
+                    $succUpdate = $stmt -> execute();
+                    $updateCount = $stmt -> rowCount();
+
+                    if ($updateCount <= 0) {
+                        $sqlCart = "INSERT INTO `cart` (`user_id`, `ikan_id`, `qty`) VALUES ( (SELECT id FROM users WHERE username = :currUsername) , :ikan_id, :qty);";
+                        $stmt = $conn->prepare($sqlCart);
+                        $stmt -> bindValue(":currUsername",$_SESSION['currUsername']); 
+                        $stmt -> bindValue(":ikan_id",$ikan_id); 
+                        $stmt -> bindValue(":qty",$qty); 
+        
+                        $succInsert = $stmt -> execute();
+                    }
     
-                    $succInsert = $stmt -> execute();
-    
-                    if ($succInsert == 1) {
+                    if ($updateCount > 0 || $succInsert == true) {
                         alert("berhasil add to cart");
-                        header("Location:index.php");
+                        header("Location:./");
+                    } else {
+                        alert("Failed to add to cart");
                     }
                 }
 
@@ -93,9 +104,9 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
-                    
-                    
+                    <a href="./">
+                        <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
+                    </a>
                 </div>
                 
                 <button  type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">

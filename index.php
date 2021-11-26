@@ -100,9 +100,9 @@ $conn = null;
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt="">
-
-
+                    <a href="./">
+                        <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""> 
+                    </a>
                 </div>
 
                 <button type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -126,7 +126,7 @@ $conn = null;
                     } else {
                     ?>
                         
-                        <li><a href="profile.php">Hai, <?=$_SESSION['currUsername']?></a></li>
+                        <li><a href="profile.php">Hai, <?=$_SESSION['currUsername']?> <span class="badge badge-red" id="histNotifBadge"></span></a></li>
                         <li><a href="about.php">About Us</a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <?php
@@ -822,6 +822,7 @@ $conn = null;
                 },
                 success: function(response) {
                     if (response > 0) {
+                        console.log(response);
                         $('#histNotifBadge').text(response);
                         if (response > lastNotifCount) {
                             $('#notif').show(1, 'linear', function() {
