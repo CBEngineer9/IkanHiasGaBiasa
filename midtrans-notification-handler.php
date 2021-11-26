@@ -31,33 +31,31 @@
                 // TODO merchant should decide whether this transaction is authorized or not in MAP
                 // echo "Transaction order_id: " . $order_id ." is challenged by FDS"
                 $newStatus = 'Challenge by FDS';
-                // echo "200";
             } else {
                 // echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
                 $newStatus = 'Success';
-                // echo "200";
             }
         }
     } else if ($transaction == 'settlement') {
         // echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
         $newStatus = 'Settlement';
-        // echo "200";
     } else if ($transaction == 'pending') {
         // echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
         $newStatus = 'Pending';
-        // echo "200";
     } else if ($transaction == 'deny') {
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
         $newStatus = 'Denied';
-        // echo "200";
     } else if ($transaction == 'expire') {
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
         $newStatus = 'Expire';
-        // echo "200";
     } else if ($transaction == 'cancel') {
         // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
         $newStatus = 'Denied';
-        // echo "200";
+    } else if ($transaction == 'refund') {
+        // echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
+        $newStatus = 'Refund';
+    } else {
+        $newStatus = 'ahihi';
     }
 
     //conn
