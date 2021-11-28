@@ -173,36 +173,7 @@
             </tr>
         </thead>
         <tbody id="transList">
-            <?php $histCtr = 0;?>
-            <?php foreach ($history as $histRow) {?>
-                <!-- <tr <?= ($histRow['notif_seen'] == 0) ? 'class="notifNew"' : "" ?>>
-                    <td style="text-align: center;"><?= ++$histCtr?></td>
-                    <td style="text-align: center;"><?= $histRow['mid_order_id']?></td>
-                    <td style="text-align: center;"><?= $histRow['ship_name']?></td>
-                    <td style="text-align: center;"><?= $histRow['trans_time']?></td>
-                    <?php if($histRow['status']== "pending" || $histRow['status']== "attempted" || $histRow['status']== "challenge"){?>
-                            <td style="text-transform: capitalize; text-align:center; background-color: #fff3cd;"><?=$histRow['status']?></td>
-                        <?php
-                            }
-                            else if($histRow['status']== "Success" || $histRow['status']== "Settlement"){
-                        ?>
-                            <td style="background-color: #d1e7dd; text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
-                        <?php
-                            }
-                            else if($histRow['status']== "cancel" || $histRow['status']== "deny" || $histRow['status']== "expire"){
-                        ?>
-                            <td style="background-color: #f8d7da; text-transform: capitalize; text-align:center;"><?=$histRow['status']?></td>
-                        <?php
-                            }
-                        ?>
-                    <td>
-                        <form action="#" method="post">
-                            <input type="hidden" name="order_id" value="<?= $histRow['mid_order_id']?>">
-                            <input  style="width:99%; background-color:gray; color:white;" type="submit" value="Show Items">
-                        </form>
-                    </td>
-                </tr> -->
-            <?php }?>
+
         </tbody>
     </table>
 
@@ -220,6 +191,7 @@
 
     <div id="details" style="display: none;">
         <div style="margin-left: 10vw;"><h3>Order ID = <span id="order_id"></span></h3></div>
+        <button id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
         <table class="table" style="margin-left: 10vw; width:80vw;">
             <thead style="background-color: gray; color:white;">
                 <tr>
@@ -234,7 +206,7 @@
 
             </tbody>
         </table>
-        <div style="margin-left: 10vw;"> <h3>Total = <span id="total"></span></h3></div>
+        <div style="margin-left: 10vw;"> <h3>Total = Rp. <span id="total"></span></h3></div>
     </div>
 </body>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -289,7 +261,7 @@
                         )
                         .append(
                             $('<td>').append(
-                                $('<span>').text(trans['status']).addClass("status label " + ((trans['status']== "pending" || trans['status']== "attempted" || trans['status']== "challenge") ? "label-warning" : ((trans['status']== "Success" || trans['status']== "Settlement") ? "label-success" : "label-danger")))
+                                $('<span>').text(trans['status']).attr("id","status_"+trans['mid_order_id']).addClass("status label " + ((trans['status']== "Pending" || trans['status']== "pending" || trans['status']== "attempted" || trans['status']== "challenge") ? "label-warning" : ((trans['status']== "Success" || trans['status']== "Settlement") ? "label-success" : "label-danger")))
                             )
                         )
                         .append(
@@ -405,7 +377,12 @@
 
                 $('#details_body').empty();
                 
-                $("#order_id").text(detail['mid_order_id'])
+                $("#order_id").text(detail['mid_order_id']);
+                if (detail['status'] == 'pending' || detail['status'] == 'Pending') {
+                    $("#cancel").show();
+                } else {
+                    $("#cancel").hide();
+                }
                 //build items
                 for (let i = 0; i < items.length; i++) {
                     const item = items[i];
@@ -432,6 +409,29 @@
                 $('#total').text(numfmt.format(total));
 
                 $("#details").show();
+            },
+            error:function(response){
+                alert("AJAX ERROR " + response);
+            }
+        });
+    }
+
+    function cancel() {
+        let order_id = $("#order_id").text();
+        $.ajax({
+            type:"post",
+            url:"index_controller.php",
+            data:{
+                'action':'cancel',
+                'order_id':order_id,
+            },
+            success:function(response){
+                if (response == 200) {
+                    $("#status_"+order_id).text("Refund");
+                    alert("Refund Success");
+                } else {
+                    alert(response + ": Refund Failed");
+                }
             },
             error:function(response){
                 alert("AJAX ERROR " + response);

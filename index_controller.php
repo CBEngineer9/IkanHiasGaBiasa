@@ -148,6 +148,13 @@
             echo "Connection failed: " . $e->getMessage();
         }
         $conn=null;
+    } else if ($action == 'cancel') {
+        $order_id = $_REQUEST['order_id'];
+        require_once dirname(__FILE__) . '/Midtrans.php';
+
+        $cancel = Midtrans\Transaction::cancel($order_id);
+
+        echo json_encode($cancel);
     }
 
     die;
