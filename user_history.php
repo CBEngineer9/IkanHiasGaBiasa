@@ -1,47 +1,46 @@
 <?php
-    require_once("proyekpw_lib.php");
+require_once("proyekpw_lib.php");
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        if (isset($_POST['order_id'])) {
-            $order_id = $_POST['order_id'];
-            try {
-                $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
-                // set the PDO error mode to exception
-                $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        
-                $sql = "SELECT * FROM `dtrans` dt JOIN ikan i ON dt.ikan_id = i.id WHERE dt.`id_htrans` = :order_id;";
-                $stmt = $conn -> prepare($sql);
-                $stmt -> bindValue(":order_id",$order_id);
-                $stmt->execute();
-                $histItems = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-        
-            } catch(\PDOException $e) {
-                echo "Connection failed: " . $e->getMessage();
-            }
-            $conn=null;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['order_id'])) {
+        $order_id = $_POST['order_id'];
+        try {
+            $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+            // set the PDO error mode to exception
+            $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT * FROM `dtrans` dt JOIN ikan i ON dt.ikan_id = i.id WHERE dt.`id_htrans` = :order_id;";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(":order_id", $order_id);
+            $stmt->execute();
+            $histItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
         }
+        $conn = null;
     }
+}
 
-    try {
-        $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
-        // set the PDO error mode to exception
-        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+try {
+    $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+    // set the PDO error mode to exception
+    $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        $sql = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status, ht.notif_seen FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE `id_user` = (SELECT id FROM users WHERE username = :currUsername);";
-        $stmt = $conn -> prepare($sql);
-        $stmt -> bindValue(":currUsername", $_SESSION['currUsername']);
-        $stmt -> execute();
-        $history = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    } catch(\PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
-    $conn=null;
+    $sql = "SELECT ht.id_htrans, ht.mid_order_id, u.username, s.ship_name, ht.trans_time, ht.status, ht.notif_seen FROM `htrans` ht JOIN `users` u ON ht.id_user = u.id JOIN shipping s ON ht.id_shipping = s.shipping_id WHERE `id_user` = (SELECT id FROM users WHERE username = :currUsername);";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(":currUsername", $_SESSION['currUsername']);
+    $stmt->execute();
+    $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (\PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+$conn = null;
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,38 +59,57 @@
     <!-- custom CSS here -->
     <link href="assets/css/style.css" rel="stylesheet" />
     <style>
-        .notifNew{
+        .notifNew {
             background-color: lightgreen;
         }
     </style>
 </head>
 <style>
-    body,html{
-        margin:0;
-        padding:0;
+    body,
+    html {
+        margin: 0;
+        padding: 0;
     }
-    li, a{
+
+    li,
+    a {
         color: white;
     }
-    td{
+
+    td {
         text-align: center;
     }
-    .status{
+
+    .status {
         text-transform: capitalize;
     }
-    .showItems{
-        width:99%; 
-        background-color:gray; 
-        color:white;
+
+    .showItems {
+        width: 99%;
+        background-color: gray;
+        color: white;
+    }
+    .filter td{
+        text-align: left;
+    }
+    .filter input{
+        margin-left: 1vw;
+        width: 100%;
+    }
+    .filter select{
+        margin-left: 1vw;
     }
 </style>
+
 <body>
 <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray;" class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <a href="./"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""></a>
+                    <a href="./">
+                        <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt="">
+                    </a>
                 </div>
 
                 <button type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -114,20 +132,22 @@
                     <?php
                     } else {
                     ?>
-                        
-                        <li><a href="profile.php">Hai, <?=$_SESSION['currUsername']?></a></li>
+
+                        <li><a href=""> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
                         <li><a href="about.php">About Us</a></li>
+                        <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
                         <li><a href="logout.php">Logout</a></li>
-                        <?php
+                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
+                    <?php
                     }
-                        ?>
+                    ?>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
                     <?= (isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['sort'] . '">' : "") ?>
-                    
+
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
@@ -141,26 +161,44 @@
     </nav>
     <br>
     <!-- TODO : bac to home invisible -->
-    <a href="index.php"><button style="margin-left: 10vw; color:black;">Back to Home</button></a>
+    <a href="index.php"><button class="btn btn-primary" style="margin-left: 10vw; color:white;">Back to Home</button></a>
     <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
     <br>
-    <div class="form">
-        <label style="margin-left: 10vw;" for="filterStart">Start : </label>
-        <input type="date" name="filterStart" id="filterStart">
-        <label for="filterEnd">End : </label>
-        <input type="date" name="filterEnd" id="filterEnd">
-        <input type="text" name="keyword" id="transkeyword" placeholder="Trans id">
-        <select name="sort" id="sort">
-            <option value="oldest">Oldest</option>
-            <option value="newest">Newest</option>
-        </select>
-        <select name="payStatusFilter" id="payStatusFilter">
-            <option value="">All</option>
-            <option value="success">Success</option>
-            <option value="pending">Pending</option>
-            <option value="fail">Failed</option>
-        </select>
-        <button onclick="getTrans(1)">Filter</button>
+    <div class="filter">
+        <table style="margin-left: 10vw;">
+            <tr>
+                <td><label for="filterStart">Start : </label></td>
+                <td><input type="date" name="filterStart" id="filterStart"></td>
+            </tr>
+            <tr>
+                <td><label for="filterEnd">End : </label></td>
+                <td><input type="date" name="filterEnd" id="filterEnd"></td>
+            </tr>
+            <tr>
+                <td><label for="">Trans ID :</label>  </td>
+                <td><input type="text" name="keyword" id="transkeyword" placeholder="Trans id"></td>
+            </tr>
+            <tr>
+                <td><label for="">Order By : </label> </td>
+                <td><select style="width:100%;" name="sort" id="sort">
+                        <option value="oldest">Oldest</option>
+                        <option value="newest">Newest</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><label for="">Status : </label> </td>
+                <td><select style="width:100%;" name="payStatusFilter" id="payStatusFilter">
+                        <option value="">All</option>
+                        <option value="success">Success</option>
+                        <option value="pending">Pending</option>
+                        <option value="fail">Failed</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button style="width:100%;" class="btn btn-primary" onclick="getTrans(1)">Filter</button></td>
+            </tr>
+        </table>
         <br>
         <br>
     </div>
@@ -179,22 +217,11 @@
 
         </tbody>
     </table>
-
-    <nav style="margin-left: 10vw;" aria-label="Page navigation">
-        <ul class="pagination" id="pagination">
-            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
-        </ul>
-    </nav>
-
-    <br><br><br><br>
-
     <div id="details" style="display: none;">
-        <div style="margin-left: 10vw;"><h3>Order ID = <span id="order_id"></span></h3></div>
-        <button style="margin-left: 10vw;"  id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
+        <div style="margin-left: 10vw;">
+            <h3>Order ID = <span id="order_id"></span></h3>
+        </div>
+        <button class="btn btn-danger" style="margin-left: 10vw;" id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
         <br>
         <br>
         <table class="table" style="margin-left: 10vw; width:80vw;">
@@ -207,17 +234,32 @@
                     <th style="text-align: center;">Subtotal</th>
                 </tr>
             </thead>
-            <tbody  id="details_body">
+            <tbody id="details_body">
 
             </tbody>
         </table>
-        <div style="margin-left: 10vw;"> <h3>Total = Rp. <span id="total"></span></h3></div>
+        <div style="margin-left: 10vw;">
+            <h3>Total = Rp. <span id="total"></span></h3>
+        </div>
     </div>
+    <nav style="margin-left: 10vw;" aria-label="Page navigation">
+        <ul class="pagination" id="pagination">
+            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+        </ul>
+    </nav>
+    <br>
+
 </body>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 <script>
-    var numfmt = new Intl.NumberFormat('id-ID',{ minimumFractionDigits: 2 });
+    var numfmt = new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 2
+    });
     var pageCount = 0;
 
     getTrans(1);
@@ -229,18 +271,18 @@
         let sort = $("#sort").val();
         let payStatusFilter = $("#payStatusFilter").val();
         $.ajax({
-            type:"get",
-            url:"index_controller.php",
-            data:{
-                'action':'getTrans',
-                'page':page,
-                'filterStart':filterStart,
-                'filterEnd':filterEnd,
-                'keyword':keyword,
-                'sort':sort,
-                'payStatusFilter':payStatusFilter,
+            type: "get",
+            url: "index_controller.php",
+            data: {
+                'action': 'getTrans',
+                'page': page,
+                'filterStart': filterStart,
+                'filterEnd': filterEnd,
+                'keyword': keyword,
+                'sort': sort,
+                'payStatusFilter': payStatusFilter,
             },
-            success:function(response){
+            success: function(response) {
                 respDecoded = JSON.parse(response);
                 console.log(respDecoded);
                 pageCount = respDecoded['page'];
@@ -253,7 +295,7 @@
                     $('#transList').append(
                         $('<tr>')
                         .append(
-                            $('<td>').text(i+1)
+                            $('<td>').text(i + 1)
                         )
                         .append(
                             $('<td>').text(trans['mid_order_id'])
@@ -266,7 +308,7 @@
                         )
                         .append(
                             $('<td>').append(
-                                $('<span>').text(trans['status']).attr("id","status_"+trans['mid_order_id']).addClass("status label " + ((trans['status']== "Pending" || trans['status']== "pending" || trans['status']== "attempted" || trans['status']== "challenge") ? "label-warning" : ((trans['status']== "Success" || trans['status']== "Settlement") ? "label-success" : "label-danger")))
+                                $('<span>').text(trans['status']).attr("id", "status_" + trans['mid_order_id']).addClass("status label " + ((trans['status'] == "Pending" || trans['status'] == "pending" || trans['status'] == "attempted" || trans['status'] == "challenge") ? "label-warning" : ((trans['status'] == "Success" || trans['status'] == "Settlement") ? "label-success" : "label-danger")))
                             )
                         )
                         .append(
@@ -275,7 +317,7 @@
                                     getOrderDetails(trans['mid_order_id']);
                                 })
                             )
-                        ).addClass((trans['notif_seen'] == 0)? "notifNew" : "")
+                        ).addClass((trans['notif_seen'] == 0) ? "notifNew" : "")
                     );
                 }
 
@@ -283,7 +325,7 @@
                 refreshPagination(page);
 
             },
-            error:function(response){
+            error: function(response) {
                 alert("AJAX ERROR " + response);
             }
         });
@@ -367,13 +409,13 @@
     function getOrderDetails(id) {
         console.log(id);
         $.ajax({
-            type:"get",
-            url:"index_controller.php",
-            data:{
-                'action':'getDTrans',
-                'order_id':id,
+            type: "get",
+            url: "index_controller.php",
+            data: {
+                'action': 'getDTrans',
+                'order_id': id,
             },
-            success:function(response){
+            success: function(response) {
                 respDecoded = JSON.parse(response);
                 console.log(respDecoded);
                 let detail = respDecoded['detail'];
@@ -381,7 +423,7 @@
                 let total = 0;
 
                 $('#details_body').empty();
-                
+
                 $("#order_id").text(detail['mid_order_id']);
                 if (detail['status'] == 'pending' || detail['status'] == 'Pending') {
                     $("#cancel").show();
@@ -394,7 +436,7 @@
                     $('#details_body').append(
                         $('<tr>')
                         .append(
-                            $('<td>').text(i+1)
+                            $('<td>').text(i + 1)
                         )
                         .append(
                             $('<td>').text(item['name'])
@@ -406,7 +448,7 @@
                             $('<td>').text(item['qty'])
                         )
                         .append(
-                            $('<td>').text("Rp. "+numfmt.format(item['price'] * item['qty']))
+                            $('<td>').text("Rp. " + numfmt.format(item['price'] * item['qty']))
                         )
                     );
                     total += item['price'] * item['qty'];
@@ -415,7 +457,7 @@
 
                 $("#details").show();
             },
-            error:function(response){
+            error: function(response) {
                 alert("AJAX ERROR " + response);
             }
         });
@@ -424,24 +466,25 @@
     function cancel() {
         let order_id = $("#order_id").text();
         $.ajax({
-            type:"post",
-            url:"index_controller.php",
-            data:{
-                'action':'cancel',
-                'order_id':order_id,
+            type: "post",
+            url: "index_controller.php",
+            data: {
+                'action': 'cancel',
+                'order_id': order_id,
             },
-            success:function(response){
+            success: function(response) {
                 if (response == 200) {
-                    $("#status_"+order_id).text("Refund");
+                    $("#status_" + order_id).text("Refund");
                     alert("Refund Success");
                 } else {
                     alert(response + ": Refund Failed");
                 }
             },
-            error:function(response){
+            error: function(response) {
                 alert("AJAX ERROR " + response);
             }
         });
     }
 </script>
+
 </html>

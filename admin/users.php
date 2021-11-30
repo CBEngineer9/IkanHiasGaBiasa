@@ -42,18 +42,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     
 </head>
+<style>
+    body{
+        padding: 10px;
+    }
+    td{
+        text-align: center;
+    }
+    th{
+        text-align: center;
+    }
+</style>
 <body>
     <h3>Users</h3>
     <table class="table">
         <thead class="table-dark">
             <tr>
-                <th>id</th>
-                <th>username</th>
-                <th>password</th>
-                <th>email</th>
-                <th>phone</th>
-                <th>history</th>
-                <th>delete</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>History</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>

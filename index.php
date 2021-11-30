@@ -126,8 +126,8 @@ $conn = null;
                     } else {
                     ?>
                         
+                        <li><a href="profile.php"> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
                         <li><a href="about.php">About Us</a></li>
-                        <li><a href=""> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
                         <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
