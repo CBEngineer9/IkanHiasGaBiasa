@@ -100,7 +100,9 @@ $conn = null;
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="logo" style="width: 10vw;">
-                    <a href="./"><img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt=""></a>
+                    <a href="./">
+                        <img style="margin-top:10px; margin-bottom:10px;" src="./assets/img/Logo/logoweb.png" width="173px" height="70px" alt="">
+                    </a>
                 </div>
 
                 <button type="button" style="margin-top:-6vh;" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -123,7 +125,7 @@ $conn = null;
                     <?php
                     } else {
                     ?>
-                        <!-- <li><button type="submit" style="border: none; background-color:transparent; color:white; display:inline-block;" name="btLogout">Logout</button></li> -->
+
                         <li><a href="about.php">About Us</a></li>
                         <li><a href=""> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
                         <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
@@ -138,6 +140,7 @@ $conn = null;
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
                     <?= (isset($_GET['sort']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['sort'] . '">' : "") ?>
+
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>
@@ -150,17 +153,41 @@ $conn = null;
         <!-- /.container-fluid -->
     </nav>
     <style>
-        .jumbotron{
+        .jumbotron {
             background-image: url('./assets/img/banner/thumb-1920-121336.jpg');
             background-repeat: no-repeat;
-            height: 60vh;
-            opacity: 0.8;
+            height: 50vh;
+            opacity: 0.7;
             color: white;
+
         }
+
+        .asd {
+            text-align: center;
+            border-bottom: 1px solid black;
+            width: 15vw;
+            margin: auto;
+        }
+
     </style>
     <div class="jumbotron" style="margin-top: -2.2vh;">
         <h1 class="display-4">About Us</h1>
-        <p class="lead">SussyFishy is an E-Commerce that is dedicated for fish. We want to ensure our customer <br> get the best experience  by using our platform.  We use secure payment system and the <br> best data encryption system to protect our customers</p>
+        <br>
+        <h2>We are sure that this website is not suspicious and definitely trusted!</h2>
+        <br>
+        <p class="lead">SussyFishy is an E-Commerce that is dedicated for fish. We want to ensure our customer <br> get the best experience by using our platform. We use secure payment system and the <br> best data encryption system to protect our customers</p>
+    </div>
+    <br>
+    <div class="asd">
+        <p style="font-size: 3em;">Our Mission</p>
+    </div>
+    <br>
+    <br>
+    <div class="konten" style="height: 35vh;">
+       <p style="text-align: center; font-size:1.5em;"> At SussyFishy, we believe there is a better way to shop for fishes. <br> A more efficient, less inefective way of shopping are bought for our customers. <br> We're obsessively passionate about it and we will do anything <br> to achieve our goal. We focus on dealing with the safety of <br> each delivery and most of all customer experience. We're <br> excited to make people happy by shopping through our platform.</p>
+    </div>
+    <div class="col-md-12 end-box">
+        &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support
     </div>
 </body>
 

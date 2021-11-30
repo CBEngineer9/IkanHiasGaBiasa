@@ -126,9 +126,11 @@ $conn = null;
                     } else {
                     ?>
                         
-                        <li><a href="profile.php">Hai, <?=$_SESSION['currUsername']?> <span class="badge badge-red" id="histNotifBadge"></span></a></li>
                         <li><a href="about.php">About Us</a></li>
+                        <li><a href=""> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
+                        <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
                         <li><a href="logout.php">Logout</a></li>
+                        <li><a href="./cart"><img src="assets/img/icon/cart-2-24.png" alt=""></a></li>
                         <?php
                     }
                         ?>
@@ -154,7 +156,7 @@ $conn = null;
         <div class="row">
             <div class="col-md-9">
                 <div class="well well-lg offer-box text-center">
-                    Welcome, Dear Customer!
+                    Welcome, <?=$_SESSION['currUsername']?>!
                 </div>
                 <div class="main box-border">
                     <div id="mi-slider" class="mi-slider">
@@ -225,22 +227,21 @@ $conn = null;
             <!-- /.col -->
 
             <div class="col-md-3 text-center">
-                <div class=" col-md-12 col-sm-12 col-xs-12">
+                <div class=" col-md-12 col-sm-6 col-xs-6">
                     <div class="thumbnail product-box">
                         <img src="assets/img/ikan/ikan5.png" alt="" />
                         <div class="caption">
                             <h3><a href="#">Ikan Komet</a></h3>
-                            <p><a href="#">Ikan Komet</a></p>
+                            <p style="color: gray;">Ikan Komet</p>
                         </div>
                     </div>
                 </div>
-                <div class=" col-md-12 col-sm-12 col-xs-12">
-
+                <div class=" col-md-12 col-sm-6 col-xs-6">
                     <div class="thumbnail product-box">
                         <img src="assets/img/ikan/ikan7.png" alt="" />
                         <div class="caption">
                             <h3><a href="#">Ikan Koki </a></h3>
-                            <p><a href="#">Ikan Mas Koki</a></p>
+                            <p style="color: gray;">Ikan Mas Koki</p>
                         </div>
                     </div>
                 </div>

@@ -141,26 +141,29 @@
     </nav>
     <br>
     <!-- TODO : bac to home invisible -->
-    <a href="index.php"><div style="margin-left: 10vw;" class="btn btn-dark">Back to Home</div></a>
+    <a href="index.php"><button style="margin-left: 10vw; color:black;">Back to Home</button></a>
     <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
     <br>
-    <label for="filterStart">Start : </label>
-    <input type="date" name="filterStart" id="filterStart">
-    <label for="filterEnd">End : </label>
-    <input type="date" name="filterEnd" id="filterEnd">
-    <input type="text" name="keyword" id="transkeyword" placeholder="Trans id">
-    <select name="sort" id="sort">
-        <option value="oldest">Oldest</option>
-        <option value="newest">Newest</option>
-    </select>
-    <select name="payStatusFilter" id="payStatusFilter">
-        <option value="">All</option>
-        <option value="success">Success</option>
-        <option value="pending">Pending</option>
-        <option value="fail">Failed</option>
-    </select>
-    <button onclick="getTrans(1)">Filter</button>
-    <br>
+    <div class="form">
+        <label style="margin-left: 10vw;" for="filterStart">Start : </label>
+        <input type="date" name="filterStart" id="filterStart">
+        <label for="filterEnd">End : </label>
+        <input type="date" name="filterEnd" id="filterEnd">
+        <input type="text" name="keyword" id="transkeyword" placeholder="Trans id">
+        <select name="sort" id="sort">
+            <option value="oldest">Oldest</option>
+            <option value="newest">Newest</option>
+        </select>
+        <select name="payStatusFilter" id="payStatusFilter">
+            <option value="">All</option>
+            <option value="success">Success</option>
+            <option value="pending">Pending</option>
+            <option value="fail">Failed</option>
+        </select>
+        <button onclick="getTrans(1)">Filter</button>
+        <br>
+        <br>
+    </div>
     <table class="table" style="margin-left: 10vw; width:80vw;">
         <thead style="background-color: gray; color:white;">
             <tr>
@@ -177,7 +180,7 @@
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation">
+    <nav style="margin-left: 10vw;" aria-label="Page navigation">
         <ul class="pagination" id="pagination">
             <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -191,7 +194,9 @@
 
     <div id="details" style="display: none;">
         <div style="margin-left: 10vw;"><h3>Order ID = <span id="order_id"></span></h3></div>
-        <button id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
+        <button style="margin-left: 10vw;"  id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
+        <br>
+        <br>
         <table class="table" style="margin-left: 10vw; width:80vw;">
             <thead style="background-color: gray; color:white;">
                 <tr>
@@ -202,7 +207,7 @@
                     <th style="text-align: center;">Subtotal</th>
                 </tr>
             </thead>
-            <tbody id="details_body">
+            <tbody  id="details_body">
 
             </tbody>
         </table>
