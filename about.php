@@ -165,7 +165,7 @@ $conn = null;
         .asd {
             text-align: center;
             border-bottom: 1px solid black;
-            width: 15vw;
+            width: 40vw;
             margin: auto;
         }
 
@@ -185,6 +185,100 @@ $conn = null;
     <br>
     <div class="konten" style="height: 35vh;">
        <p style="text-align: center; font-size:1.5em;"> At SussyFishy, we believe there is a better way to shop for fishes. <br> A more efficient, less inefective way of shopping are bought for our customers. <br> We're obsessively passionate about it and we will do anything <br> to achieve our goal. We focus on dealing with the safety of <br> each delivery and most of all customer experience. We're <br> excited to make people happy by shopping through our platform.</p>
+    </div>
+    <div class="col-md-12 footer-box">
+
+
+        <!-- <div class="row small-box ">
+            <strong>Mobiles :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+         
+        </div>
+        <div class="row small-box ">
+            <strong>Laptops :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Laptops</a> | 
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony Laptops</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+        </div>
+        <div class="row small-box ">
+            <strong>Tablets : </strong><a href="#">samsung</a> |  <a href="#">Sony Tablets</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung </a>|  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx Tablets</a> | view all items
+            
+        </div>
+        <div class="row small-box pad-botom ">
+            <strong>Computers :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx Computers</a> |<a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Computers</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+            
+        </div> -->
+        <div class="row">
+            <!-- <div class="col-md-4">
+                <strong>Send a Quick Query </strong>
+                <hr>
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" required="required" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" required="required" placeholder="Email address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <textarea name="message" id="message" required="required" class="form-control" rows="3" placeholder="Message"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit Request</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+
+            <div class="col-md-4">
+                <strong>Hi!</strong>
+                <p>
+                    Sussy fishy is an e-commerce website that is dedicated on <br> selling many kinds of fishes. <br>
+                    Developed by : Alexander Kevin - 220116902 - Andrew Anderson - 220116904
+
+                </p>
+
+                2021 https://ikanhiasgabiasa.masuk.web.id/ | All Right Reserved
+            </div>
+            <div class="col-md-4 social-box">
+                <strong>We are Social </strong>
+                <br>
+                <br>
+                <a href="#"><i class="fa fa-facebook-square fa-3x "></i></a>
+                <a href="#"><i class="fa fa-twitter-square fa-3x "></i></a>
+                <a href="#"><i class="fa fa-google-plus-square fa-3x c"></i></a>
+                <a href="#"><i class="fa fa-linkedin-square fa-3x "></i></a>
+                <a href="#"><i class="fa fa-pinterest-square fa-3x "></i></a>
+                <p>
+                    Follow us on Social Media!
+                </p>
+            </div>
+        </div>
+        <hr>
     </div>
     <div class="col-md-12 end-box">
         &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support

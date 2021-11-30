@@ -507,14 +507,12 @@ $conn = null;
             </div> -->
 
             <div class="col-md-4">
-                <strong>About Us</strong>
+            <strong>Hi!</strong>
                 <p>
-                    <br>
                     Sussy fishy is an e-commerce website that is dedicated on <br> selling many kinds of fishes. <br>
-                    Developer : Alexander Kevin - 220116902 - Andrew Anderson - 220116904
+                    Developed by : Alexander Kevin - 220116902 - Andrew Anderson - 220116904
 
                 </p>
-
                 2021 https://ikanhiasgabiasa.masuk.web.id/ | All Right Reserved
             </div>
             <div class="col-md-4 social-box">
