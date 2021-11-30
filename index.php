@@ -530,11 +530,11 @@ $conn = null;
                 <strong>We are Social </strong>
                 <br>
                 <br>
-                <a href="#"><i class="fa fa-facebook-square fa-3x "></i></a>
-                <a href="#"><i class="fa fa-twitter-square fa-3x "></i></a>
-                <a href="#"><i class="fa fa-google-plus-square fa-3x c"></i></a>
-                <a href="#"><i class="fa fa-linkedin-square fa-3x "></i></a>
-                <a href="#"><i class="fa fa-pinterest-square fa-3x "></i></a>
+                <a href="https://www.facebook.com/"><i class="fa fa-facebook-square fa-3x "></i></a>
+                <a href="https://www.twitter.com/"><i class="fa fa-twitter-square fa-3x "></i></a>
+                <a href="https://www.google.com/"><i class="fa fa-google-plus-square fa-3x "></i></a>
+                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin-square fa-3x "></i></a>
+                <a href="https://www.pinterest.com/"><i class="fa fa-pinterest-square fa-3x "></i></a>
                 <p>
                     Follow us on Social Media!
                 </p>
