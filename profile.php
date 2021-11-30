@@ -22,7 +22,28 @@ require_once("proyekpw_lib.php");
     <!-- custom CSS here -->
     <link href="assets/css/style.css" rel="stylesheet" />
 </head>
-
+<style>
+    html,body{
+        padding: 0;
+    }
+    .header{
+        background-color: #88E0EF;
+        padding: 15px;
+        border-radius: 10px 10px 0px 0px;
+        font-size: 1.5em;
+    }
+    .header-bottom{
+        background-color: #88E0EF;
+        padding: 15px;
+        border-radius: 0px 0px 10px 10px;
+        font-size: 1.5em;
+    }
+    .details{
+        padding: 15px;
+        border: 1px solid lightgray;
+        font-size: 1.2em;
+    }
+</style>
 <body>
     <nav style="background-color:#88E0EF;border:none; border-bottom:3px solid gray;" class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -81,17 +102,167 @@ require_once("proyekpw_lib.php");
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <div class="row row-equal-height" style="margin:auto;">
-        <div style="border:1px solid black;" class="col-xs-4" id="left">
-            <p>short</p>
+    <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%;">
+        <div  class="col-lg-8 col-sm-6 col-xs-6" id="left">
+            <div class="header">
+                Profile
+            </div>
+            <div class="details">
+                Username : <?=$_SESSION['currUsername']?>
+            </div>
+            <div class="details">
+                Email : Kevin
+            </div>
+            <div class="details">
+                First Name : Kevin
+            </div>
+            <div class="details">
+                Last Name : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="header-bottom">
+            </div>
         </div>
-        <div style="border:1px solid black;" class="col-xs-4" id="right">
-            <p>long</p>
-            <p>long</p>
-            <p>long</p>
-            <p>long</p>
-            <p>long</p>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="right">
+        <div class="header">
+                Transactions
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="details">
+                Phone : Kevin
+            </div>
+            <div class="header-bottom">
+                
+            </div>
         </div>
+    </div>
+    <div class="col-md-12 footer-box">
+
+
+        <!-- <div class="row small-box ">
+            <strong>Mobiles :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+         
+        </div>
+        <div class="row small-box ">
+            <strong>Laptops :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Laptops</a> | 
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony Laptops</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+        </div>
+        <div class="row small-box ">
+            <strong>Tablets : </strong><a href="#">samsung</a> |  <a href="#">Sony Tablets</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung </a>|  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx Tablets</a> | view all items
+            
+        </div>
+        <div class="row small-box pad-botom ">
+            <strong>Computers :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
+            <a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
+              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
+            <a href="#">Microx Computers</a> |<a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
+            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Computers</a> |<a href="#">samsung</a> |  
+            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
+            
+        </div> -->
+        <div class="row">
+            <!-- <div class="col-md-4">
+                <strong>Send a Quick Query </strong>
+                <hr>
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" required="required" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" required="required" placeholder="Email address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <textarea name="message" id="message" required="required" class="form-control" rows="3" placeholder="Message"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit Request</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+
+            <div class="col-md-4">
+                <strong>Hi!</strong>
+                <p>
+                    Sussy fishy is an e-commerce website that is dedicated on <br> selling many kinds of fishes. <br>
+                    Developed by : Alexander Kevin - 220116902 - Andrew Anderson - 220116904
+
+                </p>
+
+                2021 https://ikanhiasgabiasa.masuk.web.id/ | All Right Reserved
+            </div>
+            <div class="col-md-4 social-box">
+                <strong>We are Social </strong>
+                <br>
+                <br>
+                <a href="https://www.facebook.com/"><i class="fa fa-facebook-square fa-3x "></i></a>
+                <a href="https://www.twitter.com/"><i class="fa fa-twitter-square fa-3x "></i></a>
+                <a href="https://www.google.com/"><i class="fa fa-google-plus-square fa-3x "></i></a>
+                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin-square fa-3x "></i></a>
+                <a href="https://www.pinterest.com/"><i class="fa fa-pinterest-square fa-3x "></i></a>
+                <p>
+                    Follow us on Social Media!
+                </p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="col-md-12 end-box">
+        &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support
     </div>
 </body>
 
