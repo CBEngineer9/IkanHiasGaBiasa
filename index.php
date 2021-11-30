@@ -156,7 +156,18 @@ $conn = null;
         <div class="row">
             <div class="col-md-9">
                 <div class="well well-lg offer-box text-center">
-                    Welcome, <?=$_SESSION['currUsername']?>!
+                    <?php
+                        if (!isset($_SESSION['currUser'])) {
+                    ?>
+                        Welcome, Customer! <a style="text-decoration: underline; font-weight:bold;" href="login.php">Please Login First!</a>
+                    <?php
+                        }
+                        else{
+                    ?>
+                        Welcome, <?=$_SESSION['currUsername']?>!
+                    <?php
+                        }
+                    ?>
                 </div>
                 <div class="main box-border">
                     <div id="mi-slider" class="mi-slider">
