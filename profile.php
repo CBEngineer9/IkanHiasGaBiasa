@@ -162,7 +162,7 @@
                     <?php if ($editMode) { ?>
                         <form action="#" method="post">
                             <div class="header">
-                                Profile <input type="submit" name="confEdit" value="Confirm Edit">
+                                Profile <input type="submit" class="btn btn-success" style="float: right;" name="confEdit" value="Confirm Edit">
                             </div>
                             <div class="details">
                                 Username : <?=$_SESSION['currUsername']?>
@@ -183,7 +183,7 @@
                     <?php } else { ?>
                         <div class="header">
                             <form action="#" method="post">
-                                Profile <input type="submit" name="edit" value="Edit">
+                                Profile <input class="btn btn-success" style="float: right;" type="submit" name="edit" value="Edit">
                             </form>
                         </div>
                         <div class="details">

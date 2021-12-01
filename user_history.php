@@ -133,7 +133,7 @@ $conn = null;
                     } else {
                     ?>
 
-                        <li><a href=""> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
+                        <li><a href="profile.php"> Hai, <?= $_SESSION['currUsername'] ?>!</a></li>
                         <li><a href="about.php">About Us</a></li>
                         <li><a href="user_history.php">History <span class="badge" id="histNotifBadge"></span></a></li>
                         <li><a href="logout.php">Logout</a></li>
@@ -161,11 +161,11 @@ $conn = null;
     </nav>
     <br>
     <!-- TODO : bac to home invisible -->
-    <a href="index.php"><button class="btn btn-primary" style="margin-left: 10vw; color:white;">Back to Home</button></a>
-    <h3 style="margin-left: 10vw; margin-top:2vh;">History</h3>
+    <a href="index.php"><button class="btn btn-primary" style="margin-left: 5vw; color:white;">Back to Home</button></a>
+    <h3 style="margin-left: 5vw; margin-top:2vh;">History</h3>
     <br>
     <div class="filter">
-        <table style="margin-left: 10vw;">
+        <table style="margin-left: 5vw;">
             <tr>
                 <td><label for="filterStart">Start : </label></td>
                 <td><input type="date" name="filterStart" id="filterStart"></td>
@@ -202,7 +202,16 @@ $conn = null;
         <br>
         <br>
     </div>
-    <table class="table" style="margin-left: 10vw; width:80vw;">
+    <nav style="margin-left: 5vw;" aria-label="Page navigation">
+        <ul class="pagination" id="pagination">
+            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+        </ul>
+    </nav>
+    <table class="table col-6 col-md-4" style="margin-left: 5vw; margin-right:2vw; width : 50vw;">
         <thead style="background-color: gray; color:white;">
             <tr>
                 <th style="text-align: center;">No.</th>
@@ -218,13 +227,13 @@ $conn = null;
         </tbody>
     </table>
     <div id="details" style="display: none;">
-        <div style="margin-left: 10vw;">
+        <div>
             <h3>Order ID = <span id="order_id"></span></h3>
         </div>
-        <button class="btn btn-danger" style="margin-left: 10vw;" id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
+        <button class="btn btn-danger" id="cancel" onclick="cancel()" style="display: none;">Cancel Order</button>
         <br>
         <br>
-        <table class="table" style="margin-left: 10vw; width:80vw;">
+        <table class="table col-6" style="margin-left: 5vw; width:40vw;">
             <thead style="background-color: gray; color:white;">
                 <tr>
                     <th style="text-align: center;">No.</th>
@@ -238,21 +247,11 @@ $conn = null;
 
             </tbody>
         </table>
-        <div style="margin-left: 10vw;">
+        <div style="margin-left: 5vw;">
             <h3>Total = Rp. <span id="total"></span></h3>
         </div>
     </div>
-    <nav style="margin-left: 10vw;" aria-label="Page navigation">
-        <ul class="pagination" id="pagination">
-            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
-        </ul>
-    </nav>
     <br>
-
 </body>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="./assets/bootstrap5/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
