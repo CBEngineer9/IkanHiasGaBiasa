@@ -1,5 +1,50 @@
 <?php
-require_once("proyekpw_lib.php");
+    require_once("proyekpw_lib.php");
+    try {
+        $conn = new \PDO("mysql:host=$servername;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $editMode = false;
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST['edit'])) {
+                $editMode = true;
+            }
+            if (isset($_POST['confEdit'])) {
+                $email = $_POST['email'];
+                $fname = $_POST['fname'];
+                $lname = $_POST['lname'];
+                $phone = $_POST['phone'];
+
+                $sql = "UPDATE `users` SET `email`=:email,`firstname`=:fname,`lastname`=:lname,`phone`=:phone WHERE id = :userid;";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(":userid", $_SESSION['currUser']);
+                $stmt->bindValue(":email", $email);
+                $stmt->bindValue(":fname", $fname);
+                $stmt->bindValue(":lname", $lname);
+                $stmt->bindValue(":phone", $phone);
+                $succUpdate = $stmt->execute();
+
+                alert('update success');
+            }
+        }
+        
+        $sql = "SELECT * FROM `users` WHERE `id` = :currUser;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(":currUser", $_SESSION['currUser']);
+        $stmt->execute();
+        $userDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $sql = "SELECT * FROM `htrans` WHERE `id_user` = :currUser ORDER BY trans_time desc LIMIT 10;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(":currUser", $_SESSION['currUser']);
+        $stmt->execute();
+        $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (\PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+    $conn = null;
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +70,11 @@ require_once("proyekpw_lib.php");
 <style>
     html,body{
         padding: 0;
+        height: 100vh;
+    }
+    body{
+        display: flex;
+        flex-direction: column;
     }
     .header{
         background-color: #88E0EF;
@@ -42,6 +92,9 @@ require_once("proyekpw_lib.php");
         padding: 15px;
         border: 1px solid lightgray;
         font-size: 1.2em;
+    }
+    .content-holder{
+        flex-grow: 2;
     }
 </style>
 <body>
@@ -85,7 +138,7 @@ require_once("proyekpw_lib.php");
                     }
                     ?>
                 </ul>
-                <form class="navbar-form navbar-right" role="search" method="get">
+                <form action="index.php#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
@@ -102,109 +155,74 @@ require_once("proyekpw_lib.php");
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%;">
-        <div  class="col-lg-8 col-sm-6 col-xs-6" id="left">
-            <div class="header">
-                Profile
-            </div>
-            <div class="details">
-                Username : <?=$_SESSION['currUsername']?>
-            </div>
-            <div class="details">
-                Email : Kevin
-            </div>
-            <div class="details">
-                First Name : Kevin
-            </div>
-            <div class="details">
-                Last Name : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="header-bottom">
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="right">
-        <div class="header">
-                Transactions
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="details">
-                Phone : Kevin
-            </div>
-            <div class="header-bottom">
-                
+    <div class="content-holder">
+        <div class="content">
+            <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%;">
+                <div  class="col-lg-8 col-sm-6 col-xs-6" id="left">
+                    <?php if ($editMode) { ?>
+                        <form action="#" method="post">
+                            <div class="header">
+                                Profile <input type="submit" name="confEdit" value="Confirm Edit">
+                            </div>
+                            <div class="details">
+                                Username : <?=$_SESSION['currUsername']?>
+                            </div>
+                            <div class="details">
+                                Email : <input type="text" name="email" id="email" value="<?= $userDetails['email']?>">
+                            </div>
+                            <div class="details">
+                                First Name : <input type="text" name="fname" id="fname" value="<?= $userDetails['firstname']?>">
+                            </div>
+                            <div class="details">
+                                Last Name : <input type="text" name="lname" id="lname" value="<?= $userDetails['lastname']?>">
+                            </div>
+                            <div class="details">
+                                Phone : <input type="text" name="phone" id="phone" value="<?= $userDetails['phone']?>">
+                            </div>
+                        </form>
+                    <?php } else { ?>
+                        <div class="header">
+                            <form action="#" method="post">
+                                Profile <input type="submit" name="edit" value="Edit">
+                            </form>
+                        </div>
+                        <div class="details">
+                            Username : <?=$_SESSION['currUsername']?>
+                        </div>
+                        <div class="details">
+                            Email : <?= $userDetails['email']?>
+                        </div>
+                        <div class="details">
+                            First Name : <?= $userDetails['firstname']?>
+                        </div>
+                        <div class="details">
+                            Last Name : <?= $userDetails['lastname']?>
+                        </div>
+                        <div class="details">
+                            Phone : <?= $userDetails['phone']?>
+                        </div>
+                    <?php } ?>
+                    <div class="header-bottom">
+                    </div>
+        
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="right" style="display: none;">
+                    <div class="header">
+                        Transactions
+                    </div>
+                    <?php foreach ($history as $histRow) { ?>
+                        <div class="details">
+                            <?= $histRow['mid_order_id']?>
+                        </div>
+                    <?php } ?>
+                    <div class="header-bottom">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-12 footer-box">
-
-
-        <!-- <div class="row small-box ">
-            <strong>Mobiles :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
-              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
-            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
-            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
-         
-        </div>
-        <div class="row small-box ">
-            <strong>Laptops :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Laptops</a> | 
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
-              <a href="#">Sony Laptops</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
-            <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
-            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
-        </div>
-        <div class="row small-box ">
-            <strong>Tablets : </strong><a href="#">samsung</a> |  <a href="#">Sony Tablets</a> | <a href="#">Microx</a> | 
-            <a href="#">samsung </a>|  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
-              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | 
-            <a href="#">Microx</a> |<a href="#">samsung Tablets</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  
-            <a href="#">Sony</a> | <a href="#">Microx Tablets</a> | view all items
-            
-        </div>
-        <div class="row small-box pad-botom ">
-            <strong>Computers :</strong> <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> | 
-            <a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |
-              <a href="#">Sony</a> | <a href="#">Microx</a> |<a href="#">samsung</a> |  <a href="#">Sony</a> | 
-            <a href="#">Microx Computers</a> |<a href="#">samsung Computers</a> |  <a href="#">Sony</a> | <a href="#">Microx</a> |
-            <a href="#">samsung</a> |  <a href="#">Sony</a> | <a href="#">Microx Computers</a> |<a href="#">samsung</a> |  
-            <a href="#">Sony</a> | <a href="#">Microx</a> | view all items
-            
-        </div> -->
         <div class="row">
             <!-- <div class="col-md-4">
                 <strong>Send a Quick Query </strong>

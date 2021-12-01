@@ -200,7 +200,7 @@
 
             // Set chart options
             var options = {'title':'Profit Charts',
-                        'width':400,
+                        'width':900,
                         'height':300};
 
             // Instantiate and draw our chart, passing in some options.
@@ -285,7 +285,7 @@
     </form>
 
     <h3>Ikan</h3>
-    <table class="table">
+    <table class="table col-12">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">nama</th>
