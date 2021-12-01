@@ -15,6 +15,7 @@ deployment:
     - /bin/cp midtrans_init.php $DEPLOYPATH
     - /bin/cp midtrans-notification-handler.php $DEPLOYPATH
     - /bin/cp Midtrans.php $DEPLOYPATH
+    - /bin/cp profile.php $DEPLOYPATH
     - /bin/cp proyekpw_lib.php $DEPLOYPATH
     - /bin/cp register.php $DEPLOYPATH
     - /bin/cp thankyou.php $DEPLOYPATH
