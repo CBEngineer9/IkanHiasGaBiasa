@@ -1,6 +1,23 @@
 <?php
 require_once("proyekpw_lib.php");
 
+$page = 1;
+$pageCount = 0;
+
+$searchKey = "";
+$sort = "";
+$categoryFilter = "category.cat_name";
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET['searchKey']) && $_GET['searchKey'] != 'none') {
+        $searchKey = $_GET['searchKey'];
+    }
+    if (isset($_GET['categoryFilter']) && $_GET['categoryFilter'] != 'none') {
+        $categoryFilter = "'" . $_GET['categoryFilter'] . "'";
+    }
+    if (isset($_GET['sort']) && $_GET['sort'] != 'none') {
+        $sort = $_GET['sort'];
+    }
+}
 if (isset($_REQUEST["btLogout"])) {
     $_SESSION['currUser'] = -1;
 }
