@@ -157,7 +157,7 @@
     </nav>
     <div class="content-holder">
         <div class="content">
-            <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%; justify-content: center;">
+            <div class="row row-equal-height" style="display: flex; padding:0; justify-content: center;">
                 <div class="col-lg-8 col-sm-6 col-xs-6" id="left" >
                     <?php if ($editMode) { ?>
                         <form action="#" method="post">
