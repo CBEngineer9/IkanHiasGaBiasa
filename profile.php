@@ -138,7 +138,7 @@
                     }
                     ?>
                 </ul>
-                <form action="index.php#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
+                <form action="./#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
@@ -157,8 +157,8 @@
     </nav>
     <div class="content-holder">
         <div class="content">
-            <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%;">
-                <div  class="col-lg-8 col-sm-6 col-xs-6" id="left">
+            <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%; justify-content: center;">
+                <div class="col-lg-8 col-sm-6 col-xs-6" id="left" >
                     <?php if ($editMode) { ?>
                         <form action="#" method="post">
                             <div class="header">
@@ -283,5 +283,8 @@
         &copy; 2021 | &nbsp; All Rights Reserved | &nbsp; https://ikanhiasgabiasa.masuk.web.id/ | &nbsp; 24x7 support
     </div>
 </body>
-
+<!--Core JavaScript file  -->
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!--bootstrap JavaScript file  -->
+<script src="assets/js/bootstrap.js"></script>
 </html>

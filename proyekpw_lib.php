@@ -15,6 +15,11 @@
         {
                 echo "<script>alert(\"".$message."\")</script>";
         }
+
+        function redirect(String $page = "")
+        {
+                echo "<script> window.location.href = \"".$page."\"; </script>";
+        }
         
         /**
         * Check $_FILES[][name]

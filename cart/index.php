@@ -112,7 +112,7 @@
                 </form>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div id="grandTotal" class="col text-right">&euro; 137.00</div>
+                    <div id="grandTotal" class="col text-right">Rp. 0</div>
                 </div> <button onclick="checkout()" class="btn">CHECKOUT</button>
             </div>
         </div>
@@ -261,7 +261,7 @@
                                             success:function(response){
                                                 console.log('cart cleared');
                                                 // window.location.href = "thankyou.php?response=" + JSON.stringify(midResult);
-                                                window.location.href = "thankyou.php?amount=" + midResult['gross_amount'] + "&payment_type=" + midResult['payment_type'] + "&transaction_time=" + midResult['transaction_time'] + "&order_id=" +  midResult['order_id'] ;
+                                                window.location.href = "thankyou.php?amount=" + midResult['gross_amount'] + "&payment_type=" + midResult['payment_type'] + "&transaction_time=" + midResult['transaction_time'] + "&order_id=" +  midResult['order_id'] + "&type=success" ;
                                             },
                                             error:function(response){
                                                 alert("AJAX ERROR " + response);
@@ -270,6 +270,7 @@
                                     },
                                     onPending: function(result){
                                         // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                        let midResult = result;
                                         $.ajax({
                                             type:"post",
                                             url:"cart_controller.php",
@@ -279,6 +280,7 @@
                                             },
                                             success:function(response){
                                                 console.log('cart cleared');
+                                                window.location.href = "thankyou.php?amount=" + midResult['gross_amount'] + "&payment_type=" + midResult['payment_type'] + "&transaction_time=" + midResult['transaction_time'] + "&order_id=" +  midResult['order_id'] + "&type=pending"  ;
                                             },
                                             error:function(response){
                                                 alert("AJAX ERROR " + response);

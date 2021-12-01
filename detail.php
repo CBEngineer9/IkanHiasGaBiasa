@@ -2,8 +2,9 @@
     require_once("proyekpw_lib.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
-        if (!isset($_GET['ikan_id']) || !isset($_SESSION['currUser'])) {
-            header("Location:index.php");
+        if (!isset($_GET['ikan_id'])) {
+            header("Location:./");
+            die;
         }
         $ikan_id = $_GET['ikan_id'];
 
@@ -27,6 +28,11 @@
     
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (isset($_POST['addCart'])) {
+            if (!isset($_SESSION['currUser'])) {
+                alert('Please Login First');
+                redirect("./");
+                die;
+            }
             $ikan_id = $_POST['ikan_id'];
             $qty = $_POST['qty'];
 
@@ -63,9 +69,12 @@
     
                     if ($updateCount > 0 || $succInsert == true) {
                         alert("berhasil add to cart");
-                        header("Location:./");
+                        redirect("./");
+                        die;
                     } else {
                         alert("Failed to add to cart");
+                        redirect("./");
+                        die;
                     }
                 }
 
@@ -137,7 +146,7 @@
                         }
                     ?>
                 </ul>
-                <form class="navbar-form navbar-right" role="search" method="get">
+                <form action="./#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <div class="form-group">
                         <input type="text" name="searchKey" placeholder="Enter Keyword Here ..." class="form-control">
                     </div>

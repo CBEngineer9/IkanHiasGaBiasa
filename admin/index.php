@@ -11,9 +11,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         # admin
         $_SESSION['admin'] = true;
         header("Location:control.php");
+        die;
+    } else if ($user == 'admin' && $pass == 'admin') {
+        header("Location:https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        die;
     } else {
         echo "Wrong";
     }
+
 }
 ?>
 
@@ -41,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="text" class="form-control" name="pass" id="pass" placeholder="Password"><br>
+                <input type="password" class="form-control" name="pass" id="pass" placeholder="Password"><br>
             </div>
             <button type="submit" value="Login" name="login" class="btn btn-primary">Login</button>
         </form>

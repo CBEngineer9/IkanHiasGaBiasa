@@ -6,6 +6,7 @@
     $payment_type = $_GET['payment_type'];
     $transaction_time = $_GET['transaction_time'];
     $order_id = $_GET['order_id'];
+    $type = $_GET['type'];
 
 ?>
 
@@ -64,7 +65,7 @@
     </nav>
     <div class="container" style="margin-top: 15vh; border:1px solid lightgray; width:800px;">
     <br>
-    <h1 style="text-align: center;">Payment Successful! <img style="width: 80px; height:50px;"  src="../assets/img/icon/check-correct.gif" alt=""></h1>
+    <h1 style="text-align: center;">Payment <?= ($type=="success"?"Successful":"Pending")?> ! <img style="width: 80px; height:50px;"  src="../assets/img/icon/check-correct.gif" alt=""></h1>
         <div  style="margin-left:200px;">
         <br>
             <span style="font-weight:bold">Amount</span> <span style="margin-left:10vw;">Rp. <?= $amount?></span>
