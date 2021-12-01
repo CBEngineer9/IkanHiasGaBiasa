@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['user'];
     $pass = $_POST['pass'];
 
-    if ($user == 'admin' && $pass == 'admin') {
+    if ($user == 'CBEngineer' && $pass == 'Ikan Hias 1-2') {
         # admin
         $_SESSION['admin'] = true;
         header("Location:control.php");
