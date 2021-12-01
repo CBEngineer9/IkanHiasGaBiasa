@@ -158,11 +158,11 @@
     <div class="content-holder">
         <div class="content">
             <div class="row row-equal-height col-md-8" style="display: flex; padding:0; margin-left:15%;">
-                <div  class="col-lg-8 col-sm-6 col-xs-6" id="left">
+                <div  class="col-lg-12 col-sm-10 col-xs-10" id="left">
                     <?php if ($editMode) { ?>
                         <form action="#" method="post">
                             <div class="header">
-                                Profile <input type="submit" name="confEdit" value="Confirm Edit">
+                                Profile <input type="submit" class="btn btn-success" style="float: right;" name="confEdit" value="Confirm Edit">
                             </div>
                             <div class="details">
                                 Username : <?=$_SESSION['currUsername']?>
@@ -183,7 +183,7 @@
                     <?php } else { ?>
                         <div class="header">
                             <form action="#" method="post">
-                                Profile <input type="submit" name="edit" value="Edit">
+                                Profile <input class="btn btn-success" style="float: right;" type="submit" name="edit" value="Edit">
                             </form>
                         </div>
                         <div class="details">
