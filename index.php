@@ -135,7 +135,7 @@ $conn = null;
                     }
                         ?>
                 </ul>
-                <form class="navbar-form navbar-right" role="search" method="get">
+                <form action="./#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
@@ -176,51 +176,51 @@ $conn = null;
                                     <img src="assets/ItemSlider/images/ikan1.png" alt="img01">
                                     <h4>Penguin</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=15">
                                     <img src="assets/ItemSlider/images/ikan2.png" alt="img02">
                                     <h4>Discus</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=16">
                                     <img src="assets/ItemSlider/images/ikan3.png" alt="img03">
                                     <h4>Guppy</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=17">
                                     <img src="assets/ItemSlider/images/ikan4.png" alt="img04">
                                     <h4>Cupang</h4>
                                 </a></li>
                         </ul>
                         <ul>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=18">
                                     <img src="assets/ItemSlider/images/ikan5.png" alt="img05">
                                     <h4>Komet</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=19">
                                     <img src="assets/ItemSlider/images/ikan6.png" alt="img06">
                                     <h4>Louhan</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=20">
                                     <img src="assets/ItemSlider/images/ikan7.png" alt="img07">
                                     <h4>Koki</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=21">
                                     <img src="assets/ItemSlider/images/ikan8.png" alt="img08">
                                     <h4>Koi</h4>
                                 </a></li>
                         </ul>
                         <ul>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=25">
                                     <img src="assets/ItemSlider/images/ikan12.png" alt="img12">
                                     <h4>Arwana</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=26">
                                     <img src="assets/ItemSlider/images/ikan13.png" alt="img13">
                                     <h4>Neon Tetra</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=27">
                                     <img src="assets/ItemSlider/images/ikan14.png" alt="img14">
                                     <h4>Mengbadut</h4>
                                 </a></li>
-                            <li><a href="#">
+                            <li><a href="detail.php?ikan_id=28">
                                     <img src="assets/ItemSlider/images/ikan15.png" alt="img15">
                                     <h4>Tetra</h4>
                                 </a></li>
@@ -242,7 +242,7 @@ $conn = null;
                     <div class="thumbnail product-box">
                         <img src="assets/img/ikan/ikan5.png" alt="" />
                         <div class="caption">
-                            <h3><a href="#">Ikan Komet</a></h3>
+                            <h3><a href="detail.php?ikan_id=18">Ikan Komet</a></h3>
                             <p style="color: gray;">Ikan Komet</p>
                         </div>
                     </div>
@@ -251,7 +251,7 @@ $conn = null;
                     <div class="thumbnail product-box">
                         <img src="assets/img/ikan/ikan7.png" alt="" />
                         <div class="caption">
-                            <h3><a href="#">Ikan Koki </a></h3>
+                            <h3><a href="detail.php?ikan_id=20">Ikan Koki </a></h3>
                             <p style="color: gray;">Ikan Mas Koki</p>
                         </div>
                     </div>
@@ -791,11 +791,12 @@ $conn = null;
 
         function seeDetail(ikan_id) {
             // chekc login
-            if (!isLoggedIn) {
-                alert("Please login first");
-            } else {
-                window.location.href = "detail.php?ikan_id=" + ikan_id;
-            }
+            window.location.href = "detail.php?ikan_id=" + ikan_id;
+            // if (!isLoggedIn) {
+            //     alert("Please login first");
+            // } else {
+            //     window.location.href = "detail.php?ikan_id=" + ikan_id;
+            // }
         }
 
         function addToCart(ikan_id) {

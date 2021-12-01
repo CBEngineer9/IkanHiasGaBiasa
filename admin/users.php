@@ -125,6 +125,7 @@
                 'user_id':userToDel,
             },
             success:function(response){
+                location.reload();
                 // TODO CHECK
                 // deactive?
             },

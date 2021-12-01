@@ -24,7 +24,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['halamanlogin'])) {
-            header("Location: login.php?usersList=".json_encode($usersList));
+            header("Location: login.php");
         }
         if (isset($_POST['btregis'])) {
             $username = $_POST['username'];

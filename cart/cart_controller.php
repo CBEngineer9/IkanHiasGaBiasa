@@ -117,9 +117,10 @@
             $succUpdate = $stmt -> execute();
 
             // update if exists
-            $sqlUpdate = "UPDATE cart SET qty = qty + 1 WHERE ikan_id = :ikan_id";
+            $sqlUpdate = "UPDATE cart SET qty = qty + 1 WHERE ikan_id = :ikan_id AND `user_id` = :userid";
             $stmt = $conn->prepare($sqlUpdate);
-            $stmt -> bindValue(":ikan_id",$ikan_id); 
+            $stmt -> bindValue(":ikan_id",$ikan_id);
+            $stmt -> bindValue(":userid",$_SESSION['currUser']);
             $succUpdate = $stmt -> execute();
             $updateCount = $stmt -> rowCount();
 

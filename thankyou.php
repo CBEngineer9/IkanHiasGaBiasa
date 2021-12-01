@@ -1,3 +1,4 @@
+<!-- FAKE -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,7 @@
                         }
                     ?>
                 </ul>
-                <form class="navbar-form navbar-right" role="search" method="get">
+                <form action="./#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= ( isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="'. $_GET['categoryFilter'] .'">' : "") ?>

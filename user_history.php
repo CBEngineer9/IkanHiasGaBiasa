@@ -142,7 +142,7 @@ $conn = null;
                     }
                     ?>
                 </ul>
-                <form class="navbar-form navbar-right" role="search" method="get">
+                <form action="./#ikanSearchDisplay" class="navbar-form navbar-right" role="search" method="get">
                     <!-- <input type="hidden" name="categoryFilter" value="<?= $_GET['categoryFilter'] ?? "none" ?>">
                     <input type="hidden" name="sort" value="<?= $_GET['sort'] ?? "none" ?>"> -->
                     <?= (isset($_GET['categoryFilter']) ? '<input type="hidden" name="categoryFilter" value="' . $_GET['categoryFilter'] . '">' : "") ?>
@@ -462,6 +462,7 @@ $conn = null;
         });
     }
 
+    var resp;
     function cancel() {
         let order_id = $("#order_id").text();
         $.ajax({
@@ -472,9 +473,11 @@ $conn = null;
                 'order_id': order_id,
             },
             success: function(response) {
-                if (response == 200) {
-                    $("#status_" + order_id).text("Refund");
+                resp = response;
+                if (response == '"200"') {
+                    // $("#status_" + order_id).text("Refund");
                     alert("Refund Success");
+                    location.reload();
                 } else {
                     alert(response + ": Refund Failed");
                 }
