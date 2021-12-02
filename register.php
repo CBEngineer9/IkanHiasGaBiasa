@@ -45,7 +45,7 @@
             } else {
                 $foundUser = false;
                 foreach ($usersList as $user) {
-                    if ($user == $username) {
+                    if (strtolower($user) == strtolower($username)) {
                         $foundUser = true;
                         break;
                     }
