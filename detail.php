@@ -166,7 +166,7 @@
             <div class="col col-lg-6" style="margin-left:3vw; margin-top: 7vh;">
                 <form action="#" method="post">
                     <p style="font-size: 3em; margin-left:3vw;"><?= $qResultIkan['name']?></p>
-                    <p style="font-size: 2em; margin-left:3vw;">Rp. <?= $qResultIkan['price']."/". $qResultIkan['satuan']?></p>
+                    <p style="font-size: 2em; margin-left:3vw;">Rp. <?= number_format($qResultIkan['price'])."/". $qResultIkan['satuan']?></p>
                     <br>
                     <p style="font-size: 1.5em; margin-left:3vw;" class="fs-3"><?= $qResultIkan['description']?></p>
                     <br>

@@ -575,6 +575,7 @@ $conn = null;
         var sort = `<?= $_GET['sort'] ?? "none" ?>`;
         var isLoggedIn = <?= isset($_SESSION['currUsername']) ? 'true' : 'false' ?>
 
+        var numfmt = new Intl.NumberFormat('id-ID',{ minimumFractionDigits: 2 });
         const qResultIkan = <?= $qResultEncoded ?>;
         var pageCount = Math.trunc(qResultIkan.length / 6) + 1;
         var currPage = 1;
@@ -640,7 +641,7 @@ $conn = null;
                                 )
                                 .append(
                                     $("<p>")
-                                    .html("Price : <strong>RP." + ikan['price'] + "</strong>/" + ikan['satuan'])
+                                    .html("Price : <strong>RP." + numfmt.format(ikan['price']) + "</strong>/" + ikan['satuan'])
                                 )
                                 .append(
                                     $("<p>")
